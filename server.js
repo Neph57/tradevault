@@ -172,7 +172,6 @@ app.get('/dashboard.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 
- 
 // ============ ADMIN DASHBOARD (Password Protected) ============
 app.get('/admin', async (req, res) => {
     // Get password from URL
@@ -259,7 +258,7 @@ app.get('/admin', async (req, res) => {
         return (diff / tickSize) * quantity;
     }
     
-    // Format date functions (Kenya timezone)
+    // Format date functions
     function formatDate(dateStr) {
         const d = new Date(dateStr);
         const year = d.getFullYear();
@@ -295,6 +294,7 @@ app.get('/admin', async (req, res) => {
                 table { width: 100%; border-collapse: collapse; }
                 th, td { padding: 12px; text-align: left; border-bottom: 1px solid #2a2a2f; }
                 th { color: #9ca3af; font-weight: 500; font-size: 12px; text-transform: uppercase; }
+                .min-w-800 { min-width: 800px; }
             </style>
         </head>
         <body class="text-gray-200">
@@ -308,7 +308,7 @@ app.get('/admin', async (req, res) => {
                         <a href="/dashboard.html" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition border border-gray-700">
                             <i class="fas fa-chart-line mr-2"></i>Go to App
                         </a>
-                        <a href="/admin" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition border border-gray-700">
+                        <a href="/admin?password=${adminPassword}" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition border border-gray-700">
                             <i class="fas fa-sync-alt mr-2"></i>Refresh
                         </a>
                     </div>
@@ -361,24 +361,24 @@ app.get('/admin', async (req, res) => {
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full">
-                            <thead>
+                            <thead class="bg-gray-800">
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Username</th>
-                                    <th>Password</th>
-                                    <th>Signup Date</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">ID</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Username</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Password</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Signup Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${(users || []).map(user => `
-                                    <tr class="hover:bg-gray-800/50">
-                                        <td class="py-2">${user.id}</td>
-                                        <td class="py-2"><span class="font-medium">${user.username}</span></td>
-                                        <td class="py-2"><span class="text-gray-500 text-sm">••••••••</span></td>
-                                        <td class="py-2 text-gray-400 text-sm">${formatDateTime(user.created_at)}</td>
+                                    <tr class="border-b border-gray-800 hover:bg-gray-800/50">
+                                        <td class="p-3 text-sm">${user.id}</td>
+                                        <td class="p-3 text-sm font-medium text-white">${user.username}</span></td>
+                                        <td class="p-3 text-sm text-gray-400">••••••••</td>
+                                        <td class="p-3 text-sm text-gray-400">${formatDateTime(user.created_at)}</td>
                                     </tr>
                                 `).join('')}
-                                ${(!users || users.length === 0) ? '<tr><td colspan="4" class="text-center text-gray-500 py-8">No users yet</td>' : ''}
+                                ${(!users || users.length === 0) ? '<tr><td colspan="4" class="text-center text-gray-500 py-8">No users yet</td></tr>' : ''}
                             </tbody>
                         </table>
                     </div>
@@ -390,42 +390,42 @@ app.get('/admin', async (req, res) => {
                         <h2 class="text-lg font-semibold"><i class="fas fa-list mr-2 text-green-400"></i>Recent Trades</h2>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full">
-                            <thead>
+                        <table class="w-full min-w-[900px]">
+                            <thead class="bg-gray-800">
                                 <tr>
-                                    <th>User</th>
-                                    <th>Symbol</th>
-                                    <th>Type</th>
-                                    <th>Session</th>
-                                    <th>Entry</th>
-                                    <th>Exit</th>
-                                    <th>SL</th>
-                                    <th>TP</th>
-                                    <th>Lot Size</th>
-                                    <th>P&L</th>
-                                    <th>Date</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">User</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Symbol</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Type</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Session</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Entry</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Exit</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">SL</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">TP</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Lot Size</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">P&L</th>
+                                    <th class="p-3 text-left text-xs font-semibold text-gray-400 uppercase">Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 ${(tradesWithUsers || []).slice(0, 20).map(trade => {
                                     const pnl = calcPnL(trade.entry, trade.exit, trade.quantity, trade.symbol, trade.type);
                                     return `
-                                        <tr class="hover:bg-gray-800/50">
-                                            <td class="py-2"><span class="font-medium">${trade.username}</span></table>
-                                            <td class="py-2">${trade.symbol}</td>
-                                            <td class="py-2 ${trade.type === 'Long' ? 'text-green-500' : 'text-red-500'}">${trade.type}</td>
-                                            <td class="py-2">${trade.session || '-'}</td>
-                                            <td class="py-2">${trade.entry}</td>
-                                            <td class="py-2">${trade.exit}</td>
-                                            <td class="py-2">${trade.stop_loss || '-'}</td>
-                                            <td class="py-2">${trade.take_profit || '-'}</td>
-                                            <td class="py-2">${trade.quantity}</td>
-                                            <td class="py-2 ${pnl >= 0 ? 'text-green-500' : 'text-red-500'}">$${pnl.toFixed(2)}</td>
-                                            <td class="py-2 text-gray-400">${formatDate(trade.date)}</td>
+                                        <tr class="border-b border-gray-800 hover:bg-gray-800/50">
+                                            <td class="p-3 text-sm font-medium text-white">${escapeHtml(trade.username)}</td>
+                                            <td class="p-3 text-sm text-gray-300">${escapeHtml(trade.symbol)}</td>
+                                            <td class="p-3 text-sm ${trade.type === 'Long' ? 'text-green-500' : 'text-red-500'} font-medium">${trade.type}</td>
+                                            <td class="p-3 text-sm text-gray-300">${escapeHtml(trade.session || '-')}</td>
+                                            <td class="p-3 text-sm text-gray-300">${trade.entry}</td>
+                                            <td class="p-3 text-sm text-gray-300">${trade.exit}</td>
+                                            <td class="p-3 text-sm text-gray-300">${trade.stop_loss || '-'}</td>
+                                            <td class="p-3 text-sm text-gray-300">${trade.take_profit || '-'}</td>
+                                            <td class="p-3 text-sm text-gray-300">${trade.quantity}</td>
+                                            <td class="p-3 text-sm ${pnl >= 0 ? 'text-green-500' : 'text-red-500'} font-bold">$${pnl.toFixed(2)}</td>
+                                            <td class="p-3 text-sm text-gray-400">${formatDate(trade.date)}</td>
                                         </tr>
                                     `;
                                 }).join('')}
-                                ${(!tradesWithUsers || tradesWithUsers.length === 0) ? '<tr><td colspan="11" class="text-center text-gray-500 py-8">No trades yet</td>' : ''}
+                                ${(!tradesWithUsers || tradesWithUsers.length === 0) ? '<tr><td colspan="11" class="text-center text-gray-500 py-8">No trades yet</td></tr>' : ''}
                             </tbody>
                         </table>
                     </div>
@@ -435,6 +435,17 @@ app.get('/admin', async (req, res) => {
         </html>
     `);
 });
+
+// Helper function to escape HTML
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
 
 // ============ START SERVER ============
 const PORT = process.env.PORT || 3000;
