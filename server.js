@@ -220,23 +220,26 @@ app.get('/admin', async (req, res) => {
     }
     
     // Format functions (uses browser local timezone automatically)
-    function formatDate(dateStr) {
-        const d = new Date(dateStr);
-        const year = d.getFullYear().toString().slice(-2);
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        return `${year}/${month}/${day}`;
-    }
-    
-    function formatDateTime(dateStr) {
-        const d = new Date(dateStr);
-        const year = d.getFullYear().toString().slice(-2);
-        const month = String(d.getMonth() + 1).padStart(2, '0');
-        const day = String(d.getDate()).padStart(2, '0');
-        const time = d.toLocaleTimeString('en-GB');
-        return `${year}/${month}/${day} ${time}`;
-    }
-    
+function formatDate(dateStr) {
+    const d = new Date(dateStr);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}/${month}/${day}`;
+}
+
+function formatDateTime(dateStr) {
+    const d = new Date(dateStr);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    // Convert to Kenya time (UTC+3)
+    const kenyaTime = new Date(d.getTime() + (3 * 60 * 60 * 1000));
+    const hours = String(kenyaTime.getUTCHours()).padStart(2, '0');
+    const minutes = String(kenyaTime.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(kenyaTime.getUTCSeconds()).padStart(2, '0');
+    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+}
     res.send(`
         <!DOCTYPE html>
         <html>
