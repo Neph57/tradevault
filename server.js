@@ -87,7 +87,14 @@ app.post('/api/login', async (req, res) => {
     
     res.json({ id: data.id, username: data.username });
 });
-
+// P&L calculation function for admin dashboard
+function calculatePnLForAdmin(entry, exit, quantity, symbol, type) {
+    const specs = {'EURUSD':0.00001,'GBPUSD':0.00001,'AUDUSD':0.00001,'USDJPY':0.001,'XAUUSD':0.01};
+    const tickSize = specs[symbol] || 0.01;
+    let diff = type === 'Long' ? exit - entry : entry - exit;
+    const pnl = (diff / tickSize) * quantity;
+    return pnl.toFixed(2);
+}
 // ============ GET TRADES ============
 app.get('/api/trades/:userId', async (req, res) => {
     const { data, error } = await supabase
@@ -339,8 +346,7 @@ app.get('/admin', async (req, res) => {
                                         <td class="${trade.type === 'Long' ? 'text-green-500' : 'text-red-500'}">${trade.type}</td>
                                         <td>${trade.entry}</td>
                                         <td>${trade.exit}</td>
-                                        <td class="${trade.exit - trade.entry >= 0 ? 'text-green-500' : 'text-red-500'}">$${((trade.exit - trade.entry) * trade.quantity).toFixed(2)}</td>
-                                        <td class="text-gray-400 text-sm">${trade.date}</td>
+                                        <td class="${trade.exit - trade.entry >= 0 ? 'text-green-500' : 'text-red-500'}">$${calculatePnLForAdmin(trade.entry, trade.exit, trade.quantity, trade.symbol, trade.type)}</td>
                                     </tr>
                                 `).join('')}
                                 ${(!tradesWithUsers || tradesWithUsers.length === 0) ? '<tr><td colspan="7" class="text-center text-gray-500 py-8">No trades yet</td></tr>' : ''}
