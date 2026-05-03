@@ -46,7 +46,6 @@ app.post('/api/register', async (req, res) => {
         return res.status(400).json({ error: 'Username and password required' });
     }
     
-    // Check if user exists
     const { data: existing } = await supabase
         .from('users')
         .select('id')
@@ -87,14 +86,7 @@ app.post('/api/login', async (req, res) => {
     
     res.json({ id: data.id, username: data.username });
 });
-// P&L calculation function for admin dashboard
-function calculatePnLForAdmin(entry, exit, quantity, symbol, type) {
-    const specs = {'EURUSD':0.00001,'GBPUSD':0.00001,'AUDUSD':0.00001,'USDJPY':0.001,'XAUUSD':0.01};
-    const tickSize = specs[symbol] || 0.01;
-    let diff = type === 'Long' ? exit - entry : entry - exit;
-    const pnl = (diff / tickSize) * quantity;
-    return pnl.toFixed(2);
-}
+
 // ============ GET TRADES ============
 app.get('/api/trades/:userId', async (req, res) => {
     const { data, error } = await supabase
@@ -180,7 +172,6 @@ app.get('/dashboard.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 
-
 // ============ ADMIN DASHBOARD ============
 app.get('/admin', async (req, res) => {
     // Get all users
@@ -220,7 +211,25 @@ app.get('/admin', async (req, res) => {
     const weekAgoStr = weekAgo.toISOString();
     const newThisWeek = (users || []).filter(u => u.created_at >= weekAgoStr).length;
     
-    // Simple HTML admin page
+    // P&L calculation function
+    function calcPnL(entry, exit, quantity, symbol, type) {
+        const specs = {'EURUSD':0.00001,'GBPUSD':0.00001,'AUDUSD':0.00001,'USDJPY':0.001,'XAUUSD':0.01};
+        const tickSize = specs[symbol] || 0.01;
+        let diff = type === 'Long' ? exit - entry : entry - exit;
+        return (diff / tickSize) * quantity;
+    }
+    
+    // Format date function
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString('en-GB');
+    }
+    
+    function formatDateTime(dateStr) {
+        const d = new Date(dateStr);
+        return d.toLocaleDateString('en-GB') + ' ' + d.toLocaleTimeString('en-GB');
+    }
+    
     res.send(`
         <!DOCTYPE html>
         <html>
@@ -235,7 +244,6 @@ app.get('/admin', async (req, res) => {
                 table { width: 100%; border-collapse: collapse; }
                 th, td { padding: 12px; text-align: left; border-bottom: 1px solid #2a2a2f; }
                 th { color: #9ca3af; font-weight: 500; font-size: 12px; text-transform: uppercase; }
-                .badge { background: #22c55e20; color: #22c55e; padding: 4px 8px; border-radius: 20px; font-size: 12px; }
             </style>
         </head>
         <body class="text-gray-200">
@@ -296,7 +304,7 @@ app.get('/admin', async (req, res) => {
                         <h2 class="text-lg font-semibold"><i class="fas fa-users mr-2 text-purple-400"></i>All Users</h2>
                     </div>
                     <div class="overflow-x-auto">
-                        <table>
+                        <table class="w-full">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -308,13 +316,13 @@ app.get('/admin', async (req, res) => {
                             <tbody>
                                 ${(users || []).map(user => `
                                     <tr class="hover:bg-gray-800/50">
-                                        <td>${user.id}</td>
-                                        <td><span class="font-medium">${user.username}</span></td>
-                                        <td><span class="text-gray-500 text-sm">••••••••</span></td>
-                                        <td class="text-gray-400 text-sm">${new Date(user.created_at).toLocaleString()}</td>
+                                        <td class="py-2">${user.id}</td>
+                                        <td class="py-2"><span class="font-medium">${user.username}</span></td>
+                                        <td class="py-2"><span class="text-gray-500 text-sm">••••••••</span></td>
+                                        <td class="py-2 text-gray-400 text-sm">${formatDateTime(user.created_at)}</td>
                                     </tr>
                                 `).join('')}
-                                ${(!users || users.length === 0) ? '<tr><td colspan="4" class="text-center text-gray-500 py-8">No users yet</td></tr>' : ''}
+                                ${(!users || users.length === 0) ? '<tr><td colspan="4" class="text-center text-gray-500 py-8">No users yet</td>' : ''}
                             </tbody>
                         </table>
                     </div>
@@ -326,30 +334,42 @@ app.get('/admin', async (req, res) => {
                         <h2 class="text-lg font-semibold"><i class="fas fa-list mr-2 text-green-400"></i>Recent Trades</h2>
                     </div>
                     <div class="overflow-x-auto">
-                        <table>
+                        <table class="w-full">
                             <thead>
                                 <tr>
                                     <th>User</th>
                                     <th>Symbol</th>
                                     <th>Type</th>
+                                    <th>Session</th>
                                     <th>Entry</th>
                                     <th>Exit</th>
+                                    <th>SL</th>
+                                    <th>TP</th>
+                                    <th>Lot Size</th>
                                     <th>P&L</th>
                                     <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                ${(tradesWithUsers || []).slice(0, 20).map(trade => `
-                                    <tr class="hover:bg-gray-800/50">
-                                        <td><span class="font-medium">${trade.username}</span></td>
-                                        <td>${trade.symbol}</td>
-                                        <td class="${trade.type === 'Long' ? 'text-green-500' : 'text-red-500'}">${trade.type}</td>
-                                        <td>${trade.entry}</td>
-                                        <td>${trade.exit}</td>
-                                        <td class="${trade.exit - trade.entry >= 0 ? 'text-green-500' : 'text-red-500'}">$${calculatePnLForAdmin(trade.entry, trade.exit, trade.quantity, trade.symbol, trade.type)}</td>
-                                    </tr>
-                                `).join('')}
-                                ${(!tradesWithUsers || tradesWithUsers.length === 0) ? '<tr><td colspan="7" class="text-center text-gray-500 py-8">No trades yet</td></tr>' : ''}
+                                ${(tradesWithUsers || []).slice(0, 20).map(trade => {
+                                    const pnl = calcPnL(trade.entry, trade.exit, trade.quantity, trade.symbol, trade.type);
+                                    return `
+                                        <tr class="hover:bg-gray-800/50">
+                                            <td class="py-2"><span class="font-medium">${trade.username}</span></td>
+                                            <td class="py-2">${trade.symbol}</td>
+                                            <td class="py-2 ${trade.type === 'Long' ? 'text-green-500' : 'text-red-500'}">${trade.type}</td>
+                                            <td class="py-2">${trade.session || '-'}</td>
+                                            <td class="py-2">${trade.entry}</td>
+                                            <td class="py-2">${trade.exit}</td>
+                                            <td class="py-2">${trade.stop_loss || '-'}</td>
+                                            <td class="py-2">${trade.take_profit || '-'}</td>
+                                            <td class="py-2">${trade.quantity}</td>
+                                            <td class="py-2 ${pnl >= 0 ? 'text-green-500' : 'text-red-500'}">$${pnl.toFixed(2)}</td>
+                                            <td class="py-2 text-gray-400">${formatDate(trade.date)}</td>
+                                        </tr>
+                                    `;
+                                }).join('')}
+                                ${(!tradesWithUsers || tradesWithUsers.length === 0) ? '<tr><td colspan="11" class="text-center text-gray-500 py-8">No trades yet</td>' : ''}
                             </tbody>
                         </table>
                     </div>
@@ -359,6 +379,7 @@ app.get('/admin', async (req, res) => {
         </html>
     `);
 });
+
 // ============ START SERVER ============
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
