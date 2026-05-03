@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+   
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>TradeVault | Smart Trading Analytics & Journal</title>
+    <meta name="description" content="TradeVault - premium trading analytics platform. Track win rate, P&L, R:R, and behavioral bias. Free trial available. Join 1000+ traders.">
+    <meta name="keywords" content="trading journal, trade analytics, forex dashboard, performance tracker, risk reward calculator, trading insights, free trading journal app">
+    <meta name="author" content="TradeVault">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Social Media Tags -->
+    <meta property="og:title" content="TradeVault | Smart Trading Analytics & Journal">
+    <meta property="og:description" content="Premium trading analytics platform. Track every trade, analyze performance, and improve consistency.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tradevault.app">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TradeVault | Smart Trading Analytics">
+    <meta name="twitter:description" content="Turn your trades into intelligence with TradeVault. Free trial available.">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #0a0a0c; font-family: 'Inter', system-ui, sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); }
+        .fade-in { animation: fadeIn 0.4s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .profit-positive { color: #22c55e; font-weight: 600; }
+        .profit-negative { color: #ef4444; font-weight: 600; }
+        .screenshot-thumb { width: 36px; height: 36px; object-fit: cover; cursor: pointer; border-radius: 4px; transition: transform 0.2s; }
+        .screenshot-thumb:hover { transform: scale(1.3); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #1f1f22; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 10px; }
+        input, select, textarea { border: 1px solid #2a2a2f; background: #141417; color: #e5e7eb; }
+        input:focus, select:focus, textarea:focus { border-color: #22c55e; outline: none; }
+        .progress-bar-container { background-color: #2a2a2f; border-radius: 4px; height: 8px; overflow: hidden; }
+        .progress-bar-fill { background-color: #22c55e; height: 100%; border-radius: 4px; transition: width 0.3s ease; }
+        .progress-bar-fill.bear { background-color: #ef4444; }
+        .tick-indicator { position: relative; width: 100%; height: 2px; background: #3f3f46; margin: 15px 0; }
+        .tick-marker { position: absolute; width: 3px; height: 12px; background: #6b7280; top: -5px; transform: translateX(-50%); }
+        .tick-label { position: absolute; font-size: 9px; color: #6b7280; top: 8px; transform: translateX(-50%); }
+        .trade-calendar { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+        .calendar-day { aspect-ratio: 1; background: #1a1a1f; border-radius: 6px; padding: 4px 2px; text-align: center; cursor: pointer; border: 1px solid #2a2a2f; }
+        .calendar-day:hover { background: #25252b; }
+        .calendar-day.win { background: #22c55e15; border-color: #22c55e; }
+        .calendar-day.loss { background: #ef444415; border-color: #ef4444; }
+        .calendar-day.today { border-color: #22c55e; border-width: 2px; }
+        .calendar-date { font-size: 11px; font-weight: 500; color: #d1d5db; }
+        .calendar-pnl { font-size: 8px; margin-top: 2px; font-weight: 500; }
+        .calendar-pnl.win { color: #22c55e; }
+        .calendar-pnl.loss { color: #ef4444; }
+        .calendar-weekday { text-align: center; font-size: 9px; color: #6b7280; padding: 4px; text-transform: uppercase; }
+        .day-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .day-name { font-size: 11px; color: #9ca3af; width: 35px; }
+        .day-pnl { font-size: 11px; font-weight: 500; }
+        .instrument-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .instrument-name { font-weight: 600; font-size: 12px; }
+        .instrument-stats { font-size: 11px; }
+        .instrument-wins { color: #22c55e; }
+        .instrument-losses { color: #ef4444; }
+        .session-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .session-name { font-size: 12px; color: #9ca3af; }
+        .session-rate { font-size: 12px; font-weight: 500; }
+        .stat-card { background: #1a1a1f; border-radius: 10px; padding: 10px 8px; text-align: center; border: 1px solid #2a2a2f; }
+        .stat-value { font-size: 22px; font-weight: 700; }
+        .stat-label { font-size: 10px; color: #6b7280; text-transform: uppercase; margin-top: 4px; }
+        .dual-bar { display: flex; width: 100%; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 4px; margin-bottom: 8px; }
+        .bar-green { background-color: #22c55e; height: 100%; }
+        .bar-red { background-color: #ef4444; height: 100%; }
+    </style>
+</head>
+<body class="text-gray-200">
+
+<nav class="gradient-bg shadow-lg sticky top-0 z-50 border-b border-gray-800">
+    <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <!-- TRADEVAULT Logo -->
+                <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold text-sm">TV</span>
+                </div>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">TRADEVAULT</h1>
+            </div>
+            <div id="authButtons" class="flex space-x-2"></div>
+        </div>
+    </div>
+</nav>
+
+<div class="container mx-auto px-4 py-5 max-w-7xl">
+    
+    <div id="authSection" class="fade-in">
+        <div class="max-w-md mx-auto bg-gray-900 rounded-2xl p-6 border border-gray-800">
+            <div class="text-center mb-6">
+                <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-chart-line text-2xl text-white"></i>
+                </div>
+                <h2 class="text-xl font-bold">Welcome Back</h2>
+            </div>
+            <div class="space-y-3">
+                <input type="text" id="username" placeholder="Username" class="w-full bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <input type="password" id="password" placeholder="Password" class="w-full bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <button onclick="login()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 rounded-lg p-2 font-semibold transition text-sm">Login</button>
+                <button onclick="register()" class="w-full bg-gray-800 hover:bg-gray-700 rounded-lg p-2 font-semibold transition border border-gray-700 text-sm">Create Account</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboardSection" style="display: none;" class="fade-in">
+        
+        <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl p-3 mb-5 text-center">
+            <p class="text-sm md:text-base font-semibold">This isnt just a journal, its your personal trading analyst</p>
+        </div>
+        
+        <div class="grid grid-cols-4 gap-3 mb-3">
+            <div class="stat-card"><div class="stat-value" id="totalTrades">0</div><div class="stat-label">Total Trades</div></div>
+            <div class="stat-card"><div class="stat-value" id="winRate">0%</div><div class="stat-label">Win Rate</div></div>
+            <div class="stat-card"><div class="stat-value" id="totalPnL">$0</div><div class="stat-label">Total P&L</div></div>
+            <div class="stat-card"><div class="stat-value" id="profitFactor">0.0</div><div class="stat-label">Profit Factor</div></div>
+        </div>
+        
+        <div class="grid grid-cols-5 gap-3 mb-6">
+            <div class="stat-card"><div class="stat-value text-green-500" id="avgWin">$0</div><div class="stat-label">Avg Win</div></div>
+            <div class="stat-card"><div class="stat-value text-red-500" id="avgLoss">$0</div><div class="stat-label">Avg Loss</div></div>
+            <div class="stat-card"><div class="stat-value text-green-500" id="largestWin">$0</div><div class="stat-label">Largest Win</div></div>
+            <div class="stat-card"><div class="stat-value text-red-500" id="largestLoss">$0</div><div class="stat-label">Largest Loss</div></div>
+            <div class="stat-card"><div class="stat-value" id="bestStrategy">-</div><div class="stat-label">Best Strategy</div></div>
+        </div>
+        
+        <div class="text-center mb-4">
+            <h2 class="text-2xl font-bold">TRADEVAULT | Trader Summary</h2>
+        </div>
+        
+        <!-- ROW 1: 3 CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-gray-900 rounded-xl p-4 card-hover border border-gray-800">
+                <h3 class="text-sm font-semibold mb-2">Behavioral Bias</h3>
+                <div class="text-xs text-gray-500 mb-2">Total Trades: <span id="biasTotal">0</span></div>
+                <div class="flex justify-between items-center mb-1"><div class="flex items-center gap-1"><i class="fas fa-bear text-red-500 text-sm"></i><span class="text-sm">Bear</span></div><span class="text-sm font-bold" id="bearCount">0 (0%)</span></div>
+                <div class="progress-bar-container mb-2"><div class="progress-bar-fill bear" id="bearBar" style="width:0%"></div></div>
+                <div class="text-xs text-gray-400 mb-1 text-center" id="biasText">Rather Bear</div>
+                <div class="tick-indicator"><div class="tick-marker" style="left:50%"></div><div class="tick-label" style="left:50%">50%</div></div>
+                <div class="flex justify-between items-center mb-1 mt-2"><div class="flex items-center gap-1"><i class="fas fa-bull text-green-500 text-sm"></i><span class="text-sm">Bull</span></div><span class="text-sm font-bold" id="bullCount">0 (0%)</span></div>
+                <div class="progress-bar-container"><div class="progress-bar-fill" id="bullBar" style="width:0%"></div></div>
+            </div>
+            
+            <div class="bg-gray-900 rounded-xl p-4 card-hover border border-gray-800">
+                <h3 class="text-sm font-semibold mb-2">Profitability</h3>
+                <div class="flex items-center justify-between">
+                    <div class="text-center"><div class="text-green-500 text-2xl font-bold" id="wonCount">0</div><div class="text-xs text-gray-500">Won</div><div class="text-sm text-green-500" id="wonPercent">0%</div></div>
+                    <div class="w-24 h-24"><canvas id="halfPieChart" width="96" height="96"></canvas></div>
+                    <div class="text-center"><div class="text-red-500 text-2xl font-bold" id="lostCount">0</div><div class="text-xs text-gray-500">Lost</div><div class="text-sm text-red-500" id="lostPercent">0%</div></div>
+                </div>
+                <div class="mt-2 text-center"><div class="text-xs text-gray-500">Avg Holding Period</div><div class="text-sm font-semibold" id="avgHolding">0h</div></div>
+                <div class="mt-2 pt-2 border-t border-gray-800 flex justify-between text-xs"><span class="text-gray-500">Trades Taken:</span><span class="font-semibold" id="tradesTaken">0</span><span class="text-gray-500">Winrate:</span><span class="font-semibold text-green-500" id="profitWinrate">0%</span></div>
+            </div>
+            
+            <div class="bg-gray-900 rounded-xl p-4 card-hover border border-gray-800">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-sm font-semibold">Trading Day Performance</h3>
+                    <div class="text-right">
+                        <div class="text-xs text-gray-500">Best Day</div>
+                        <div class="text-sm font-bold text-green-500" id="bestDayName">-</div>
+                    </div>
+                </div>
+                <div id="dayPerformanceContainer"></div>
+            </div>
+        </div>
+        
+        <!-- ROW 2: 3 CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-gray-900 rounded-xl p-4 card-hover border border-gray-800">
+                <h3 class="text-sm font-semibold mb-2">Most Traded 3 Instruments</h3>
+                <div id="mostTradedContainer"></div>
+            </div>
+            
+            <div class="bg-gray-900 rounded-xl p-4 card-hover border border-gray-800">
+                <h3 class="text-sm font-semibold mb-2">Session Win Rates</h3>
+                <div id="sessionRatesContainer"></div>
+            </div>
+            
+            <div class="bg-gray-900 rounded-xl p-4 card-hover border border-gray-800">
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-sm font-semibold">Trade Calendar</h3>
+                    <div class="flex space-x-2"><button onclick="previousMonth()" class="bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded text-xs border border-gray-700"><i class="fas fa-chevron-left text-xs"></i></button><span id="calendarMonthYear" class="text-sm text-gray-300 font-medium"></span><button onclick="nextMonth()" class="bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded text-xs border border-gray-700"><i class="fas fa-chevron-right text-xs"></i></button></div>
+                </div>
+                <div id="calendarContainer"></div>
+            </div>
+        </div>
+        
+        <!-- PROP FIRMS SECTION -->
+<div class="bg-gray-900 rounded-xl p-4 mb-6 card-hover border border-gray-800">
+    <h3 class="text-sm font-semibold mb-3"><i class="fas fa-building mr-2 text-purple-400"></i>Prop Firms</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <!-- 1. FTMO -->
+        <a href="#" onclick="trackAffiliateClick('FTMO', 'https://ftmo.com/?ref=YOUR_FTMO_ID')" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 text-center transition border border-gray-700 group">
+            <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition">
+                <span class="text-white font-bold text-xs">FTMO</span>
+            </div>
+            <p class="font-semibold text-sm">FTMO</p>
+            <p class="text-xs text-gray-400">Up to $200,000</p>
+            <p class="text-xs text-purple-400 mt-1">Apply →</p>
+        </a>
+        
+        <!-- 2. Funded Next -->
+        <a href="https://fundednext.com/?ref=REFB18Z19" onclick="trackAffiliateClick('Funded Next', 'https://fundednext.com/?ref=REFB18Z19')" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 text-center transition border border-gray-700 group">
+            <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-orange-600 to-red-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition">
+                <span class="text-white font-bold text-xs">FN</span>
+            </div>
+            <p class="font-semibold text-sm">Funded Next</p>
+            <p class="text-xs text-gray-400">Instant funding</p>
+            <p class="text-xs text-purple-400 mt-1">Apply →</p>
+        </a>
+        
+        <!-- 3. Funding Pips -->
+      <a href="https://app.fundingpips.com/register?ref=a60e5e3f" 
+   onclick="trackAffiliateClick('Funding Pips', 'https://app.fundingpips.com/register?ref=a60e5e3f')" 
+   target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 text-center transition border border-gray-700 group">
+    <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-cyan-600 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition">
+        <span class="text-white font-bold text-xs">FP</span>
+    </div>
+    <p class="font-semibold text-sm">Funding Pips</p>
+    <p class="text-xs text-gray-400">Trusted prop firm</p>
+    <p class="text-xs text-purple-400 mt-1">Open Account →</p>
+</a>
+        
+    </div>
+</div>
+        
+
+
+        <!-- AFFILIATES (Brokers) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="bg-gray-900 rounded-xl p-3 card-hover border border-gray-800">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2"><i class="fab fa-tradingview text-2xl text-green-500"></i><div><h3 class="text-sm font-semibold">TradingView</h3><p class="text-xs text-gray-500">Better charts & analysis</p></div></div>
+                    <button onclick="trackAffiliateClick('TradingView', 'https://www.tradingview.com/pricing/?share_your_love=kipkiruinf57')" class="bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-700">Try Pro →</button>
+                </div>
+            </div>
+            <div class="bg-gray-900 rounded-xl p-3 card-hover border border-gray-800">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2"><div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center"><span class="text-white font-bold text-xs">JM</span></div><div><h3 class="text-sm font-semibold">Just Markets</h3><p class="text-xs text-gray-500">Forex & Crypto Trading</p></div></div>
+                    <a href="https://one.justmarkets.link/a/x85jw06544" onclick="trackAffiliateClick('Just Markets', 'https://one.justmarkets.link/a/x85jw06544')" target="_blank" class="bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-xs font-medium border border-gray-700">Open →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ADD TRADE FORM -->
+        <div class="bg-gray-900 rounded-xl p-4 mb-5 border border-gray-800">
+            <h2 class="text-base font-bold mb-3"><i class="fas fa-plus-circle mr-1 text-green-500"></i>Add New Trade</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <input type="text" id="symbol" placeholder="Symbol" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <input type="date" id="date" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <select id="type" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm"><option value="Long">📈 Long</option><option value="Short">📉 Short</option></select>
+                <select id="session" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm"><option value="">Session</option><option value="Asia">🌏 Asia</option><option value="London">🇬🇧 London</option><option value="New York">🗽 New York</option></select>
+                <input type="number" id="entry" placeholder="Entry" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <input type="number" id="exit" placeholder="Exit" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <input type="number" id="quantity" placeholder="Lots/Size" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <input type="number" id="stopLoss" placeholder="Stop Loss" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <input type="number" id="takeProfit" placeholder="Take Profit" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <input type="number" id="holdingPeriod" placeholder="Hold (hours)" step="0.5" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <input type="text" id="strategy" placeholder="Strategy" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm md:col-span-2">
+                <textarea id="notes" placeholder="Notes" rows="1" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm md:col-span-3"></textarea>
+                <button id="saveBtn" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 rounded-lg p-2 text-sm font-medium"><i class="fas fa-save mr-1"></i>Save Trade</button>
+            </div>
+            <div class="mt-2 text-xs text-gray-600 text-center">💡 Ctrl+Enter to save</div>
+        </div>
+
+        <!-- FILTERS -->
+        <div class="bg-gray-900 rounded-xl p-3 mb-4 border border-gray-800">
+            <div class="grid grid-cols-4 gap-2">
+                <input type="text" id="searchSymbol" placeholder="🔍 Search symbol..." class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <select id="filterType" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm"><option value="all">All Types</option><option value="Long">Long Only</option><option value="Short">Short Only</option></select>
+                <input type="text" id="filterStrategy" placeholder="Filter by strategy..." class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <button onclick="exportToCSV()" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-2 text-sm font-medium border border-gray-700"><i class="fas fa-download mr-1"></i>Export CSV</button>
+            </div>
+        </div>
+
+        <!-- TRADES TABLE -->
+        <div class="bg-gray-900 rounded-xl overflow-hidden border border-gray-800">
+            <div class="p-3 border-b border-gray-800"><h2 class="text-sm font-semibold"><i class="fas fa-list mr-1 text-green-500"></i>Trade History</h2></div>
+            <div class="overflow-x-auto">
+                <table class="w-full">
+                    <thead class="bg-gray-800">
+                        <tr class="text-gray-400 text-xs">
+                            <th class="p-2">Symbol</th><th class="p-2">Date</th><th class="p-2">Type</th><th class="p-2">Session</th><th class="p-2">Strategy</th>
+                            <th class="p-2">Entry</th><th class="p-2">Exit</th><th class="p-2">Size</th><th class="p-2">P&L</th><th class="p-2">R:R</th>
+                            <th class="p-2">Notes</th><th class="p-2">Screenshot</th><th class="p-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tradesList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentUser = null, trades = [], halfPieChart = null, currentCalendarDate = new Date();
+const API_URL = '/api';
+
+function calculatePnL(t) {
+    const specs = {'EURUSD':0.00001,'GBPUSD':0.00001,'AUDUSD':0.00001,'USDJPY':0.001,'XAUUSD':0.01};
+    const tickSize = specs[t.symbol] || 0.01;
+    let diff = t.type === 'Long' ? t.exit - t.entry : t.entry - t.exit;
+    return diff / tickSize * t.quantity;
+}
+
+function calculateRR(t) {
+    if (!t.stop_loss || !t.take_profit || t.stop_loss === 0 || t.take_profit === 0) return '-';
+    let risk, reward;
+    if (t.type === 'Long') {
+        risk = t.entry - t.stop_loss;
+        reward = t.take_profit - t.entry;
+    } else {
+        risk = t.stop_loss - t.entry;
+        reward = t.entry - t.take_profit;
+    }
+    if (risk <= 0 || reward <= 0) return '-';
+    return (reward / risk).toFixed(2);
+}
+
+async function register() {
+    const u = document.getElementById('username').value, p = document.getElementById('password').value;
+    if (!u || !p) { alert('Enter username and password'); return; }
+    const res = await fetch(`${API_URL}/register`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+    const data = await res.json();
+    if (res.ok) alert('✅ Account created! Please login.');
+    else alert(data.error);
+}
+
+async function login() {
+    const u = document.getElementById('username').value, p = document.getElementById('password').value;
+    if (!u || !p) { alert('Enter username and password'); return; }
+    const res = await fetch(`${API_URL}/login`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+    const data = await res.json();
+    if (res.ok) {
+        currentUser = data;
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('dashboardSection').style.display = 'block';
+        document.getElementById('authButtons').innerHTML = `<div class="flex items-center space-x-2"><span class="text-sm">${data.username}</span><button onclick="logout()" class="bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded text-xs border border-gray-700">Logout</button></div>`;
+        await loadTrades();
+    } else alert('Invalid credentials');
+}
+
+function logout() { currentUser = null; document.getElementById('authSection').style.display = 'block'; document.getElementById('dashboardSection').style.display = 'none'; document.getElementById('authButtons').innerHTML = ''; document.getElementById('username').value = ''; document.getElementById('password').value = ''; }
+
+async function loadTrades() {
+    if (!currentUser) return;
+    const res = await fetch(`${API_URL}/trades/${currentUser.id}`);
+    trades = await res.json();
+    updateDashboard();
+    applyFilters();
+}
+
+function updateDashboard() {
+    const total = trades.length;
+    const wins = trades.filter(t => calculatePnL(t) > 0).length;
+    const losses = total - wins;
+    const totalPnL = trades.reduce((s,t) => s + calculatePnL(t), 0);
+    const grossProfit = trades.filter(t => calculatePnL(t) > 0).reduce((s,t) => s + calculatePnL(t), 0);
+    const grossLoss = Math.abs(trades.filter(t => calculatePnL(t) < 0).reduce((s,t) => s + calculatePnL(t), 0));
+    const winRate = total ? (wins/total*100).toFixed(1) : 0;
+    const profitFactor = grossLoss ? (grossProfit/grossLoss).toFixed(2) : grossProfit.toFixed(2);
+    
+    document.getElementById('totalTrades').innerHTML = total;
+    document.getElementById('winRate').innerHTML = `${winRate}%`;
+    document.getElementById('totalPnL').innerHTML = `$${totalPnL.toFixed(2)}`;
+    document.getElementById('profitFactor').innerHTML = profitFactor;
+    
+    const winsArr = trades.filter(t => calculatePnL(t) > 0).map(t => calculatePnL(t));
+    const lossesArr = trades.filter(t => calculatePnL(t) < 0).map(t => Math.abs(calculatePnL(t)));
+    const avgWin = winsArr.length ? winsArr.reduce((a,b)=>a+b,0)/winsArr.length : 0;
+    const avgLoss = lossesArr.length ? lossesArr.reduce((a,b)=>a+b,0)/lossesArr.length : 0;
+    const largestWin = winsArr.length ? Math.max(...winsArr) : 0;
+    const largestLoss = lossesArr.length ? Math.max(...lossesArr) : 0;
+    
+    const strategyPerf = {};
+    trades.forEach(t => { if(t.strategy) { const pnl = calculatePnL(t); if(!strategyPerf[t.strategy]) strategyPerf[t.strategy] = {total:0,count:0}; strategyPerf[t.strategy].total += pnl; strategyPerf[t.strategy].count++; } });
+    let bestStrategy = '', bestAvg = -Infinity;
+    for(const [s,data] of Object.entries(strategyPerf)) { const avg = data.total/data.count; if(avg > bestAvg) { bestAvg = avg; bestStrategy = s; } }
+    
+    document.getElementById('avgWin').innerHTML = `$${avgWin.toFixed(2)}`;
+    document.getElementById('avgLoss').innerHTML = `$${avgLoss.toFixed(2)}`;
+    document.getElementById('largestWin').innerHTML = `$${largestWin.toFixed(2)}`;
+    document.getElementById('largestLoss').innerHTML = `$${largestLoss.toFixed(2)}`;
+    document.getElementById('bestStrategy').innerHTML = bestStrategy || '-';
+    
+    const bearCount = trades.filter(t => t.type === 'Short').length;
+    const bullCount = trades.filter(t => t.type === 'Long').length;
+    const bearPct = total ? (bearCount/total*100) : 0;
+    const bullPct = total ? (bullCount/total*100) : 0;
+    document.getElementById('biasTotal').innerHTML = total;
+    document.getElementById('bearCount').innerHTML = `${bearCount} (${bearPct.toFixed(1)}%)`;
+    document.getElementById('bullCount').innerHTML = `${bullCount} (${bullPct.toFixed(1)}%)`;
+    document.getElementById('bearBar').style.width = `${bearPct}%`;
+    document.getElementById('bullBar').style.width = `${bullPct}%`;
+    document.getElementById('biasText').innerHTML = bearPct > bullPct ? 'Rather Bear' : 'Rather Bull';
+    
+    document.getElementById('wonCount').innerHTML = wins;
+    document.getElementById('lostCount').innerHTML = losses;
+    document.getElementById('wonPercent').innerHTML = `${winRate}%`;
+    document.getElementById('lostPercent').innerHTML = `${(100-winRate).toFixed(1)}%`;
+    document.getElementById('tradesTaken').innerHTML = total;
+    document.getElementById('profitWinrate').innerHTML = `${winRate}%`;
+    
+    let totalHold = 0, holdCount = 0;
+    trades.forEach(t => { if(t.holding_period) { totalHold += t.holding_period; holdCount++; } });
+    document.getElementById('avgHolding').innerHTML = holdCount ? (totalHold/holdCount).toFixed(1)+'h' : '0h';
+    
+    if(halfPieChart) halfPieChart.destroy();
+    const ctx = document.getElementById('halfPieChart').getContext('2d');
+    halfPieChart = new Chart(ctx, {type:'doughnut',data:{labels:['Won','Lost'],datasets:[{data:[wins,losses],backgroundColor:['#22c55e','#ef4444'],borderWidth:0,cutout:'65%',rotation:-90,circumference:180}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}}}});
+    
+    // ========== TRADING DAY PERFORMANCE ==========
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dayProfit = [0,0,0,0,0,0,0];
+    const dayLoss = [0,0,0,0,0,0,0];
+    const dayNet = [0,0,0,0,0,0,0];
+
+    trades.forEach(t => {
+        const d = new Date(t.date).getDay();
+        const pnl = calculatePnL(t);
+        dayNet[d] += pnl;
+        if (pnl > 0) dayProfit[d] += pnl;
+        else if (pnl < 0) dayLoss[d] += Math.abs(pnl);
+    });
+
+    const maxProfit = Math.max(...dayProfit, 1);
+    const maxLoss = Math.max(...dayLoss, 1);
+    const maxVal = Math.max(maxProfit, maxLoss);
+    const maxBarHeight = 55;
+
+    let bestDay = 'Mon';
+    let bestNet = -Infinity;
+    for (let i = 0; i < days.length; i++) {
+        if (dayNet[i] > bestNet) { bestNet = dayNet[i]; bestDay = days[i]; }
+    }
+    document.getElementById('bestDayName').innerHTML = bestDay;
+
+    let chartHtml = '<div class="flex justify-around items-end h-32 mb-2">';
+    for (let i = 0; i < days.length; i++) {
+        const profitVal = dayProfit[i];
+        const lossVal = dayLoss[i];
+        const netVal = dayNet[i];
+        const profitHeight = profitVal > 0 ? Math.min((profitVal / maxVal) * maxBarHeight, maxBarHeight) : 0;
+        const lossHeight = lossVal > 0 ? Math.min((lossVal / maxVal) * maxBarHeight, maxBarHeight) : 0;
+        let barsHtml = '';
+        if (profitVal > 0) barsHtml += `<div class="w-5 bg-blue-500 rounded-t-sm transition-all hover:opacity-80 cursor-pointer" style="height: ${profitHeight}px;" title="Profit: +$${profitVal.toFixed(2)}"></div>`;
+        if (lossVal > 0) barsHtml += `<div class="w-5 bg-red-500 rounded-t-sm transition-all hover:opacity-80 cursor-pointer" style="height: ${lossHeight}px;" title="Loss: -$${lossVal.toFixed(2)}"></div>`;
+        if (profitVal === 0 && lossVal === 0) barsHtml = `<div class="w-5 bg-gray-700 rounded-t-sm" style="height: 5px;"></div>`;
+        
+        chartHtml += `
+            <div class="flex flex-col items-center group relative" style="width: 48px;">
+                <div class="flex flex-row justify-center gap-1 items-end" style="height: ${maxBarHeight}px;">${barsHtml}</div>
+                <div class="text-center mt-2">
+                    <div class="text-[9px] font-medium ${netVal >= 0 ? 'text-blue-400' : 'text-red-400'}">Net P&L: ${netVal >= 0 ? '+' : ''}$${Math.abs(netVal).toFixed(0)}</div>
+                    <div class="text-[8px] text-gray-500 mt-0.5">${days[i]}</div>
+                </div>
+                <div class="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10 shadow-lg">
+                    ${profitVal > 0 ? `<span class="text-blue-400">Profit: +$${profitVal.toFixed(2)}</span><br>` : ''}
+                    ${lossVal > 0 ? `<span class="text-red-400">Loss: -$${lossVal.toFixed(2)}</span><br>` : ''}
+                    <span class="text-gray-300 border-t border-gray-600 mt-1 pt-1 block">Net P&L: ${netVal >= 0 ? '+' : ''}$${Math.abs(netVal).toFixed(2)}</span>
+                </div>
+            </div>
+        `;
+    }
+    chartHtml += '</div>';
+    document.getElementById('dayPerformanceContainer').innerHTML = chartHtml;
+
+    // ========== MOST TRADED INSTRUMENTS ==========
+    const instCount = {};
+    trades.forEach(t => { 
+        if(!instCount[t.symbol]) instCount[t.symbol] = {w:0,l:0,t:0}; 
+        const pnl = calculatePnL(t); 
+        instCount[t.symbol].t++; 
+        if(pnl>0) instCount[t.symbol].w++; 
+        else instCount[t.symbol].l++; 
+    });
+    const sortedInst = Object.entries(instCount).sort((a,b)=>b[1].t - a[1].t).slice(0,3);
+    let mostHtml = '';
+    sortedInst.forEach(([sym,data]) => {
+        const winPct = data.t ? (data.w/data.t*100) : 0;
+        const lossPct = 100 - winPct;
+        mostHtml += `<div class="instrument-row"><span class="instrument-name">${sym}</span><span class="instrument-stats"><span class="instrument-wins">${data.w}W</span> / <span class="instrument-losses">${data.l}L</span></span></div>
+                     <div class="dual-bar"><div class="bar-green" style="width: ${winPct}%"></div><div class="bar-red" style="width: ${lossPct}%"></div></div>`;
+    });
+    document.getElementById('mostTradedContainer').innerHTML = mostHtml || '<p class="text-gray-500 text-xs text-center">No trades yet</p>';
+    
+    // ========== SESSION WIN RATES ==========
+    const sessions = { 'Asia':{w:0,t:0}, 'London':{w:0,t:0}, 'New York':{w:0,t:0} };
+    trades.forEach(t => { 
+        if(t.session) {
+            const sessionLower = t.session.toLowerCase().trim();
+            let matchedSession = null;
+            if (sessionLower === 'asia') matchedSession = 'Asia';
+            else if (sessionLower === 'london' || sessionLower === 'londom') matchedSession = 'London';
+            else if (sessionLower === 'new york' || sessionLower === 'newyork') matchedSession = 'New York';
+            if (matchedSession && sessions[matchedSession]) {
+                const pnl = calculatePnL(t);
+                sessions[matchedSession].t++;
+                if(pnl > 0) sessions[matchedSession].w++;
+            }
+        }
+    });
+    let sessHtml = '';
+    for(const [sess,data] of Object.entries(sessions)) {
+        const winPct = data.t ? (data.w/data.t*100) : 0;
+        sessHtml += `<div class="session-row"><span class="session-name">${sess}</span><span class="session-rate">${winPct.toFixed(1)}%</span></div>
+                     <div class="progress-bar-container mb-2"><div class="progress-bar-fill" style="width: ${winPct}%; background-color: #3b82f6;"></div></div>
+                     <div class="text-xs text-gray-500 text-right -mt-1 mb-1">${data.w}W / ${data.t - data.w}L</div>`;
+    }
+    document.getElementById('sessionRatesContainer').innerHTML = sessHtml || '<p class="text-gray-500 text-xs text-center">No session data yet</p>';
+    
+    renderCalendar();
+}
+
+function renderCalendar() {
+    const y = currentCalendarDate.getFullYear(), m = currentCalendarDate.getMonth();
+    const firstDay = new Date(y,m,1), daysInMonth = new Date(y,m+1,0).getDate(), startWeekday = firstDay.getDay();
+    const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    document.getElementById('calendarMonthYear').innerHTML = `${monthNames[m]} ${y}`;
+    const monthTrades = trades.filter(t => { const d = new Date(t.date); return d.getFullYear()===y && d.getMonth()===m; });
+    const byDate = {};
+    monthTrades.forEach(t => { const pnl = calculatePnL(t); if(!byDate[t.date]) byDate[t.date] = {total:0}; byDate[t.date].total += pnl; });
+    let html = '<div class="calendar-weekday grid grid-cols-7 gap-1 mb-2">';
+    ['S','M','T','W','T','F','S'].forEach(day => html += `<div class="calendar-weekday">${day}</div>`);
+    html += '</div><div class="trade-calendar">';
+    for(let i=0;i<startWeekday;i++) html += '<div class="calendar-day opacity-30"></div>';
+    const today = new Date();
+    for(let d=1;d<=daysInMonth;d++) {
+        const dateStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const dayData = byDate[dateStr];
+        const isToday = today.getFullYear()===y && today.getMonth()===m && today.getDate()===d;
+        let cls = 'calendar-day';
+        if(isToday) cls += ' today';
+        if(dayData) cls += dayData.total > 0 ? ' win' : ' loss';
+        let pnlHtml = '';
+        if(dayData) pnlHtml = `<div class="calendar-pnl ${dayData.total>0?'win':'loss'}">$${Math.abs(dayData.total).toFixed(0)}</div>`;
+        html += `<div class="${cls}" onclick="viewDayTrades('${dateStr}')"><div class="calendar-date">${d}</div>${pnlHtml}</div>`;
+    }
+    html += '</div>';
+    document.getElementById('calendarContainer').innerHTML = html;
+}
+
+function viewDayTrades(dateStr) { const dayTrades = trades.filter(t => t.date === dateStr); if(dayTrades.length===0) alert(`No trades on ${dateStr}`); else alert(dayTrades.map(t => `${t.symbol} ${t.type}: $${calculatePnL(t).toFixed(2)}`).join('\n')); }
+function previousMonth() { currentCalendarDate.setMonth(currentCalendarDate.getMonth()-1); renderCalendar(); }
+function nextMonth() { currentCalendarDate.setMonth(currentCalendarDate.getMonth()+1); renderCalendar(); }
+
+function displayTrades(tradesToShow) {
+    const tbody = document.getElementById('tradesList'); tbody.innerHTML = '';
+    if(tradesToShow.length===0) { tbody.innerHTML = '<tr><td colspan="13" class="text-center p-4 text-gray-500">No trades found</td></tr>'; return; }
+    tradesToShow.forEach(t => {
+        const pnl = calculatePnL(t);
+        const rr = calculateRR(t);
+        const row = tbody.insertRow(); row.className = 'border-b border-gray-800';
+        row.innerHTML = `
+            <td class="p-2 text-sm">${t.symbol}</td>
+            <td class="p-2 text-sm">${t.date}</td>
+            <td class="p-2 text-sm ${t.type==='Long'?'text-green-500':'text-red-500'}">${t.type}</td>
+            <td class="p-2 text-sm">${t.session || '-'}</td>
+            <td class="p-2 text-sm">${t.strategy || '-'}</td>
+            <td class="p-2 text-sm">${t.entry}</td>
+            <td class="p-2 text-sm">${t.exit}</td>
+            <td class="p-2 text-sm">${t.quantity}</td>
+            <td class="p-2 text-sm ${pnl>=0?'profit-positive':'profit-negative'}">$${pnl.toFixed(2)}</td>
+            <td class="p-2 text-sm">${rr}</td>
+            <td class="p-2 text-sm whitespace-normal break-words">${t.notes || '-'}</td>
+            <td class="p-2">${t.screenshot ? `<img src="${t.screenshot}" class="screenshot-thumb" onclick="showImage('${t.screenshot}')" onerror="this.style.display='none'">` : `<button onclick="uploadScreenshotForTrade(${t.id})" class="bg-purple-600/50 hover:bg-purple-600 px-2 py-0.5 rounded text-xs">📷 Add</button>`}</td>
+            <td class="p-2"><div class="flex space-x-1"><button onclick="editTrade(${t.id})" class="bg-blue-600/50 hover:bg-blue-600 px-2 py-0.5 rounded text-xs">Edit</button><button onclick="deleteTrade(${t.id})" class="bg-red-600/50 hover:bg-red-600 px-2 py-0.5 rounded text-xs">Del</button></div></td>
+        `;
+    });
+}
+
+function showImage(url) { const modal = document.getElementById('imageModal'); const modalImg = document.getElementById('modalImage'); modal.style.display = 'block'; modalImg.src = url; }
+function closeModal() { document.getElementById('imageModal').style.display = 'none'; }
+
+async function uploadScreenshotForTrade(tradeId) {
+    const fileInput = document.createElement('input'); fileInput.type = 'file'; fileInput.accept = 'image/*';
+    fileInput.onchange = async function(e) {
+        const file = e.target.files[0]; if(!file) return;
+        const formData = new FormData(); formData.append('screenshot', file);
+        const res = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, { method: 'POST', body: formData });
+        if(res.ok) { alert('✅ Screenshot uploaded!'); await loadTrades(); }
+        else alert('❌ Upload failed');
+    };
+    fileInput.click();
+}
+
+async function editTrade(id) {
+    const t = trades.find(t => t.id === id);
+    if (!t) return;
+    
+    const newSymbol = prompt('Symbol:', t.symbol);
+    if (!newSymbol) return;
+    const newDate = prompt('Date (YYYY-MM-DD):', t.date);
+    if (!newDate) return;
+    const newType = confirm(`Current: ${t.type}. OK=Long, Cancel=Short`) ? 'Long' : 'Short';
+    const newEntry = prompt('Entry Price:', t.entry);
+    if (!newEntry) return;
+    const newExit = prompt('Exit Price:', t.exit);
+    if (!newExit) return;
+    const newQuantity = prompt('Position Size / Lots:', t.quantity);
+    if (!newQuantity) return;
+    const newStopLoss = prompt('Stop Loss (required for RR):', t.stop_loss || '');
+    const newTakeProfit = prompt('Take Profit (required for RR):', t.take_profit || '');
+    const newSession = prompt('Session (Asia/London/New York):', t.session || '');
+    const newStrategy = prompt('Strategy:', t.strategy || '');
+    const newHoldingPeriod = prompt('Holding Period (hours):', t.holding_period || '');
+    const newNotes = prompt('Notes:', t.notes || '');
+    
+    const updatedTrade = {
+        id: t.id,
+        symbol: newSymbol.toUpperCase(),
+        date: newDate,
+        type: newType,
+        session: newSession || null,
+        entry: parseFloat(newEntry),
+        exit: parseFloat(newExit),
+        quantity: parseFloat(newQuantity),
+        stop_loss: newStopLoss && newStopLoss !== '' ? parseFloat(newStopLoss) : null,
+        take_profit: newTakeProfit && newTakeProfit !== '' ? parseFloat(newTakeProfit) : null,
+        strategy: newStrategy || null,
+        holding_period: newHoldingPeriod && newHoldingPeriod !== '' ? parseFloat(newHoldingPeriod) : null,
+        notes: newNotes,
+        screenshot: t.screenshot
+    };
+    
+    try {
+        const response = await fetch(`${API_URL}/trades/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updatedTrade) });
+        if (response.ok) { alert('✅ Trade updated!'); await loadTrades(); }
+        else { alert('❌ Update failed'); }
+    } catch (error) { alert('❌ Update failed'); }
+}
+
+async function deleteTrade(id) { if(confirm('Delete this trade?')) { await fetch(`${API_URL}/trades/${id}`, { method: 'DELETE' }); await loadTrades(); } }
+
+function applyFilters() {
+    const search = document.getElementById('searchSymbol').value.toLowerCase();
+    const type = document.getElementById('filterType').value;
+    const strat = document.getElementById('filterStrategy').value.toLowerCase();
+    let filtered = trades;
+    if(search) filtered = filtered.filter(t => t.symbol.toLowerCase().includes(search));
+    if(type !== 'all') filtered = filtered.filter(t => t.type === type);
+    if(strat) filtered = filtered.filter(t => (t.strategy||'').toLowerCase().includes(strat));
+    displayTrades(filtered);
+}
+
+async function addTrade() {
+    if(!currentUser) return;
+    const trade = {
+        userId: currentUser.id,
+        symbol: document.getElementById('symbol').value.trim().toUpperCase(),
+        date: document.getElementById('date').value,
+        type: document.getElementById('type').value,
+        session: document.getElementById('session').value || null,
+        entry: parseFloat(document.getElementById('entry').value),
+        exit: parseFloat(document.getElementById('exit').value),
+        quantity: parseFloat(document.getElementById('quantity').value),
+        stopLoss: document.getElementById('stopLoss').value ? parseFloat(document.getElementById('stopLoss').value) : null,
+        takeProfit: document.getElementById('takeProfit').value ? parseFloat(document.getElementById('takeProfit').value) : null,
+        strategy: document.getElementById('strategy').value || null,
+        holding_period: document.getElementById('holdingPeriod').value ? parseFloat(document.getElementById('holdingPeriod').value) : null,
+        notes: document.getElementById('notes').value
+    };
+    if(!trade.symbol || !trade.date || isNaN(trade.entry) || isNaN(trade.exit) || isNaN(trade.quantity)) { alert('Fill all required fields'); return; }
+    const res = await fetch(`${API_URL}/trades`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(trade) });
+    if(res.ok) {
+        document.getElementById('symbol').value=''; document.getElementById('entry').value=''; document.getElementById('exit').value=''; document.getElementById('quantity').value='';
+        document.getElementById('stopLoss').value=''; document.getElementById('takeProfit').value=''; document.getElementById('strategy').value=''; document.getElementById('notes').value='';
+        document.getElementById('session').value=''; document.getElementById('holdingPeriod').value='';
+        await loadTrades();
+    } else alert('Error saving trade');
+}
+
+function exportToCSV() {
+    if(!trades.length) { alert('No trades to export'); return; }
+    let csv = 'Symbol,Date,Type,Session,Strategy,Entry,Exit,Quantity,P&L,R:R,Notes\n';
+    trades.forEach(t => { const pnl = calculatePnL(t); const rr = calculateRR(t); csv += `${t.symbol},${t.date},${t.type},${t.session||''},${t.strategy||''},${t.entry},${t.exit},${t.quantity},${pnl.toFixed(2)},${rr},${t.notes||''}\n`; });
+    const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `trades_${currentUser.username}_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(url);
+}
+
+async function trackAffiliateClick(linkName, destinationUrl) { try { await fetch(`${API_URL}/track-click`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ link_name: linkName, destination: destinationUrl, user_id: currentUser?.id || null }) }); } catch(e) {} window.open(destinationUrl, '_blank'); }
+
+document.getElementById('date').value = new Date().toISOString().split('T')[0];
+document.getElementById('saveBtn').addEventListener('click', addTrade);
+document.getElementById('searchSymbol').addEventListener('input', () => applyFilters());
+document.getElementById('filterType').addEventListener('change', () => applyFilters());
+document.getElementById('filterStrategy').addEventListener('input', () => applyFilters());
+document.addEventListener('keydown', (e) => { if(e.ctrlKey && e.key === 'Enter') addTrade(); });
+</script>
+
+<div id="imageModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; cursor:pointer;" onclick="closeModal()">
+    <img id="modalImage" style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); max-width:90%; max-height:90%; border-radius:8px;">
+</div>
+</body>
+</html>

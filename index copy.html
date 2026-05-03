@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TradeJournal Pro</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+body {
+    background: linear-gradient(to bottom right, #020617, #0f172a, #000);
+}
+
+/* Glass UI */
+.glass {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* Glow */
+.soft-glow:hover {
+    box-shadow: 0 0 25px rgba(139,92,246,0.4);
+}
+
+/* Inputs */
+.input-modern {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.input-modern:focus {
+    border-color: #8b5cf6;
+    box-shadow: 0 0 0 2px rgba(139,92,246,0.3);
+    outline: none;
+}
+
+/* Buttons */
+.btn-modern {
+    background: linear-gradient(135deg,#8b5cf6,#6366f1);
+    transition: 0.2s;
+}
+.btn-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(139,92,246,0.5);
+}
+
+.profit-positive { color:#10b981; font-weight:bold; }
+.profit-negative { color:#ef4444; font-weight:bold; }
+</style>
+</head>
+
+<body class="text-white">
+
+<!-- Glow Background -->
+<div class="fixed w-full h-full pointer-events-none">
+    <div class="absolute w-96 h-96 bg-purple-600 opacity-20 blur-3xl top-10 left-10"></div>
+    <div class="absolute w-96 h-96 bg-blue-600 opacity-20 blur-3xl bottom-10 right-10"></div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="glass sticky top-0 z-50">
+    <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+            <div class="p-2 bg-purple-600/20 rounded-xl">
+                <i class="fas fa-chart-line text-purple-400"></i>
+            </div>
+            <div>
+                <h1 class="font-semibold">TradeJournal</h1>
+                <p class="text-xs text-gray-400">Smart Analytics</p>
+            </div>
+        </div>
+        <div id="authButtons"></div>
+    </div>
+</nav>
+
+<div class="container mx-auto px-6 py-8">
+
+<!-- AUTH -->
+<div id="authSection">
+<div class="max-w-md mx-auto glass rounded-2xl p-8 soft-glow">
+    <h2 class="text-2xl font-bold text-center mb-6">Welcome Back</h2>
+
+    <input id="username" placeholder="Username" class="input-modern w-full p-3 rounded-xl mb-3">
+    <input id="password" type="password" placeholder="Password" class="input-modern w-full p-3 rounded-xl mb-4">
+
+    <button onclick="login()" class="btn-modern w-full p-3 rounded-xl mb-2">Login</button>
+    <button onclick="register()" class="w-full p-3 rounded-xl bg-white/10">Create Account</button>
+</div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboardSection" style="display:none;">
+
+<!-- STATS -->
+<div class="grid md:grid-cols-4 gap-4 mb-6">
+<div class="glass p-5 rounded-2xl soft-glow">
+<p class="text-gray-400 text-sm">Trades</p>
+<p id="totalTrades" class="text-2xl font-bold">0</p>
+</div>
+
+<div class="glass p-5 rounded-2xl soft-glow">
+<p class="text-gray-400 text-sm">Win Rate</p>
+<p id="winRate">0%</p>
+</div>
+
+<div class="glass p-5 rounded-2xl soft-glow">
+<p class="text-gray-400 text-sm">P&L</p>
+<p id="totalPnL">$0</p>
+</div>
+
+<div class="glass p-5 rounded-2xl soft-glow">
+<p class="text-gray-400 text-sm">Profit Factor</p>
+<p id="profitFactor">0</p>
+</div>
+</div>
+
+<!-- ADD TRADE -->
+<div class="glass p-6 rounded-2xl mb-6 soft-glow">
+<h2 class="mb-4 font-bold">Add Trade</h2>
+
+<div class="grid md:grid-cols-3 gap-3">
+<input id="symbol" placeholder="Symbol" class="input-modern p-3 rounded-xl">
+<input id="date" type="date" class="input-modern p-3 rounded-xl">
+<select id="type" class="input-modern p-3 rounded-xl">
+<option>Long</option>
+<option>Short</option>
+</select>
+
+<input id="entry" placeholder="Entry" class="input-modern p-3 rounded-xl">
+<input id="exit" placeholder="Exit" class="input-modern p-3 rounded-xl">
+<input id="quantity" placeholder="Size" class="input-modern p-3 rounded-xl">
+
+<button id="saveBtn" class="btn-modern p-3 rounded-xl col-span-3">Save Trade</button>
+</div>
+</div>
+
+<!-- TABLE -->
+<div class="glass rounded-2xl overflow-hidden">
+<table class="w-full">
+<thead class="bg-white/5">
+<tr>
+<th class="p-3">Symbol</th>
+<th>Date</th>
+<th>Type</th>
+<th>P&L</th>
+<th>Action</th>
+</tr>
+</thead>
+
+<tbody id="tradesList"></tbody>
+</table>
+</div>
+
+</div>
+</div>
+
+<script>
+let trades=[];
+
+function calculatePnL(t){
+let diff=t.exit-t.entry;
+if(t.type==='Short') diff=t.entry-t.exit;
+return (diff*t.quantity).toFixed(2);
+}
+
+function displayTrades(){
+const tbody=document.getElementById('tradesList');
+tbody.innerHTML='';
+
+trades.forEach((t,i)=>{
+const pnl=calculatePnL(t);
+tbody.innerHTML+=`
+<tr class="border-b border-white/5 hover:bg-white/5">
+<td class="p-3">${t.symbol}</td>
+<td>${t.date}</td>
+<td>${t.type}</td>
+<td class="${pnl>=0?'profit-positive':'profit-negative'}">$${pnl}</td>
+<td><button onclick="deleteTrade(${i})">❌</button></td>
+</tr>`;
+});
+updateStats();
+}
+
+function updateStats(){
+let total=trades.length;
+let wins=0,totalPnL=0,profit=0,loss=0;
+
+trades.forEach(t=>{
+let pnl=parseFloat(calculatePnL(t));
+totalPnL+=pnl;
+if(pnl>0){wins++;profit+=pnl}else{loss+=Math.abs(pnl);}
+});
+
+document.getElementById('totalTrades').textContent=total;
+document.getElementById('winRate').textContent=total?((wins/total)*100).toFixed(1)+'%':'0%';
+document.getElementById('totalPnL').textContent='$'+totalPnL.toFixed(2);
+document.getElementById('profitFactor').textContent=loss?(profit/loss).toFixed(2):profit;
+}
+
+function addTrade(){
+const t={
+symbol:document.getElementById('symbol').value,
+date:document.getElementById('date').value,
+type:document.getElementById('type').value,
+entry:parseFloat(entry.value),
+exit:parseFloat(exit.value),
+quantity:parseFloat(quantity.value)
+};
+
+trades.push(t);
+displayTrades();
+}
+
+function deleteTrade(i){
+trades.splice(i,1);
+displayTrades();
+}
+
+document.getElementById('saveBtn').onclick=addTrade;
+
+function login(){
+document.getElementById('authSection').style.display='none';
+document.getElementById('dashboardSection').style.display='block';
+}
+
+function register(){ alert('Account created (demo mode)'); }
+
+document.getElementById('date').value=new Date().toISOString().split('T')[0];
+</script>
+
+</body>
+</html>
