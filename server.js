@@ -219,15 +219,22 @@ app.get('/admin', async (req, res) => {
         return (diff / tickSize) * quantity;
     }
     
-    // Format date function
+    // Format functions (uses browser local timezone automatically)
     function formatDate(dateStr) {
         const d = new Date(dateStr);
-        return d.toLocaleDateString('en-GB');
+        const year = d.getFullYear().toString().slice(-2);
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}/${month}/${day}`;
     }
     
     function formatDateTime(dateStr) {
         const d = new Date(dateStr);
-        return d.toLocaleDateString('en-GB') + ' ' + d.toLocaleTimeString('en-GB');
+        const year = d.getFullYear().toString().slice(-2);
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        const time = d.toLocaleTimeString('en-GB');
+        return `${year}/${month}/${day} ${time}`;
     }
     
     res.send(`
