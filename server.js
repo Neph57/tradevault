@@ -172,7 +172,7 @@ app.get('/dashboard.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 
-// ============ ADMIN DASHBOARD ============
+ 
 // ============ ADMIN DASHBOARD (Password Protected) ============
 app.get('/admin', async (req, res) => {
     // Get password from URL
