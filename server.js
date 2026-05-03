@@ -173,7 +173,47 @@ app.get('/dashboard.html', (req, res) => {
 });
 
 // ============ ADMIN DASHBOARD ============
+// ============ ADMIN DASHBOARD (Password Protected) ============
 app.get('/admin', async (req, res) => {
+    // Get password from URL
+    const userPassword = req.query.password;
+    const adminPassword = 'Hq5kmw@5756'; // Change this to your own password
+    
+    // If no password or wrong password, show login form
+    if (userPassword !== adminPassword) {
+        res.send(`
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>Admin Login - TradeVault</title>
+                <script src="https://cdn.tailwindcss.com"></script>
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+            </head>
+            <body class="bg-gray-900 text-white">
+                <div class="container mx-auto px-6 py-20 max-w-md">
+                    <div class="bg-gray-800 rounded-xl p-8 border border-gray-700">
+                        <div class="text-center mb-6">
+                            <i class="fas fa-lock text-4xl text-purple-500 mb-3"></i>
+                            <h1 class="text-2xl font-bold">Admin Access</h1>
+                            <p class="text-gray-400 mt-2">Enter password to continue</p>
+                        </div>
+                        <form method="GET" action="/admin">
+                            <input type="password" name="password" placeholder="Enter admin password" class="w-full bg-gray-700 border-gray-600 rounded-lg p-3 mb-4 text-white focus:outline-none focus:border-purple-500">
+                            <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 rounded-lg p-3 font-semibold transition">
+                                <i class="fas fa-sign-in-alt mr-2"></i>Login
+                            </button>
+                        </form>
+                        <p class="text-gray-500 text-xs text-center mt-4">Unauthorized access is prohibited</p>
+                    </div>
+                </div>
+            </body>
+            </html>
+        `);
+        return;
+    }
+    
+    // ============ ADMIN DASHBOARD CONTENT (Only visible with correct password) ============
+    
     // Get all users
     const { data: users, error: usersError } = await supabase
         .from('users')
@@ -219,27 +259,28 @@ app.get('/admin', async (req, res) => {
         return (diff / tickSize) * quantity;
     }
     
-    // Format functions (uses browser local timezone automatically)
-function formatDate(dateStr) {
-    const d = new Date(dateStr);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}/${month}/${day}`;
-}
-
-function formatDateTime(dateStr) {
-    const d = new Date(dateStr);
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    // Convert to Kenya time (UTC+3)
-    const kenyaTime = new Date(d.getTime() + (3 * 60 * 60 * 1000));
-    const hours = String(kenyaTime.getUTCHours()).padStart(2, '0');
-    const minutes = String(kenyaTime.getUTCMinutes()).padStart(2, '0');
-    const seconds = String(kenyaTime.getUTCSeconds()).padStart(2, '0');
-    return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
-}
+    // Format date functions (Kenya timezone)
+    function formatDate(dateStr) {
+        const d = new Date(dateStr);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return `${year}/${month}/${day}`;
+    }
+    
+    function formatDateTime(dateStr) {
+        const d = new Date(dateStr);
+        const year = d.getFullYear();
+        const month = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        // Kenya timezone (UTC+3)
+        const kenyaTime = new Date(d.getTime() + (3 * 60 * 60 * 1000));
+        const hours = String(kenyaTime.getUTCHours()).padStart(2, '0');
+        const minutes = String(kenyaTime.getUTCMinutes()).padStart(2, '0');
+        const seconds = String(kenyaTime.getUTCSeconds()).padStart(2, '0');
+        return `${year}/${month}/${day} ${hours}:${minutes}:${seconds}`;
+    }
+    
     res.send(`
         <!DOCTYPE html>
         <html>
@@ -263,9 +304,14 @@ function formatDateTime(dateStr) {
                         <h1 class="text-3xl font-bold">Admin Dashboard</h1>
                         <p class="text-gray-500 mt-1">Monitor users and trading activity</p>
                     </div>
-                    <a href="/dashboard.html" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition border border-gray-700">
-                        <i class="fas fa-chart-line mr-2"></i>Go to App
-                    </a>
+                    <div class="flex space-x-3">
+                        <a href="/dashboard.html" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition border border-gray-700">
+                            <i class="fas fa-chart-line mr-2"></i>Go to App
+                        </a>
+                        <a href="/admin" class="bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg text-sm transition border border-gray-700">
+                            <i class="fas fa-sync-alt mr-2"></i>Refresh
+                        </a>
+                    </div>
                 </div>
                 
                 <!-- Stats Cards -->
@@ -365,7 +411,7 @@ function formatDateTime(dateStr) {
                                     const pnl = calcPnL(trade.entry, trade.exit, trade.quantity, trade.symbol, trade.type);
                                     return `
                                         <tr class="hover:bg-gray-800/50">
-                                            <td class="py-2"><span class="font-medium">${trade.username}</span></td>
+                                            <td class="py-2"><span class="font-medium">${trade.username}</span></table>
                                             <td class="py-2">${trade.symbol}</td>
                                             <td class="py-2 ${trade.type === 'Long' ? 'text-green-500' : 'text-red-500'}">${trade.type}</td>
                                             <td class="py-2">${trade.session || '-'}</td>
