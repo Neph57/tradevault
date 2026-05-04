@@ -3,29 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
-    <title>TradeVault | Smart Trading Analytics & Journal</title>
-    <meta name="description" content="TradeVault - premium trading analytics platform. Track win rate, P&L, R:R, and behavioral bias. Free trial available. Join 1000+ traders.">
-    <meta name="keywords" content="trading journal, trade analytics, forex dashboard, performance tracker, risk reward calculator, trading insights, free trading journal app">
-    <meta name="author" content="TradeVault">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph / Social Media Tags -->
-    <meta property="og:title" content="TradeVault | Smart Trading Analytics & Journal">
-    <meta property="og:description" content="Premium trading analytics platform. Track every trade, analyze performance, and improve consistency.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://tradevault.app">
-    
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="TradeVault | Smart Trading Analytics">
-    <meta name="twitter:description" content="Turn your trades into intelligence with TradeVault. Free trial available.">
-    
+    <title>TradeVault | Trading Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0a0c; font-family: 'Inter', system-ui, sans-serif; }
@@ -77,6 +58,11 @@
         .dual-bar { display: flex; width: 100%; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 4px; margin-bottom: 8px; }
         .bar-green { background-color: #22c55e; height: 100%; }
         .bar-red { background-color: #ef4444; height: 100%; }
+        .dropdown-menu { position: absolute; right: 0; margin-top: 4px; width: 100px; background: #1f2937; border: 1px solid #374151; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); z-index: 50; display: none; }
+        .dropdown-menu.show { display: block; }
+        .dropdown-item { display: block; width: 100%; text-align: left; padding: 6px 12px; font-size: 12px; color: #e5e7eb; transition: background 0.2s; }
+        .dropdown-item:hover { background: #374151; }
+        .dropdown-item.delete { color: #ef4444; }
     </style>
 </head>
 <body class="text-gray-200">
@@ -120,7 +106,6 @@
             <p class="text-sm md:text-base font-semibold">This isnt just a journal, its your personal trading analyst</p>
         </div>
         
-        <!-- Stats Cards Row 1 -->
         <div class="grid grid-cols-4 gap-3 mb-3">
             <div class="stat-card"><div class="stat-value" id="totalTrades">0</div><div class="stat-label">Total Trades</div></div>
             <div class="stat-card"><div class="stat-value" id="winRate">0%</div><div class="stat-label">Win Rate</div></div>
@@ -128,7 +113,6 @@
             <div class="stat-card"><div class="stat-value" id="profitFactor">0.0</div><div class="stat-label">Profit Factor</div></div>
         </div>
         
-        <!-- Stats Cards Row 2 -->
         <div class="grid grid-cols-5 gap-3 mb-6">
             <div class="stat-card"><div class="stat-value text-green-500" id="avgWin">$0</div><div class="stat-label">Avg Win</div></div>
             <div class="stat-card"><div class="stat-value text-red-500" id="avgLoss">$0</div><div class="stat-label">Avg Loss</div></div>
@@ -137,7 +121,6 @@
             <div class="stat-card"><div class="stat-value" id="bestStrategy">-</div><div class="stat-label">Best Strategy</div></div>
         </div>
         
-        <!-- NEW Stats Cards Row 3 - Streak & Avg RR -->
         <div class="grid grid-cols-3 gap-3 mb-6">
             <div class="stat-card"><div class="stat-value text-yellow-400" id="currentStreak">0</div><div class="stat-label">Current Streak</div></div>
             <div class="stat-card"><div class="stat-value text-blue-400" id="bestStreak">0</div><div class="stat-label">Best Streak</div></div>
@@ -205,7 +188,7 @@
             </div>
         </div>
         
-        <!-- PROP FIRMS SECTION -->
+        <!-- PROP FIRMS & AFFILIATES -->
         <div class="bg-gray-900 rounded-xl p-4 mb-6 card-hover border border-gray-800">
             <h3 class="text-sm font-semibold mb-3"><i class="fas fa-building mr-2 text-purple-400"></i>Prop Firms</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -224,7 +207,6 @@
             </div>
         </div>
 
-        <!-- AFFILIATES (Brokers) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             <div class="bg-gray-900 rounded-xl p-3 card-hover border border-gray-800">
                 <div class="flex items-center justify-between">
@@ -240,7 +222,7 @@
             </div>
         </div>
 
-        <!-- ADD TRADE FORM with Tags -->
+        <!-- ADD TRADE FORM -->
         <div class="bg-gray-900 rounded-xl p-4 mb-5 border border-gray-800">
             <h2 class="text-base font-bold mb-3"><i class="fas fa-plus-circle mr-1 text-green-500"></i>Add New Trade</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -250,7 +232,7 @@
                 <select id="session" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm"><option value="">Session</option><option value="Asia">🌏 Asia</option><option value="London">🇬🇧 London</option><option value="New York">🗽 New York</option></select>
                 <input type="number" id="entry" placeholder="Entry" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <input type="number" id="exit" placeholder="Exit" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
-                <input type="number" id="quantity" placeholder="Lots/Size" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <input type="number" id="quantity" placeholder="Lot" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <input type="number" id="stopLoss" placeholder="Stop Loss" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <input type="number" id="takeProfit" placeholder="Take Profit" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <input type="number" id="holdingPeriod" placeholder="Hold (hours)" step="0.5" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
@@ -290,8 +272,9 @@
                 <table class="w-full">
                     <thead class="bg-gray-800">
                         <tr class="text-gray-400 text-xs">
-                            <th class="p-2">Symbol</th><th class="p-2">Date</th><th class="p-2">Type</th><th class="p-2">Session</th><th class="p-2">Strategy</th>
-                            <th class="p-2">Tag</th><th class="p-2">Entry</th><th class="p-2">Exit</th><th class="p-2">Size</th><th class="p-2">P&L</th><th class="p-2">R:R</th>
+                            <th class="p-2">Symbol</th><th class="p-2">Date</th><th class="p-2">Type</th><th class="p-2">Session</th>
+                            <th class="p-2">Strategy</th><th class="p-2">Tag</th><th class="p-2">Entry</th><th class="p-2">Exit</th>
+                            <th class="p-2">Size</th><th class="p-2">P&L</th><th class="p-2">R:R</th>
                             <th class="p-2">Notes</th><th class="p-2">Screenshot</th><th class="p-2">Actions</th>
                         </tr>
                     </thead>
@@ -322,7 +305,6 @@ function calculateRR(t) {
     return (reward / risk).toFixed(2);
 }
 
-// Streak Calculator
 function calculateStreaks() {
     let currentStreak = 0, bestStreak = 0, streak = 0;
     const sorted = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -334,14 +316,12 @@ function calculateStreaks() {
     document.getElementById('bestStreak').innerHTML = bestStreak;
 }
 
-// Avg R:R Calculator
 function calculateAvgRR() {
     let totalRR = 0, count = 0;
     trades.forEach(t => { const rr = calculateRR(t); if (rr !== '-' && !isNaN(rr)) { totalRR += parseFloat(rr); count++; } });
     document.getElementById('avgRR').innerHTML = count > 0 ? (totalRR / count).toFixed(2) : '0.0';
 }
 
-// Populate year filter
 function populateYearFilter() {
     const years = [...new Set(trades.map(t => new Date(t.date).getFullYear()))].sort((a,b)=>b-a);
     const yearSelect = document.getElementById('yearFilter');
@@ -371,7 +351,7 @@ async function login() {
     } else alert('Invalid credentials');
 }
 
-function logout() { currentUser = null; document.getElementById('authSection').style.display = 'block'; document.getElementById('dashboardSection').style.display = 'none'; document.getElementById('authButtons').innerHTML = ''; document.getElementById('username').value = ''; document.getElementById('password').value = ''; }
+function logout() { currentUser = null; document.getElementById('authSection').style.display = 'block'; document.getElementById('dashboardSection').style.display = 'none'; document.getElementById('authButtons').innerHTML = ''; }
 
 async function loadTrades() {
     if (!currentUser) return;
@@ -444,103 +424,49 @@ function updateDashboard() {
     calculateStreaks();
     calculateAvgRR();
     
-    // ========== TRADING DAY PERFORMANCE ==========
+    // Trading Day Performance
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     const dayProfit = [0,0,0,0,0,0,0];
     const dayLoss = [0,0,0,0,0,0,0];
     const dayNet = [0,0,0,0,0,0,0];
-
-    trades.forEach(t => {
-        const d = new Date(t.date).getDay();
-        const pnl = calculatePnL(t);
-        dayNet[d] += pnl;
-        if (pnl > 0) dayProfit[d] += pnl;
-        else if (pnl < 0) dayLoss[d] += Math.abs(pnl);
-    });
-
+    trades.forEach(t => { const d = new Date(t.date).getDay(); const pnl = calculatePnL(t); dayNet[d] += pnl; if (pnl > 0) dayProfit[d] += pnl; else if (pnl < 0) dayLoss[d] += Math.abs(pnl); });
     const maxProfit = Math.max(...dayProfit, 1);
     const maxLoss = Math.max(...dayLoss, 1);
     const maxVal = Math.max(maxProfit, maxLoss);
     const maxBarHeight = 55;
-
-    let bestDay = 'Mon';
-    let bestNet = -Infinity;
-    for (let i = 0; i < days.length; i++) {
-        if (dayNet[i] > bestNet) { bestNet = dayNet[i]; bestDay = days[i]; }
-    }
+    let bestDay = 'Mon', bestNet = -Infinity;
+    for (let i = 0; i < days.length; i++) { if (dayNet[i] > bestNet) { bestNet = dayNet[i]; bestDay = days[i]; } }
     document.getElementById('bestDayName').innerHTML = bestDay;
-
     let chartHtml = '<div class="flex justify-around items-end h-32 mb-2">';
     for (let i = 0; i < days.length; i++) {
-        const profitVal = dayProfit[i];
-        const lossVal = dayLoss[i];
-        const netVal = dayNet[i];
+        const profitVal = dayProfit[i], lossVal = dayLoss[i], netVal = dayNet[i];
         const profitHeight = profitVal > 0 ? Math.min((profitVal / maxVal) * maxBarHeight, maxBarHeight) : 0;
         const lossHeight = lossVal > 0 ? Math.min((lossVal / maxVal) * maxBarHeight, maxBarHeight) : 0;
         let barsHtml = '';
         if (profitVal > 0) barsHtml += `<div class="w-5 bg-blue-500 rounded-t-sm transition-all hover:opacity-80 cursor-pointer" style="height: ${profitHeight}px;" title="Profit: +$${profitVal.toFixed(2)}"></div>`;
         if (lossVal > 0) barsHtml += `<div class="w-5 bg-red-500 rounded-t-sm transition-all hover:opacity-80 cursor-pointer" style="height: ${lossHeight}px;" title="Loss: -$${lossVal.toFixed(2)}"></div>`;
         if (profitVal === 0 && lossVal === 0) barsHtml = `<div class="w-5 bg-gray-700 rounded-t-sm" style="height: 5px;"></div>`;
-        
-        chartHtml += `
-            <div class="flex flex-col items-center group relative" style="width: 48px;">
-                <div class="flex flex-row justify-center gap-1 items-end" style="height: ${maxBarHeight}px;">${barsHtml}</div>
-                <div class="text-center mt-2">
-                    <div class="text-[9px] font-medium ${netVal >= 0 ? 'text-blue-400' : 'text-red-400'}">Net P&L: ${netVal >= 0 ? '+' : ''}$${Math.abs(netVal).toFixed(0)}</div>
-                    <div class="text-[8px] text-gray-500 mt-0.5">${days[i]}</div>
-                </div>
-                <div class="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10 shadow-lg">
-                    ${profitVal > 0 ? `<span class="text-blue-400">Profit: +$${profitVal.toFixed(2)}</span><br>` : ''}
-                    ${lossVal > 0 ? `<span class="text-red-400">Loss: -$${lossVal.toFixed(2)}</span><br>` : ''}
-                    <span class="text-gray-300 border-t border-gray-600 mt-1 pt-1 block">Net P&L: ${netVal >= 0 ? '+' : ''}$${Math.abs(netVal).toFixed(2)}</span>
-                </div>
-            </div>
-        `;
+        chartHtml += `<div class="flex flex-col items-center group relative" style="width: 48px;"><div class="flex flex-row justify-center gap-1 items-end" style="height: ${maxBarHeight}px;">${barsHtml}</div><div class="text-center mt-2"><div class="text-[9px] font-medium ${netVal >= 0 ? 'text-blue-400' : 'text-red-400'}">Net P&L: ${netVal >= 0 ? '+' : ''}$${Math.abs(netVal).toFixed(0)}</div><div class="text-[8px] text-gray-500 mt-0.5">${days[i]}</div></div><div class="absolute bottom-full mb-2 hidden group-hover:block bg-gray-800 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10 shadow-lg">${profitVal > 0 ? `<span class="text-blue-400">Profit: +$${profitVal.toFixed(2)}</span><br>` : ''}${lossVal > 0 ? `<span class="text-red-400">Loss: -$${lossVal.toFixed(2)}</span><br>` : ''}<span class="text-gray-300 border-t border-gray-600 mt-1 pt-1 block">Net P&L: ${netVal >= 0 ? '+' : ''}$${Math.abs(netVal).toFixed(2)}</span></div></div>`;
     }
     chartHtml += '</div>';
     document.getElementById('dayPerformanceContainer').innerHTML = chartHtml;
 
-    // ========== MOST TRADED INSTRUMENTS ==========
+    // Most Traded Instruments
     const instCount = {};
-    trades.forEach(t => { 
-        if(!instCount[t.symbol]) instCount[t.symbol] = {w:0,l:0,t:0}; 
-        const pnl = calculatePnL(t); 
-        instCount[t.symbol].t++; 
-        if(pnl>0) instCount[t.symbol].w++; 
-        else instCount[t.symbol].l++; 
-    });
+    trades.forEach(t => { if(!instCount[t.symbol]) instCount[t.symbol] = {w:0,l:0,t:0}; const pnl = calculatePnL(t); instCount[t.symbol].t++; if(pnl>0) instCount[t.symbol].w++; else instCount[t.symbol].l++; });
     const sortedInst = Object.entries(instCount).sort((a,b)=>b[1].t - a[1].t).slice(0,3);
     let mostHtml = '';
-    sortedInst.forEach(([sym,data]) => {
-        const winPct = data.t ? (data.w/data.t*100) : 0;
-        const lossPct = 100 - winPct;
-        mostHtml += `<div class="instrument-row"><span class="instrument-name">${sym}</span><span class="instrument-stats"><span class="instrument-wins">${data.w}W</span> / <span class="instrument-losses">${data.l}L</span></span></div>
-                     <div class="dual-bar"><div class="bar-green" style="width: ${winPct}%"></div><div class="bar-red" style="width: ${lossPct}%"></div></div>`;
+    sortedInst.forEach(([sym,data]) => { const winPct = data.t ? (data.w/data.t*100) : 0;
+        mostHtml += `<div class="instrument-row"><span class="instrument-name">${sym}</span><span class="instrument-stats"><span class="instrument-wins">${data.w}W</span> / <span class="instrument-losses">${data.l}L</span></span></div><div class="dual-bar"><div class="bar-green" style="width: ${winPct}%"></div><div class="bar-red" style="width: ${100 - winPct}%"></div></div>`;
     });
     document.getElementById('mostTradedContainer').innerHTML = mostHtml || '<p class="text-gray-500 text-xs text-center">No trades yet</p>';
     
-    // ========== SESSION WIN RATES ==========
+    // Session Win Rates
     const sessions = { 'Asia':{w:0,t:0}, 'London':{w:0,t:0}, 'New York':{w:0,t:0} };
-    trades.forEach(t => { 
-        if(t.session) {
-            const sessionLower = t.session.toLowerCase().trim();
-            let matchedSession = null;
-            if (sessionLower === 'asia') matchedSession = 'Asia';
-            else if (sessionLower === 'london' || sessionLower === 'londom') matchedSession = 'London';
-            else if (sessionLower === 'new york' || sessionLower === 'newyork') matchedSession = 'New York';
-            if (matchedSession && sessions[matchedSession]) {
-                const pnl = calculatePnL(t);
-                sessions[matchedSession].t++;
-                if(pnl > 0) sessions[matchedSession].w++;
-            }
-        }
-    });
+    trades.forEach(t => { if(t.session) { const sl = t.session.toLowerCase().trim(); let ms = null; if(sl === 'asia') ms='Asia'; else if(sl === 'london' || sl === 'londom') ms='London'; else if(sl === 'new york' || sl === 'newyork') ms='New York'; if(ms && sessions[ms]) { const pnl = calculatePnL(t); sessions[ms].t++; if(pnl>0) sessions[ms].w++; } } });
     let sessHtml = '';
-    for(const [sess,data] of Object.entries(sessions)) {
-        const winPct = data.t ? (data.w/data.t*100) : 0;
-        sessHtml += `<div class="session-row"><span class="session-name">${sess}</span><span class="session-rate">${winPct.toFixed(1)}%</span></div>
-                     <div class="progress-bar-container mb-2"><div class="progress-bar-fill" style="width: ${winPct}%; background-color: #3b82f6;"></div></div>
-                     <div class="text-xs text-gray-500 text-right -mt-1 mb-1">${data.w}W / ${data.t - data.w}L</div>`;
+    for(const [sess,data] of Object.entries(sessions)) { const winPct = data.t ? (data.w/data.t*100) : 0;
+        sessHtml += `<div class="session-row"><span class="session-name">${sess}</span><span class="session-rate">${winPct.toFixed(1)}%</span></div><div class="progress-bar-container mb-2"><div class="progress-bar-fill" style="width: ${winPct}%; background-color: #3b82f6;"></div></div><div class="text-xs text-gray-500 text-right -mt-1 mb-1">${data.w}W / ${data.t - data.w}L</div>`;
     }
     document.getElementById('sessionRatesContainer').innerHTML = sessHtml || '<p class="text-gray-500 text-xs text-center">No session data yet</p>';
     
@@ -579,31 +505,6 @@ function viewDayTrades(dateStr) { const dayTrades = trades.filter(t => t.date ==
 function previousMonth() { currentCalendarDate.setMonth(currentCalendarDate.getMonth()-1); renderCalendar(); }
 function nextMonth() { currentCalendarDate.setMonth(currentCalendarDate.getMonth()+1); renderCalendar(); }
 
-function displayTrades(tradesToShow) {
-    const tbody = document.getElementById('tradesList'); tbody.innerHTML = '';
-    if(tradesToShow.length===0) { tbody.innerHTML = '<tr><td colspan="14" class="text-center p-4 text-gray-500">No trades found</td></tr>'; return; }
-    tradesToShow.forEach(t => {
-        const pnl = calculatePnL(t), rr = calculateRR(t);
-        const row = tbody.insertRow(); row.className = 'border-b border-gray-800';
-        row.innerHTML = `
-            <td class="p-2 text-sm">${t.symbol}</td>
-            <td class="p-2 text-sm">${t.date}</td>
-            <td class="p-2 text-sm ${t.type==='Long'?'text-green-500':'text-red-500'}">${t.type}</td>
-            <td class="p-2 text-sm">${t.session || '-'}</td>
-            <td class="p-2 text-sm">${t.strategy || '-'}</td>
-            <td class="p-2 text-sm">${t.trade_tag || '-'}</td>
-            <td class="p-2 text-sm">${t.entry}</td>
-            <td class="p-2 text-sm">${t.exit}</td>
-            <td class="p-2 text-sm">${t.quantity}</td>
-            <td class="p-2 text-sm ${pnl>=0?'profit-positive':'profit-negative'}">$${pnl.toFixed(2)}</td>
-            <td class="p-2 text-sm">${rr}</td>
-            <td class="p-2 text-sm whitespace-normal break-words">${t.notes || '-'}</td>
-            <td class="p-2">${t.screenshot ? `<img src="${t.screenshot}" class="screenshot-thumb" onclick="showImage('${t.screenshot}')" onerror="this.style.display='none'">` : `<button onclick="uploadScreenshotForTrade(${t.id})" class="bg-purple-600/50 hover:bg-purple-600 px-2 py-0.5 rounded text-xs">📷 Add</button>`}</td>
-            <td class="p-2"><div class="flex space-x-1"><button onclick="editTrade(${t.id})" class="bg-blue-600/50 hover:bg-blue-600 px-2 py-0.5 rounded text-xs">Edit</button><button onclick="deleteTrade(${t.id})" class="bg-red-600/50 hover:bg-red-600 px-2 py-0.5 rounded text-xs">Del</button></div></td>
-        `;
-    });
-}
-
 function showImage(url) { const modal = document.getElementById('imageModal'); const modalImg = document.getElementById('modalImage'); modal.style.display = 'block'; modalImg.src = url; }
 function closeModal() { document.getElementById('imageModal').style.display = 'none'; }
 
@@ -618,6 +519,40 @@ async function uploadScreenshotForTrade(tradeId) {
     fileInput.click();
 }
 
+function toggleActionMenu(id) {
+    document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
+    const menu = document.getElementById(`menu-${id}`);
+    if (menu) menu.classList.toggle('show');
+}
+
+function closeAllMenus() { document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show')); }
+document.addEventListener('click', (e) => { if (!e.target.closest('.action-cell')) closeAllMenus(); });
+
+function displayTrades(tradesToShow) {
+    const tbody = document.getElementById('tradesList'); tbody.innerHTML = '';
+    if(tradesToShow.length===0) { tbody.innerHTML = '<tr><td colspan="14" class="text-center p-4 text-gray-500">No trades found</td></tr>'; return; }
+    tradesToShow.forEach(t => {
+        const pnl = calculatePnL(t), rr = calculateRR(t);
+        const row = tbody.insertRow(); row.className = 'border-b border-gray-800';
+        row.innerHTML = `
+            <td class="p-2 text-sm">${t.symbol}</td><td class="p-2 text-sm">${t.date}</td><td class="p-2 text-sm ${t.type==='Long'?'text-green-500':'text-red-500'}">${t.type}</td>
+            <td class="p-2 text-sm">${t.session || '-'}</table><td class="p-2 text-sm">${t.strategy || '-'}</td>
+            <td class="p-2 text-sm">${t.trade_tag ? (t.trade_tag === 'perfect' ? '✅ Perfect' : t.trade_tag === 'mistake' ? '❌ Mistake' : t.trade_tag === 'emotional' ? '😤 Emotional' : t.trade_tag === 'followed_plan' ? '📋 Followed Plan' : '⏰ Rushed') : '-'}</td>
+            <td class="p-2 text-sm">${t.entry}</td><td class="p-2 text-sm">${t.exit}</td><td class="p-2 text-sm">${t.quantity}</td>
+            <td class="p-2 text-sm ${pnl>=0?'profit-positive':'profit-negative'}">$${pnl.toFixed(2)}</td><td class="p-2 text-sm">${rr}</td>
+            <td class="p-2 text-sm max-w-xs truncate">${t.notes || '-'}</td>
+            <td class="p-2">${t.screenshot ? `<img src="${t.screenshot}" class="screenshot-thumb" onclick="showImage('${t.screenshot}')" onerror="this.style.display='none'">` : `<button onclick="uploadScreenshotForTrade(${t.id})" class="bg-purple-600/50 hover:bg-purple-600 px-2 py-0.5 rounded text-xs">📷 Add</button>`}</td>
+            <td class="p-2 action-cell relative">
+                <button onclick="toggleActionMenu(${t.id})" class="bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded text-xs">⋮</button>
+                <div id="menu-${t.id}" class="dropdown-menu">
+                    <button onclick="editTrade(${t.id}); closeAllMenus();" class="dropdown-item">✏️ Edit</button>
+                    <button onclick="deleteTrade(${t.id}); closeAllMenus();" class="dropdown-item delete">🗑️ Delete</button>
+                </div>
+            </td>
+        `;
+    });
+}
+
 async function editTrade(id) {
     const t = trades.find(t => t.id === id); if (!t) return;
     const newSymbol = prompt('Symbol:', t.symbol); if (!newSymbol) return;
@@ -625,7 +560,7 @@ async function editTrade(id) {
     const newType = confirm(`Current: ${t.type}. OK=Long, Cancel=Short`) ? 'Long' : 'Short';
     const newEntry = prompt('Entry:', t.entry); if (!newEntry) return;
     const newExit = prompt('Exit:', t.exit); if (!newExit) return;
-    const newQuantity = prompt('Lots:', t.quantity); if (!newQuantity) return;
+    const newQuantity = prompt('Lot:', t.quantity); if (!newQuantity) return;
     const newStopLoss = prompt('Stop Loss:', t.stop_loss || '');
     const newTakeProfit = prompt('Take Profit:', t.take_profit || '');
     const newSession = prompt('Session (Asia/London/New York):', t.session || '');

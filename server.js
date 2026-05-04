@@ -101,7 +101,7 @@ app.get('/api/trades/:userId', async (req, res) => {
 
 // ============ ADD TRADE ============
 app.post('/api/trades', async (req, res) => {
-    const { userId, symbol, date, type, session, entry, exit, quantity, stopLoss, takeProfit, strategy, holding_period, notes } = req.body;
+    const { userId, symbol, date, type, session, entry, exit, quantity, stopLoss, takeProfit, strategy, holding_period, notes, trade_tag } = req.body;
     
     const { data, error } = await supabase
         .from('trades')
@@ -111,21 +111,21 @@ app.post('/api/trades', async (req, res) => {
             entry, exit, quantity,
             stop_loss: stopLoss,
             take_profit: takeProfit,
-            strategy, holding_period, notes
+            strategy, holding_period, notes,
+            trade_tag: trade_tag
         }])
         .select();
-    
     if (error) return res.status(500).json({ error: error.message });
     res.json({ id: data[0].id });
 });
 
 // ============ UPDATE TRADE ============
 app.put('/api/trades/:id', async (req, res) => {
-    const { symbol, date, type, session, entry, exit, quantity, stop_loss, take_profit, strategy, holding_period, notes, screenshot } = req.body;
+    const { symbol, date, type, session, entry, exit, quantity, stop_loss, take_profit, strategy, holding_period, notes, screenshot, trade_tag } = req.body;
     
     const { error } = await supabase
         .from('trades')
-        .update({ symbol, date, type, session, entry, exit, quantity, stop_loss, take_profit, strategy, holding_period, notes, screenshot })
+        .update({ symbol, date, type, session, entry, exit, quantity, stop_loss, take_profit, strategy, holding_period, notes, screenshot, trade_tag })
         .eq('id', req.params.id);
     
     if (error) return res.status(500).json({ error: error.message });
