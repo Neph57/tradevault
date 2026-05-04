@@ -344,6 +344,7 @@ async function login() {
     const data = await res.json();
     if (res.ok) {
         currentUser = data;
+        localStorage.setItem('tradevault_user', JSON.stringify(data));
         document.getElementById('authSection').style.display = 'none';
         document.getElementById('dashboardSection').style.display = 'block';
         document.getElementById('authButtons').innerHTML = `<div class="flex items-center space-x-2"><span class="text-sm">${data.username}</span><button onclick="logout()" class="bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded text-xs border border-gray-700">Logout</button></div>`;
@@ -351,7 +352,7 @@ async function login() {
     } else alert('Invalid credentials');
 }
 
-function logout() { currentUser = null; document.getElementById('authSection').style.display = 'block'; document.getElementById('dashboardSection').style.display = 'none'; document.getElementById('authButtons').innerHTML = ''; }
+function logout() { currentUser = null; localStorage.removeItem('tradevault_user'); document.getElementById('authSection').style.display = 'block'; document.getElementById('dashboardSection').style.display = 'none'; document.getElementById('authButtons').innerHTML = ''; }
 
 async function loadTrades() {
     if (!currentUser) return;
@@ -629,6 +630,17 @@ document.getElementById('filterStrategy').addEventListener('input', () => applyF
 document.getElementById('yearFilter').addEventListener('change', () => applyFilters());
 document.getElementById('monthFilter').addEventListener('change', () => applyFilters());
 document.addEventListener('keydown', (e) => { if(e.ctrlKey && e.key === 'Enter') addTrade(); });
+// Check for existing login on page load
+document.addEventListener('DOMContentLoaded', function() {
+    const savedUser = localStorage.getItem('tradevault_user');
+    if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        document.getElementById('authSection').style.display = 'none';
+        document.getElementById('dashboardSection').style.display = 'block';
+        document.getElementById('authButtons').innerHTML = `<div class="flex items-center space-x-2"><span class="text-sm">${currentUser.username}</span><button onclick="logout()" class="bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded text-xs border border-gray-700">Logout</button></div>`;
+        loadTrades();
+    }
+});
 </script>
 
 <div id="imageModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; cursor:pointer;" onclick="closeModal()">
