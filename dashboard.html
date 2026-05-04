@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-   
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +25,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: #0a0a0c; font-family: 'Inter', system-ui, sans-serif; }
@@ -85,7 +85,6 @@
     <div class="container mx-auto px-4 py-3">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <!-- TRADEVAULT Logo -->
                 <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
                     <span class="text-white font-bold text-sm">TV</span>
                 </div>
@@ -121,6 +120,7 @@
             <p class="text-sm md:text-base font-semibold">This isnt just a journal, its your personal trading analyst</p>
         </div>
         
+        <!-- Stats Cards Row 1 -->
         <div class="grid grid-cols-4 gap-3 mb-3">
             <div class="stat-card"><div class="stat-value" id="totalTrades">0</div><div class="stat-label">Total Trades</div></div>
             <div class="stat-card"><div class="stat-value" id="winRate">0%</div><div class="stat-label">Win Rate</div></div>
@@ -128,12 +128,20 @@
             <div class="stat-card"><div class="stat-value" id="profitFactor">0.0</div><div class="stat-label">Profit Factor</div></div>
         </div>
         
+        <!-- Stats Cards Row 2 -->
         <div class="grid grid-cols-5 gap-3 mb-6">
             <div class="stat-card"><div class="stat-value text-green-500" id="avgWin">$0</div><div class="stat-label">Avg Win</div></div>
             <div class="stat-card"><div class="stat-value text-red-500" id="avgLoss">$0</div><div class="stat-label">Avg Loss</div></div>
             <div class="stat-card"><div class="stat-value text-green-500" id="largestWin">$0</div><div class="stat-label">Largest Win</div></div>
             <div class="stat-card"><div class="stat-value text-red-500" id="largestLoss">$0</div><div class="stat-label">Largest Loss</div></div>
             <div class="stat-card"><div class="stat-value" id="bestStrategy">-</div><div class="stat-label">Best Strategy</div></div>
+        </div>
+        
+        <!-- NEW Stats Cards Row 3 - Streak & Avg RR -->
+        <div class="grid grid-cols-3 gap-3 mb-6">
+            <div class="stat-card"><div class="stat-value text-yellow-400" id="currentStreak">0</div><div class="stat-label">Current Streak</div></div>
+            <div class="stat-card"><div class="stat-value text-blue-400" id="bestStreak">0</div><div class="stat-label">Best Streak</div></div>
+            <div class="stat-card"><div class="stat-value text-purple-400" id="avgRR">0.0</div><div class="stat-label">Avg R:R</div></div>
         </div>
         
         <div class="text-center mb-4">
@@ -198,46 +206,23 @@
         </div>
         
         <!-- PROP FIRMS SECTION -->
-<div class="bg-gray-900 rounded-xl p-4 mb-6 card-hover border border-gray-800">
-    <h3 class="text-sm font-semibold mb-3"><i class="fas fa-building mr-2 text-purple-400"></i>Prop Firms</h3>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        
-        <!-- 1. FTMO -->
-        <a href="#" onclick="trackAffiliateClick('FTMO', 'https://ftmo.com/?ref=YOUR_FTMO_ID')" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 text-center transition border border-gray-700 group">
-            <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition">
-                <span class="text-white font-bold text-xs">FTMO</span>
+        <div class="bg-gray-900 rounded-xl p-4 mb-6 card-hover border border-gray-800">
+            <h3 class="text-sm font-semibold mb-3"><i class="fas fa-building mr-2 text-purple-400"></i>Prop Firms</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <a href="#" onclick="trackAffiliateClick('FTMO', 'https://ftmo.com/?ref=YOUR_FTMO_ID')" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 text-center transition border border-gray-700 group">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-blue-600 to-blue-800 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition"><span class="text-white font-bold text-xs">FTMO</span></div>
+                    <p class="font-semibold text-sm">FTMO</p><p class="text-xs text-gray-400">Up to $200,000</p><p class="text-xs text-purple-400 mt-1">Apply →</p>
+                </a>
+                <a href="https://fundednext.com/?ref=REFB18Z19" onclick="trackAffiliateClick('Funded Next', 'https://fundednext.com/?ref=REFB18Z19')" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 text-center transition border border-gray-700 group">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-orange-600 to-red-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition"><span class="text-white font-bold text-xs">FN</span></div>
+                    <p class="font-semibold text-sm">Funded Next</p><p class="text-xs text-gray-400">Instant funding</p><p class="text-xs text-purple-400 mt-1">Apply →</p>
+                </a>
+                <a href="https://app.fundingpips.com/register?ref=a60e5e3f" onclick="trackAffiliateClick('Funding Pips', 'https://app.fundingpips.com/register?ref=a60e5e3f')" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 text-center transition border border-gray-700 group">
+                    <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-cyan-600 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition"><span class="text-white font-bold text-xs">FP</span></div>
+                    <p class="font-semibold text-sm">Funding Pips</p><p class="text-xs text-gray-400">Trusted prop firm</p><p class="text-xs text-purple-400 mt-1">Open Account →</p>
+                </a>
             </div>
-            <p class="font-semibold text-sm">FTMO</p>
-            <p class="text-xs text-gray-400">Up to $200,000</p>
-            <p class="text-xs text-purple-400 mt-1">Apply →</p>
-        </a>
-        
-        <!-- 2. Funded Next -->
-        <a href="https://fundednext.com/?ref=REFB18Z19" onclick="trackAffiliateClick('Funded Next', 'https://fundednext.com/?ref=REFB18Z19')" target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 text-center transition border border-gray-700 group">
-            <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-orange-600 to-red-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition">
-                <span class="text-white font-bold text-xs">FN</span>
-            </div>
-            <p class="font-semibold text-sm">Funded Next</p>
-            <p class="text-xs text-gray-400">Instant funding</p>
-            <p class="text-xs text-purple-400 mt-1">Apply →</p>
-        </a>
-        
-        <!-- 3. Funding Pips -->
-      <a href="https://app.fundingpips.com/register?ref=a60e5e3f" 
-   onclick="trackAffiliateClick('Funding Pips', 'https://app.fundingpips.com/register?ref=a60e5e3f')" 
-   target="_blank" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-3 text-center transition border border-gray-700 group">
-    <div class="w-12 h-12 mx-auto mb-2 bg-gradient-to-br from-cyan-600 to-teal-600 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition">
-        <span class="text-white font-bold text-xs">FP</span>
-    </div>
-    <p class="font-semibold text-sm">Funding Pips</p>
-    <p class="text-xs text-gray-400">Trusted prop firm</p>
-    <p class="text-xs text-purple-400 mt-1">Open Account →</p>
-</a>
-        
-    </div>
-</div>
-        
-
+        </div>
 
         <!-- AFFILIATES (Brokers) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -255,7 +240,7 @@
             </div>
         </div>
 
-        <!-- ADD TRADE FORM -->
+        <!-- ADD TRADE FORM with Tags -->
         <div class="bg-gray-900 rounded-xl p-4 mb-5 border border-gray-800">
             <h2 class="text-base font-bold mb-3"><i class="fas fa-plus-circle mr-1 text-green-500"></i>Add New Trade</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -269,7 +254,15 @@
                 <input type="number" id="stopLoss" placeholder="Stop Loss" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <input type="number" id="takeProfit" placeholder="Take Profit" step="0.01" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <input type="number" id="holdingPeriod" placeholder="Hold (hours)" step="0.5" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
-                <input type="text" id="strategy" placeholder="Strategy" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm md:col-span-2">
+                <input type="text" id="strategy" placeholder="Strategy" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                <select id="tradeTag" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
+                    <option value="">Tag Trade</option>
+                    <option value="perfect">✅ Perfect Trade</option>
+                    <option value="mistake">❌ Mistake</option>
+                    <option value="emotional">😤 Emotional</option>
+                    <option value="followed_plan">📋 Followed Plan</option>
+                    <option value="rushed">⏰ Rushed Entry</option>
+                </select>
                 <textarea id="notes" placeholder="Notes" rows="1" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm md:col-span-3"></textarea>
                 <button id="saveBtn" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 rounded-lg p-2 text-sm font-medium"><i class="fas fa-save mr-1"></i>Save Trade</button>
             </div>
@@ -278,11 +271,15 @@
 
         <!-- FILTERS -->
         <div class="bg-gray-900 rounded-xl p-3 mb-4 border border-gray-800">
-            <div class="grid grid-cols-4 gap-2">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-2 mb-2">
                 <input type="text" id="searchSymbol" placeholder="🔍 Search symbol..." class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <select id="filterType" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm"><option value="all">All Types</option><option value="Long">Long Only</option><option value="Short">Short Only</option></select>
                 <input type="text" id="filterStrategy" placeholder="Filter by strategy..." class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <button onclick="exportToCSV()" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-2 text-sm font-medium border border-gray-700"><i class="fas fa-download mr-1"></i>Export CSV</button>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+                <select id="yearFilter" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm"><option value="all">All Years</option></select>
+                <select id="monthFilter" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm"><option value="all">All Months</option><option value="0">January</option><option value="1">February</option><option value="2">March</option><option value="3">April</option><option value="4">May</option><option value="5">June</option><option value="6">July</option><option value="7">August</option><option value="8">September</option><option value="9">October</option><option value="10">November</option><option value="11">December</option></select>
             </div>
         </div>
 
@@ -294,7 +291,7 @@
                     <thead class="bg-gray-800">
                         <tr class="text-gray-400 text-xs">
                             <th class="p-2">Symbol</th><th class="p-2">Date</th><th class="p-2">Type</th><th class="p-2">Session</th><th class="p-2">Strategy</th>
-                            <th class="p-2">Entry</th><th class="p-2">Exit</th><th class="p-2">Size</th><th class="p-2">P&L</th><th class="p-2">R:R</th>
+                            <th class="p-2">Tag</th><th class="p-2">Entry</th><th class="p-2">Exit</th><th class="p-2">Size</th><th class="p-2">P&L</th><th class="p-2">R:R</th>
                             <th class="p-2">Notes</th><th class="p-2">Screenshot</th><th class="p-2">Actions</th>
                         </tr>
                     </thead>
@@ -319,15 +316,36 @@ function calculatePnL(t) {
 function calculateRR(t) {
     if (!t.stop_loss || !t.take_profit || t.stop_loss === 0 || t.take_profit === 0) return '-';
     let risk, reward;
-    if (t.type === 'Long') {
-        risk = t.entry - t.stop_loss;
-        reward = t.take_profit - t.entry;
-    } else {
-        risk = t.stop_loss - t.entry;
-        reward = t.entry - t.take_profit;
-    }
+    if (t.type === 'Long') { risk = t.entry - t.stop_loss; reward = t.take_profit - t.entry; }
+    else { risk = t.stop_loss - t.entry; reward = t.entry - t.take_profit; }
     if (risk <= 0 || reward <= 0) return '-';
     return (reward / risk).toFixed(2);
+}
+
+// Streak Calculator
+function calculateStreaks() {
+    let currentStreak = 0, bestStreak = 0, streak = 0;
+    const sorted = [...trades].sort((a, b) => new Date(a.date) - new Date(b.date));
+    for (let t of sorted) {
+        if (calculatePnL(t) > 0) { streak++; currentStreak = streak; if (streak > bestStreak) bestStreak = streak; }
+        else if (calculatePnL(t) < 0) { streak = 0; currentStreak = 0; }
+    }
+    document.getElementById('currentStreak').innerHTML = currentStreak;
+    document.getElementById('bestStreak').innerHTML = bestStreak;
+}
+
+// Avg R:R Calculator
+function calculateAvgRR() {
+    let totalRR = 0, count = 0;
+    trades.forEach(t => { const rr = calculateRR(t); if (rr !== '-' && !isNaN(rr)) { totalRR += parseFloat(rr); count++; } });
+    document.getElementById('avgRR').innerHTML = count > 0 ? (totalRR / count).toFixed(2) : '0.0';
+}
+
+// Populate year filter
+function populateYearFilter() {
+    const years = [...new Set(trades.map(t => new Date(t.date).getFullYear()))].sort((a,b)=>b-a);
+    const yearSelect = document.getElementById('yearFilter');
+    yearSelect.innerHTML = '<option value="all">All Years</option>' + years.map(y => `<option value="${y}">${y}</option>`).join('');
 }
 
 async function register() {
@@ -361,6 +379,7 @@ async function loadTrades() {
     trades = await res.json();
     updateDashboard();
     applyFilters();
+    populateYearFilter();
 }
 
 function updateDashboard() {
@@ -421,6 +440,9 @@ function updateDashboard() {
     if(halfPieChart) halfPieChart.destroy();
     const ctx = document.getElementById('halfPieChart').getContext('2d');
     halfPieChart = new Chart(ctx, {type:'doughnut',data:{labels:['Won','Lost'],datasets:[{data:[wins,losses],backgroundColor:['#22c55e','#ef4444'],borderWidth:0,cutout:'65%',rotation:-90,circumference:180}]},options:{responsive:true,maintainAspectRatio:true,plugins:{legend:{display:false}}}});
+    
+    calculateStreaks();
+    calculateAvgRR();
     
     // ========== TRADING DAY PERFORMANCE ==========
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -559,10 +581,9 @@ function nextMonth() { currentCalendarDate.setMonth(currentCalendarDate.getMonth
 
 function displayTrades(tradesToShow) {
     const tbody = document.getElementById('tradesList'); tbody.innerHTML = '';
-    if(tradesToShow.length===0) { tbody.innerHTML = '<tr><td colspan="13" class="text-center p-4 text-gray-500">No trades found</td></tr>'; return; }
+    if(tradesToShow.length===0) { tbody.innerHTML = '<tr><td colspan="14" class="text-center p-4 text-gray-500">No trades found</td></tr>'; return; }
     tradesToShow.forEach(t => {
-        const pnl = calculatePnL(t);
-        const rr = calculateRR(t);
+        const pnl = calculatePnL(t), rr = calculateRR(t);
         const row = tbody.insertRow(); row.className = 'border-b border-gray-800';
         row.innerHTML = `
             <td class="p-2 text-sm">${t.symbol}</td>
@@ -570,6 +591,7 @@ function displayTrades(tradesToShow) {
             <td class="p-2 text-sm ${t.type==='Long'?'text-green-500':'text-red-500'}">${t.type}</td>
             <td class="p-2 text-sm">${t.session || '-'}</td>
             <td class="p-2 text-sm">${t.strategy || '-'}</td>
+            <td class="p-2 text-sm">${t.trade_tag || '-'}</td>
             <td class="p-2 text-sm">${t.entry}</td>
             <td class="p-2 text-sm">${t.exit}</td>
             <td class="p-2 text-sm">${t.quantity}</td>
@@ -591,56 +613,29 @@ async function uploadScreenshotForTrade(tradeId) {
         const file = e.target.files[0]; if(!file) return;
         const formData = new FormData(); formData.append('screenshot', file);
         const res = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, { method: 'POST', body: formData });
-        if(res.ok) { alert('✅ Screenshot uploaded!'); await loadTrades(); }
-        else alert('❌ Upload failed');
+        if(res.ok) { alert('✅ Screenshot uploaded!'); await loadTrades(); } else alert('❌ Upload failed');
     };
     fileInput.click();
 }
 
 async function editTrade(id) {
-    const t = trades.find(t => t.id === id);
-    if (!t) return;
-    
-    const newSymbol = prompt('Symbol:', t.symbol);
-    if (!newSymbol) return;
-    const newDate = prompt('Date (YYYY-MM-DD):', t.date);
-    if (!newDate) return;
+    const t = trades.find(t => t.id === id); if (!t) return;
+    const newSymbol = prompt('Symbol:', t.symbol); if (!newSymbol) return;
+    const newDate = prompt('Date (YYYY-MM-DD):', t.date); if (!newDate) return;
     const newType = confirm(`Current: ${t.type}. OK=Long, Cancel=Short`) ? 'Long' : 'Short';
-    const newEntry = prompt('Entry Price:', t.entry);
-    if (!newEntry) return;
-    const newExit = prompt('Exit Price:', t.exit);
-    if (!newExit) return;
-    const newQuantity = prompt('Position Size / Lots:', t.quantity);
-    if (!newQuantity) return;
-    const newStopLoss = prompt('Stop Loss (required for RR):', t.stop_loss || '');
-    const newTakeProfit = prompt('Take Profit (required for RR):', t.take_profit || '');
+    const newEntry = prompt('Entry:', t.entry); if (!newEntry) return;
+    const newExit = prompt('Exit:', t.exit); if (!newExit) return;
+    const newQuantity = prompt('Lots:', t.quantity); if (!newQuantity) return;
+    const newStopLoss = prompt('Stop Loss:', t.stop_loss || '');
+    const newTakeProfit = prompt('Take Profit:', t.take_profit || '');
     const newSession = prompt('Session (Asia/London/New York):', t.session || '');
     const newStrategy = prompt('Strategy:', t.strategy || '');
-    const newHoldingPeriod = prompt('Holding Period (hours):', t.holding_period || '');
+    const newTag = prompt('Tag (perfect/mistake/emotional/followed_plan/rushed):', t.trade_tag || '');
+    const newHolding = prompt('Holding Period (hours):', t.holding_period || '');
     const newNotes = prompt('Notes:', t.notes || '');
-    
-    const updatedTrade = {
-        id: t.id,
-        symbol: newSymbol.toUpperCase(),
-        date: newDate,
-        type: newType,
-        session: newSession || null,
-        entry: parseFloat(newEntry),
-        exit: parseFloat(newExit),
-        quantity: parseFloat(newQuantity),
-        stop_loss: newStopLoss && newStopLoss !== '' ? parseFloat(newStopLoss) : null,
-        take_profit: newTakeProfit && newTakeProfit !== '' ? parseFloat(newTakeProfit) : null,
-        strategy: newStrategy || null,
-        holding_period: newHoldingPeriod && newHoldingPeriod !== '' ? parseFloat(newHoldingPeriod) : null,
-        notes: newNotes,
-        screenshot: t.screenshot
-    };
-    
-    try {
-        const response = await fetch(`${API_URL}/trades/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updatedTrade) });
-        if (response.ok) { alert('✅ Trade updated!'); await loadTrades(); }
-        else { alert('❌ Update failed'); }
-    } catch (error) { alert('❌ Update failed'); }
+    const updated = { ...t, symbol: newSymbol.toUpperCase(), date: newDate, type: newType, entry: parseFloat(newEntry), exit: parseFloat(newExit), quantity: parseFloat(newQuantity), stop_loss: newStopLoss?parseFloat(newStopLoss):null, take_profit: newTakeProfit?parseFloat(newTakeProfit):null, session: newSession||null, strategy: newStrategy||null, trade_tag: newTag||null, holding_period: newHolding?parseFloat(newHolding):null, notes: newNotes, screenshot: t.screenshot };
+    const res = await fetch(`${API_URL}/trades/${id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updated) });
+    if(res.ok) { alert('✅ Trade updated!'); await loadTrades(); } else alert('❌ Update failed');
 }
 
 async function deleteTrade(id) { if(confirm('Delete this trade?')) { await fetch(`${API_URL}/trades/${id}`, { method: 'DELETE' }); await loadTrades(); } }
@@ -653,23 +648,22 @@ function applyFilters() {
     if(search) filtered = filtered.filter(t => t.symbol.toLowerCase().includes(search));
     if(type !== 'all') filtered = filtered.filter(t => t.type === type);
     if(strat) filtered = filtered.filter(t => (t.strategy||'').toLowerCase().includes(strat));
+    const year = document.getElementById('yearFilter').value;
+    const month = document.getElementById('monthFilter').value;
+    if(year !== 'all') filtered = filtered.filter(t => new Date(t.date).getFullYear() == year);
+    if(month !== 'all') filtered = filtered.filter(t => new Date(t.date).getMonth() == month);
     displayTrades(filtered);
 }
 
 async function addTrade() {
     if(!currentUser) return;
     const trade = {
-        userId: currentUser.id,
-        symbol: document.getElementById('symbol').value.trim().toUpperCase(),
-        date: document.getElementById('date').value,
-        type: document.getElementById('type').value,
-        session: document.getElementById('session').value || null,
-        entry: parseFloat(document.getElementById('entry').value),
-        exit: parseFloat(document.getElementById('exit').value),
-        quantity: parseFloat(document.getElementById('quantity').value),
-        stopLoss: document.getElementById('stopLoss').value ? parseFloat(document.getElementById('stopLoss').value) : null,
+        userId: currentUser.id, symbol: document.getElementById('symbol').value.trim().toUpperCase(), date: document.getElementById('date').value,
+        type: document.getElementById('type').value, session: document.getElementById('session').value || null,
+        entry: parseFloat(document.getElementById('entry').value), exit: parseFloat(document.getElementById('exit').value),
+        quantity: parseFloat(document.getElementById('quantity').value), stopLoss: document.getElementById('stopLoss').value ? parseFloat(document.getElementById('stopLoss').value) : null,
         takeProfit: document.getElementById('takeProfit').value ? parseFloat(document.getElementById('takeProfit').value) : null,
-        strategy: document.getElementById('strategy').value || null,
+        strategy: document.getElementById('strategy').value || null, trade_tag: document.getElementById('tradeTag').value || null,
         holding_period: document.getElementById('holdingPeriod').value ? parseFloat(document.getElementById('holdingPeriod').value) : null,
         notes: document.getElementById('notes').value
     };
@@ -678,15 +672,15 @@ async function addTrade() {
     if(res.ok) {
         document.getElementById('symbol').value=''; document.getElementById('entry').value=''; document.getElementById('exit').value=''; document.getElementById('quantity').value='';
         document.getElementById('stopLoss').value=''; document.getElementById('takeProfit').value=''; document.getElementById('strategy').value=''; document.getElementById('notes').value='';
-        document.getElementById('session').value=''; document.getElementById('holdingPeriod').value='';
+        document.getElementById('session').value=''; document.getElementById('holdingPeriod').value=''; document.getElementById('tradeTag').value='';
         await loadTrades();
     } else alert('Error saving trade');
 }
 
 function exportToCSV() {
     if(!trades.length) { alert('No trades to export'); return; }
-    let csv = 'Symbol,Date,Type,Session,Strategy,Entry,Exit,Quantity,P&L,R:R,Notes\n';
-    trades.forEach(t => { const pnl = calculatePnL(t); const rr = calculateRR(t); csv += `${t.symbol},${t.date},${t.type},${t.session||''},${t.strategy||''},${t.entry},${t.exit},${t.quantity},${pnl.toFixed(2)},${rr},${t.notes||''}\n`; });
+    let csv = 'Symbol,Date,Type,Session,Strategy,Tag,Entry,Exit,Quantity,P&L,R:R,Notes\n';
+    trades.forEach(t => { const pnl = calculatePnL(t); const rr = calculateRR(t); csv += `${t.symbol},${t.date},${t.type},${t.session||''},${t.strategy||''},${t.trade_tag||''},${t.entry},${t.exit},${t.quantity},${pnl.toFixed(2)},${rr},${t.notes||''}\n`; });
     const blob = new Blob([csv], { type: 'text/csv' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `trades_${currentUser.username}_${new Date().toISOString().split('T')[0]}.csv`; a.click(); URL.revokeObjectURL(url);
 }
 
@@ -697,6 +691,8 @@ document.getElementById('saveBtn').addEventListener('click', addTrade);
 document.getElementById('searchSymbol').addEventListener('input', () => applyFilters());
 document.getElementById('filterType').addEventListener('change', () => applyFilters());
 document.getElementById('filterStrategy').addEventListener('input', () => applyFilters());
+document.getElementById('yearFilter').addEventListener('change', () => applyFilters());
+document.getElementById('monthFilter').addEventListener('change', () => applyFilters());
 document.addEventListener('keydown', (e) => { if(e.ctrlKey && e.key === 'Enter') addTrade(); });
 </script>
 
