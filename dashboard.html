@@ -1,11 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+    const supabaseClient = supabase.createClient(
+        'https://flyyrsweqafhnzyhibkb.supabase.co',
+        'sb_publishable_iocTG9tG03W1VsBA2_H3Hg_YlQes95o'
+    );
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TradeVault | Trading Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+    const supabaseClient = supabase.createClient(
+        'https://flyyrsweqafhnzyhibkb.supabase.co',
+        '{{SUPABASE_ANON_KEY}}'
+    );
+</script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -510,15 +524,51 @@ function showImage(url) { const modal = document.getElementById('imageModal'); c
 function closeModal() { document.getElementById('imageModal').style.display = 'none'; }
 
 async function uploadScreenshotForTrade(tradeId) {
-    const fileInput = document.createElement('input'); fileInput.type = 'file'; fileInput.accept = 'image/*';
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
     fileInput.onchange = async function(e) {
-        const file = e.target.files[0]; if(!file) return;
-        const formData = new FormData(); formData.append('screenshot', file);
-        const res = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, { method: 'POST', body: formData });
-        if(res.ok) { alert('✅ Screenshot uploaded!'); await loadTrades(); } else alert('❌ Upload failed');
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const fileName = `${Date.now()}-trade-${tradeId}.${file.name.split('.').pop()}`;
+
+        try {
+            // Upload to Supabase Storage
+            const { error: uploadError } = await supabaseClient.storage
+                .from('trade-screenshots')
+                .upload(fileName, file);
+
+            if (uploadError) throw uploadError;
+
+            // Get public URL
+            const { data: urlData } = supabaseClient.storage
+                .from('trade-screenshots')
+                .getPublicUrl(fileName);
+
+            const publicUrl = urlData.publicUrl;
+
+            // Save URL to database
+            const updateRes = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ screenshot: publicUrl })
+            });
+
+            if (updateRes.ok) {
+                alert('✅ Screenshot saved to cloud!');
+                await loadTrades();
+            } else {
+                alert('❌ Failed to save');
+            }
+        } catch (error) {
+            console.error('Upload error:', error);
+            alert('❌ Upload failed');
+        }
     };
     fileInput.click();
 }
+
 
 function toggleActionMenu(id) {
     document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
