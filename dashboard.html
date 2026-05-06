@@ -3,10 +3,16 @@
 <head>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
-    const supabaseClient = supabase.createClient(
-        'https://flyyrsweqafhnzyhibkb.supabase.co',
-        'sb_publishable_iocTG9tG03W1VsBA2_H3Hg_YlQes95o'
-    );
+   const supabaseClient = supabase.createClient(
+    'https://flyyrsweqafhnzyhibkb.supabase.co',
+    'YOUR_SERVICE_ROLE_KEY_HERE',  // Paste your service_role key here
+    {
+        auth: {
+            autoRefreshToken: false,
+            persistSession: false
+        }
+    }
+);
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
