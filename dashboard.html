@@ -578,9 +578,13 @@ async function deleteScreenshot(tradeId, screenshotUrl) {
 
         if (updateRes.ok) {
             alert('✅ Screenshot deleted!');
-            // Force refresh both trades and the display
-            await loadTrades();
+            // Completely reload trades from database
+            const res = await fetch(`${API_URL}/trades/${currentUser.id}`);
+            trades = await res.json();
+            // Refresh everything
+            updateDashboard();
             applyFilters();
+            populateYearFilter();
         } else {
             alert('❌ Failed to update database');
         }
@@ -589,7 +593,6 @@ async function deleteScreenshot(tradeId, screenshotUrl) {
         alert('❌ Delete failed');
     }
 }
-
 function toggleActionMenu(id) {
     document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.remove('show'));
     const menu = document.getElementById(`menu-${id}`);
