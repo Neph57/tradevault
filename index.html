@@ -3,201 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeVault | Smart Trading Analytics & Journal</title>
-    <meta name="description" content="TradeVault - premium trading analytics platform. Track win rate, P&L, R:R, and behavioral bias. Free trial available.">
-    <meta name="keywords" content="trading journal, trade analytics, forex dashboard, performance tracker, risk reward calculator">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <style>
-        body { background: #0a0a0c; }
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
-        }
-        .feature-card {
-            transition: all 0.3s ease;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-    </style>
-</head>
-<body class="text-gray-200">
-
-    <!-- Navigation -->
-    <nav class="bg-gray-900/90 backdrop-blur-md sticky top-0 z-50 border-b border-gray-800">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-sm">TV</span>
-                    </div>
-                    <h1 class="text-xl font-bold gradient-text">TRADEVAULT</h1>
-                </div>
-                <div class="flex space-x-4">
-                    <a href="/login" class="text-gray-300 hover:text-white transition">Login</a>
-                    <a href="/register" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 px-4 py-2 rounded-lg text-sm font-semibold transition">Sign Up Free</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-     
-    <!-- Hero Section with TradingView-style Graph -->
-<section class="relative overflow-hidden pt-20 pb-32">
-    <!-- Animated Background Graph -->
-    <div class="absolute inset-0 opacity-30">
-        <svg class="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 800" preserveAspectRatio="none">
-            <!-- Candlestick-like bars -->
-            <g fill="none" stroke="rgba(139, 92, 246, 0.3)" stroke-width="2">
-                <!-- Green candles (up) -->
-                <rect x="100" y="500" width="8" height="40" fill="#22c55e" opacity="0.4" rx="2"/>
-                <rect x="150" y="480" width="8" height="60" fill="#22c55e" opacity="0.5" rx="2"/>
-                <rect x="250" y="460" width="8" height="80" fill="#22c55e" opacity="0.6" rx="2"/>
-                <rect x="350" y="440" width="8" height="100" fill="#22c55e" opacity="0.7" rx="2"/>
-                <rect x="450" y="420" width="8" height="120" fill="#22c55e" opacity="0.8" rx="2"/>
-                <rect x="550" y="400" width="8" height="140" fill="#22c55e" opacity="0.7" rx="2"/>
-                
-                <!-- Red candles (down) -->
-                <rect x="200" y="490" width="8" height="50" fill="#ef4444" opacity="0.5" rx="2"/>
-                <rect x="300" y="510" width="8" height="30" fill="#ef4444" opacity="0.6" rx="2"/>
-                <rect x="400" y="470" width="8" height="70" fill="#ef4444" opacity="0.5" rx="2"/>
-                <rect x="500" y="450" width="8" height="90" fill="#ef4444" opacity="0.4" rx="2"/>
-                <rect x="600" y="380" width="8" height="160" fill="#22c55e" opacity="0.6" rx="2"/>
-                <rect x="700" y="350" width="8" height="190" fill="#22c55e" opacity="0.7" rx="2"/>
-                <rect x="800" y="370" width="8" height="170" fill="#ef4444" opacity="0.5" rx="2"/>
-                <rect x="900" y="390" width="8" height="150" fill="#22c55e" opacity="0.6" rx="2"/>
-                <rect x="1000" y="360" width="8" height="180" fill="#22c55e" opacity="0.7" rx="2"/>
-                <rect x="1100" y="340" width="8" height="200" fill="#ef4444" opacity="0.5" rx="2"/>
-                <rect x="1200" y="320" width="8" height="220" fill="#22c55e" opacity="0.6" rx="2"/>
-                <rect x="1300" y="300" width="8" height="240" fill="#22c55e" opacity="0.7" rx="2"/>
-            </g>
-            
-            <!-- Trend line (green arrow pointing up) -->
-            <polyline points="100,550 250,480 400,450 550,400 700,350 900,390 1100,340 1300,300" 
-                       stroke="#22c55e" stroke-width="3" fill="none" opacity="0.6"/>
-            
-            <!-- Area under the trend line -->
-            <path d="M100,550 L250,480 L400,450 L550,400 L700,350 L900,390 L1100,340 L1300,300 L1300,600 L100,600 Z" 
-                  fill="url(#gradientGreen)" opacity="0.15"/>
-            
-            <!-- Moving average line -->
-            <polyline points="100,520 250,490 400,460 550,420 700,380 900,400 1100,360 1300,330" 
-                       stroke="#8b5cf6" stroke-width="2" stroke-dasharray="5,5" fill="none" opacity="0.5"/>
-            
-            <defs>
-                <linearGradient id="gradientGreen" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="#22c55e" stop-opacity="0.8"/>
-                    <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
-                </linearGradient>
-            </defs>
-        </svg>
-    </div>
-    
-    <!-- Animated wavy lines -->
-    <div class="absolute inset-0 opacity-20">
-        <svg class="absolute bottom-0 w-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#667eea" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
-    </div>
-
-    <div class="container mx-auto px-6 relative z-10">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="inline-flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-700 mb-6">
-                <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                <span class="text-xs text-gray-300">Trusted by 1,000+ active traders</span>
-            </div>
-            
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                Turn Your Trades <br>
-                <span class="gradient-text">Into Intelligence</span>
-            </h1>
-            
-            <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
-                TradeVault is a professional trading intelligence platform that helps forex, crypto, and stock traders track performance, analyze behavior, and gain a data-driven edge.
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                <a href="/dashboard.html" class="btn-primary px-8 py-3 rounded-xl font-semibold text-white shadow-lg hover:shadow-xl transition-all">
-                    Start Free Trial <i class="fas fa-arrow-right ml-2"></i>
-                </a>
-                <a href="#features" class="bg-gray-800/80 backdrop-blur-sm hover:bg-gray-700 px-8 py-3 rounded-xl font-semibold transition border border-gray-700">
-                    <i class="fas fa-play mr-2"></i>See How It Works
-                </a>
-            </div>
-            
-            <p class="text-sm text-gray-500">Free for 1 month • No credit card required • Cancel anytime</p>
-            
-            <!-- Floating Analytics Cards -->
-            <div class="relative mt-16 h-48 hidden md:block">
-                <div class="absolute left-0 top-0 glass-card rounded-xl p-4 w-64 floating-card">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs text-gray-400">Win Rate</span>
-                        <i class="fas fa-chart-line text-green-500 text-sm"></i>
-                    </div>
-                    <div class="text-2xl font-bold text-white">68.4%</div>
-                    <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
-                        <div class="bg-green-500 h-1.5 rounded-full" style="width: 68%"></div>
-                    </div>
-                </div>
-                <div class="absolute right-10 top-10 glass-card rounded-xl p-4 w-64 floating-card-delayed">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs text-gray-400">Profit Factor</span>
-                        <i class="fas fa-chart-simple text-purple-500 text-sm"></i>
-                    </div>
-                    <div class="text-2xl font-bold text-white">2.34</div>
-                    <div class="text-xs text-green-500 mt-1">↑ 23% vs last month</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-    <!-- Stats Section -->
-    <section class="bg-gray-900 py-16 border-y border-gray-800">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div><div class="text-3xl font-bold text-purple-400">1000+</div><div class="text-gray-500 text-sm">Active Traders</div></div>
-                <div><div class="text-3xl font-bold text-purple-400">15K+</div><div class="text-gray-500 text-sm">Trades Analyzed</div></div>
-                <div><div class="text-3xl font-bold text-purple-400">98%</div><div class="text-gray-500 text-sm">User Satisfaction</div></div>
-                <div><div class="text-3xl font-bold text-purple-400">24/7</div><div class="text-gray-500 text-sm">Platform Access</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="container mx-auto px-6 py-20 text-center">
-        <div class="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-2xl p-12">
-            <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Level Up Your Trading?</h2>
-            <p class="text-gray-400 mb-8 max-w-xl mx-auto">Join thousands of traders who've stopped guessing and started improving with TradeVault.</p>
-            <a href="/register" class="btn-primary px-8 py-3 rounded-xl font-semibold text-white inline-block">Start Your Free Trial →</a>
-            <p class="text-sm text-gray-500 mt-4">Free for 1 month• No commitment</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="border-t border-gray-800 py-8">
-        <div class="container mx-auto px-6 text-center text-gray-500 text-sm">
-            <p>&copy; 2026 TradeVault. All rights reserved.</p>
-            <p cla<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TRADEVAULT | Trading Intelligence Platform</title>
     <meta name="description" content="TRADEVAULT is a professional trading intelligence platform that transforms how traders analyze performance, track consistency, and gain a data-driven edge.">
     <meta name="keywords" content="trading journal, trade analytics, forex dashboard, performance tracker, risk reward calculator, trading insights, free trading journal app">
     
-    <!-- Tailwind + Font Awesome + AOS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -205,16 +14,11 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0a0c; font-family: 'Inter', system-ui, -apple-system, sans-serif; overflow-x: hidden; }
+        body { background: #0a0a0c; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
         
-        /* Custom animations */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
-        }
-        @keyframes glow {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
         }
         @keyframes pulse-border {
             0%, 100% { border-color: rgba(139, 92, 246, 0.3); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
@@ -223,8 +27,6 @@
         
         .floating-card { animation: float 6s ease-in-out infinite; }
         .floating-card-delayed { animation: float 6s ease-in-out infinite 1s; }
-        .glow-border { animation: pulse-border 3s ease-in-out infinite; }
-        .gradient-bg-hero { background: radial-gradient(ellipse at 50% 30%, rgba(139, 92, 246, 0.15), transparent 70%); }
         .glass-card { background: rgba(26, 26, 31, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
         
         .gradient-text {
@@ -250,27 +52,12 @@
             color: transparent;
         }
         
-        /* Scroll reveal */
-        .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .pricing-card { transition: all 0.3s ease; }
+        .pricing-card:hover { transform: translateY(-8px); box-shadow: 0 25px 40px -12px rgba(139, 92, 246, 0.25); }
         
-        .pricing-card {
-            transition: all 0.3s ease;
-        }
-        .pricing-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 40px -12px rgba(139, 92, 246, 0.25);
-        }
+        .testimonial-card { transition: all 0.3s ease; }
+        .testimonial-card:hover { transform: translateY(-4px); border-color: #667eea; }
         
-        .testimonial-card {
-            transition: all 0.3s ease;
-        }
-        .testimonial-card:hover {
-            transform: translateY(-4px);
-            border-color: #667eea;
-        }
-        
-        /* Smooth scroll */
         html { scroll-behavior: smooth; }
     </style>
 </head>
@@ -300,11 +87,119 @@
     </div>
 </nav>
 
-<!-- Hero Section -->
-<section class="relative overflow-hidden pt-20 pb-32 gradient-bg-hero">
-    <div class="absolute top-20 left-10 w-72 h-72 bg-purple-600 rounded-full blur-[120px] opacity-20 animate-pulse"></div>
-    <div class="absolute bottom-20 right-10 w-96 h-96 bg-pink-600 rounded-full blur-[140px] opacity-20 animate-pulse"></div>
+<!-- Hero Section with TradingView-style Candlestick Chart -->
+<section class="relative overflow-hidden pt-20 pb-32">
+    <!-- Candlestick Chart Background -->
+    <div class="absolute inset-0 opacity-40">
+        <svg class="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 600" preserveAspectRatio="none">
+            <!-- Grid lines -->
+            <g stroke="rgba(255,255,255,0.05)" stroke-width="1">
+                <line x1="0" y1="100" x2="1440" y2="100"/>
+                <line x1="0" y1="200" x2="1440" y2="200"/>
+                <line x1="0" y1="300" x2="1440" y2="300"/>
+                <line x1="0" y1="400" x2="1440" y2="400"/>
+                <line x1="0" y1="500" x2="1440" y2="500"/>
+            </g>
+            
+            <!-- Candlesticks with wicks -->
+            <line x1="60" y1="420" x2="60" y2="380" stroke="#22c55e" stroke-width="2"/>
+            <rect x="50" y="380" width="20" height="40" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="120" y1="440" x2="120" y2="370" stroke="#22c55e" stroke-width="2"/>
+            <rect x="110" y="370" width="20" height="70" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="180" y1="400" x2="180" y2="450" stroke="#ef4444" stroke-width="2"/>
+            <rect x="170" y="410" width="20" height="40" fill="#ef4444" opacity="0.8" rx="1"/>
+            
+            <line x1="240" y1="460" x2="240" y2="340" stroke="#22c55e" stroke-width="2"/>
+            <rect x="230" y="340" width="20" height="120" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="300" y1="380" x2="300" y2="430" stroke="#ef4444" stroke-width="2"/>
+            <rect x="290" y="390" width="20" height="40" fill="#ef4444" opacity="0.8" rx="1"/>
+            
+            <line x1="360" y1="400" x2="360" y2="350" stroke="#22c55e" stroke-width="2"/>
+            <rect x="350" y="350" width="20" height="50" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="420" y1="360" x2="420" y2="480" stroke="#ef4444" stroke-width="2"/>
+            <rect x="410" y="380" width="20" height="100" fill="#ef4444" opacity="0.8" rx="1"/>
+            
+            <line x1="480" y1="420" x2="480" y2="400" stroke="#22c55e" stroke-width="2"/>
+            <rect x="470" y="400" width="20" height="20" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="540" y1="430" x2="540" y2="360" stroke="#22c55e" stroke-width="2"/>
+            <rect x="530" y="360" width="20" height="70" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="600" y1="370" x2="600" y2="410" stroke="#ef4444" stroke-width="2"/>
+            <rect x="590" y="380" width="20" height="30" fill="#ef4444" opacity="0.8" rx="1"/>
+            
+            <line x1="660" y1="470" x2="660" y2="310" stroke="#22c55e" stroke-width="2"/>
+            <rect x="650" y="310" width="20" height="160" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="720" y1="340" x2="720" y2="390" stroke="#ef4444" stroke-width="2"/>
+            <rect x="710" y="350" width="20" height="40" fill="#ef4444" opacity="0.8" rx="1"/>
+            
+            <line x1="780" y1="380" x2="780" y2="330" stroke="#22c55e" stroke-width="2"/>
+            <rect x="770" y="330" width="20" height="50" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="840" y1="350" x2="840" y2="420" stroke="#ef4444" stroke-width="2"/>
+            <rect x="830" y="360" width="20" height="60" fill="#ef4444" opacity="0.8" rx="1"/>
+            
+            <line x1="900" y1="390" x2="900" y2="340" stroke="#22c55e" stroke-width="2"/>
+            <rect x="890" y="340" width="20" height="50" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="960" y1="360" x2="960" y2="430" stroke="#ef4444" stroke-width="2"/>
+            <rect x="950" y="370" width="20" height="60" fill="#ef4444" opacity="0.8" rx="1"/>
+            
+            <line x1="1020" y1="400" x2="1020" y2="320" stroke="#22c55e" stroke-width="2"/>
+            <rect x="1010" y="320" width="20" height="80" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="1080" y1="340" x2="1080" y2="380" stroke="#ef4444" stroke-width="2"/>
+            <rect x="1070" y="350" width="20" height="30" fill="#ef4444" opacity="0.8" rx="1"/>
+            
+            <line x1="1140" y1="370" x2="1140" y2="300" stroke="#22c55e" stroke-width="2"/>
+            <rect x="1130" y="300" width="20" height="70" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <line x1="1200" y1="320" x2="1200" y2="400" stroke="#ef4444" stroke-width="2"/>
+            <rect x="1190" y="330" width="20" height="70" fill="#ef4444" opacity="0.8" rx="1"/>
+            
+            <line x1="1260" y1="380" x2="1260" y2="320" stroke="#22c55e" stroke-width="2"/>
+            <rect x="1250" y="320" width="20" height="60" fill="#22c55e" opacity="0.8" rx="1"/>
+            
+            <!-- Trend Line -->
+            <polyline points="60,400 120,405 180,420 240,380 300,395 360,375 420,410 480,405 540,385 600,390 660,350 720,365 780,350 840,380 900,360 960,390 1020,350 1080,360 1140,330 1200,350 1260,340" 
+                       stroke="#8b5cf6" stroke-width="2" fill="none" opacity="0.6"/>
+            
+            <!-- Volume Bars -->
+            <rect x="50" y="550" width="20" height="30" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="110" y="540" width="20" height="40" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="170" y="560" width="20" height="20" fill="#ef4444" opacity="0.3" rx="1"/>
+            <rect x="230" y="520" width="20" height="60" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="290" y="555" width="20" height="25" fill="#ef4444" opacity="0.3" rx="1"/>
+            <rect x="350" y="535" width="20" height="45" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="410" y="545" width="20" height="35" fill="#ef4444" opacity="0.3" rx="1"/>
+            <rect x="470" y="560" width="20" height="20" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="530" y="530" width="20" height="50" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="590" y="555" width="20" height="25" fill="#ef4444" opacity="0.3" rx="1"/>
+            <rect x="650" y="510" width="20" height="70" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="710" y="540" width="20" height="40" fill="#ef4444" opacity="0.3" rx="1"/>
+            <rect x="770" y="535" width="20" height="45" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="830" y="550" width="20" height="30" fill="#ef4444" opacity="0.3" rx="1"/>
+            <rect x="890" y="540" width="20" height="40" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="950" y="545" width="20" height="35" fill="#ef4444" opacity="0.3" rx="1"/>
+            <rect x="1010" y="520" width="20" height="60" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="1070" y="555" width="20" height="25" fill="#ef4444" opacity="0.3" rx="1"/>
+            <rect x="1130" y="515" width="20" height="65" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="1190" y="535" width="20" height="45" fill="#ef4444" opacity="0.3" rx="1"/>
+            <rect x="1250" y="530" width="20" height="50" fill="#22c55e" opacity="0.3" rx="1"/>
+        </svg>
+    </div>
     
+    <div class="absolute inset-0 opacity-10">
+        <svg class="absolute bottom-0 w-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+            <path fill="#667eea" fill-opacity="0.3" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+    </div>
+
     <div class="container mx-auto px-6 relative z-10">
         <div class="max-w-4xl mx-auto text-center">
             <div class="inline-flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-700 mb-6">
@@ -332,7 +227,6 @@
             
             <p class="text-sm text-gray-500">Free for 1 month • No credit card required • Cancel anytime</p>
             
-            <!-- Floating Analytics Cards -->
             <div class="relative mt-16 h-48 hidden md:block">
                 <div class="absolute left-0 top-0 glass-card rounded-xl p-4 w-64 floating-card">
                     <div class="flex justify-between items-center mb-2">
@@ -480,22 +374,22 @@
             <a href="/dashboard.html" class="block text-center bg-gray-800 hover:bg-gray-700 py-2 rounded-lg transition">Get Started</a>
         </div>
         
-     <div data-aos="fade-up" data-aos-delay="100" class="bg-gradient-to-b from-gray-800 to-gray-900 rounded-xl p-6 border-2 border-purple-500 pricing-card relative">
-    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white text-xs px-3 py-1 rounded-full">Most Popular</div>
-    <h3 class="text-xl font-bold mb-2">Pro</h3>
-    <p class="text-gray-400 text-sm mb-4">For serious traders</p>
-    <div class="mb-4">
-        <span class="text-4xl font-bold">$3.99</span>
-        <span class="text-gray-500">/month</span>
-    </div>
-    <ul class="space-y-2 text-sm text-gray-400 mb-6">
-        <li><i class="fas fa-check text-green-500 mr-2"></i> Unlimited trades</li>
-        <li><i class="fas fa-check text-green-500 mr-2"></i> Full analytics suite</li>
-        <li><i class="fas fa-check text-green-500 mr-2"></i> Advanced charts & calendar</li>
-        <li><i class="fas fa-check text-green-500 mr-2"></i> Priority support</li>
-    </ul>
-    <a href="/dashboard.html" class="block text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 py-2 rounded-lg transition">Start Free Trial</a>
-</div>
+        <div data-aos="fade-up" data-aos-delay="100" class="bg-gradient-to-b from-gray-800 to-gray-900 rounded-xl p-6 border-2 border-purple-500 pricing-card relative">
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white text-xs px-3 py-1 rounded-full">Most Popular</div>
+            <h3 class="text-xl font-bold mb-2">Pro</h3>
+            <p class="text-gray-400 text-sm mb-4">For serious traders</p>
+            <div class="mb-4">
+                <span class="text-4xl font-bold">$3.99</span>
+                <span class="text-gray-500">/month</span>
+            </div>
+            <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Unlimited trades</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Full analytics suite</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Advanced charts & calendar</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Priority support</li>
+            </ul>
+            <a href="/dashboard.html" class="block text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 py-2 rounded-lg transition">Start Free Trial</a>
+        </div>
         
         <div data-aos="fade-up" data-aos-delay="200" class="bg-gray-900 rounded-xl p-6 border border-gray-800 pricing-card">
             <h3 class="text-xl font-bold mb-2">Elite</h3>
@@ -560,7 +454,7 @@
                 <i class="fas fa-star text-yellow-500"></i>
                 <i class="fas fa-star text-yellow-500"></i>
                 <i class="fas fa-star text-yellow-500"></i>
-                <p class="text-gray-300 mt-3 italic">"The behavioral bias chart showed me I was 70% bearsih when profitable trades were mostly longs. Game changer."</p>
+                <p class="text-gray-300 mt-3 italic">"The behavioral bias chart showed me I was 70% bearish when profitable trades were mostly longs. Game changer."</p>
                 <div class="flex items-center gap-3 mt-4">
                     <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
                         <span class="text-white font-bold text-xs">MT</span>
@@ -681,7 +575,6 @@
 <script>
     AOS.init({ duration: 800, once: true });
     
-    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
@@ -694,20 +587,5 @@
         link.href = '/dashboard.html';
     });
 </script>
-</body>
-</html>ss="mt-2">TradeVault – Turn Your Trades Into Intelligence</p>
-        </div>
-    </footer>
-
-    <script>
-        // Simple redirect to your actual app (since login/register links go to the main app)
-        // When you deploy, change these URLs to your actual domain
-       document.querySelectorAll('a[href="/login"]').forEach(link => {
-    link.href = '/dashboard.html';
-});
-document.querySelectorAll('a[href="/register"]').forEach(link => {
-    link.href = '/dashboard.html';
-});
-    </script>
 </body>
 </html>
