@@ -59,6 +59,33 @@
         .testimonial-card:hover { transform: translateY(-4px); border-color: #667eea; }
         
         html { scroll-behavior: smooth; }
+        
+        /* Candlestick animation */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .candle { animation: fadeInUp 0.5s ease-out forwards; opacity: 0; }
+        .candle:nth-child(1) { animation-delay: 0.05s; }
+        .candle:nth-child(2) { animation-delay: 0.1s; }
+        .candle:nth-child(3) { animation-delay: 0.15s; }
+        .candle:nth-child(4) { animation-delay: 0.2s; }
+        .candle:nth-child(5) { animation-delay: 0.25s; }
+        .candle:nth-child(6) { animation-delay: 0.3s; }
+        .candle:nth-child(7) { animation-delay: 0.35s; }
+        .candle:nth-child(8) { animation-delay: 0.4s; }
+        .candle:nth-child(9) { animation-delay: 0.45s; }
+        .candle:nth-child(10) { animation-delay: 0.5s; }
+        .candle:nth-child(11) { animation-delay: 0.55s; }
+        .candle:nth-child(12) { animation-delay: 0.6s; }
+        .candle:nth-child(13) { animation-delay: 0.65s; }
+        .candle:nth-child(14) { animation-delay: 0.7s; }
+        .candle:nth-child(15) { animation-delay: 0.75s; }
+        .candle:nth-child(16) { animation-delay: 0.8s; }
+        .candle:nth-child(17) { animation-delay: 0.85s; }
+        .candle:nth-child(18) { animation-delay: 0.9s; }
+        .candle:nth-child(19) { animation-delay: 0.95s; }
+        .candle:nth-child(20) { animation-delay: 1s; }
     </style>
 </head>
 <body class="text-gray-200">
@@ -87,119 +114,188 @@
     </div>
 </nav>
 
-<!-- Hero Section with TradingView-style Candlestick Chart -->
+<!-- Hero Section with Realistic USDJPY Candlestick Chart -->
 <section class="relative overflow-hidden pt-20 pb-32">
-    <!-- Candlestick Chart Background -->
-    <div class="absolute inset-0 opacity-40">
-        <svg class="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1440 600" preserveAspectRatio="none">
-            <!-- Grid lines -->
-            <g stroke="rgba(255,255,255,0.05)" stroke-width="1">
-                <line x1="0" y1="100" x2="1440" y2="100"/>
-                <line x1="0" y1="200" x2="1440" y2="200"/>
-                <line x1="0" y1="300" x2="1440" y2="300"/>
-                <line x1="0" y1="400" x2="1440" y2="400"/>
-                <line x1="0" y1="500" x2="1440" y2="500"/>
+    <!-- Professional Candlestick Chart Background -->
+    <div class="absolute inset-0 opacity-45">
+        <svg class="absolute bottom-0 left-0 w-full h-full" viewBox="0 0 1400 500" preserveAspectRatio="none">
+            <!-- Price Grid Lines -->
+            <g stroke="rgba(255,255,255,0.04)" stroke-width="1">
+                <line x1="0" y1="450" x2="1400" y2="450"/>
+                <line x1="0" y1="400" x2="1400" y2="400"/>
+                <line x1="0" y1="350" x2="1400" y2="350"/>
+                <line x1="0" y1="300" x2="1400" y2="300"/>
+                <line x1="0" y1="250" x2="1400" y2="250"/>
+                <line x1="0" y1="200" x2="1400" y2="200"/>
+                <line x1="0" y1="150" x2="1400" y2="150"/>
+                <line x1="0" y1="100" x2="1400" y2="100"/>
+                <line x1="0" y1="50" x2="1400" y2="50"/>
             </g>
             
-            <!-- Candlesticks with wicks -->
-            <line x1="60" y1="420" x2="60" y2="380" stroke="#22c55e" stroke-width="2"/>
-            <rect x="50" y="380" width="20" height="40" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- USDJPY Candlesticks (Realistic Oanda-style) -->
+            <!-- Candle 1 - Bullish -->
+            <g class="candle">
+                <line x1="70" y1="340" x2="70" y2="310" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="60" y="310" width="20" height="30" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="120" y1="440" x2="120" y2="370" stroke="#22c55e" stroke-width="2"/>
-            <rect x="110" y="370" width="20" height="70" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 2 - Bearish -->
+            <g class="candle">
+                <line x1="140" y1="320" x2="140" y2="360" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="130" y="330" width="20" height="30" fill="#ef4444" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="180" y1="400" x2="180" y2="450" stroke="#ef4444" stroke-width="2"/>
-            <rect x="170" y="410" width="20" height="40" fill="#ef4444" opacity="0.8" rx="1"/>
+            <!-- Candle 3 - Bullish large -->
+            <g class="candle">
+                <line x1="210" y1="370" x2="210" y2="280" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="200" y="280" width="20" height="90" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="240" y1="460" x2="240" y2="340" stroke="#22c55e" stroke-width="2"/>
-            <rect x="230" y="340" width="20" height="120" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 4 - Bearish doji -->
+            <g class="candle">
+                <line x1="280" y1="295" x2="280" y2="310" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="270" y="300" width="20" height="10" fill="#ef4444" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="300" y1="380" x2="300" y2="430" stroke="#ef4444" stroke-width="2"/>
-            <rect x="290" y="390" width="20" height="40" fill="#ef4444" opacity="0.8" rx="1"/>
+            <!-- Candle 5 - Bullish small -->
+            <g class="candle">
+                <line x1="350" y1="320" x2="350" y2="305" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="340" y="305" width="20" height="15" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="360" y1="400" x2="360" y2="350" stroke="#22c55e" stroke-width="2"/>
-            <rect x="350" y="350" width="20" height="50" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 6 - Bearish hammer -->
+            <g class="candle">
+                <line x1="420" y1="315" x2="420" y2="375" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="410" y="320" width="20" height="55" fill="#ef4444" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="420" y1="360" x2="420" y2="480" stroke="#ef4444" stroke-width="2"/>
-            <rect x="410" y="380" width="20" height="100" fill="#ef4444" opacity="0.8" rx="1"/>
+            <!-- Candle 7 - Bullish marubozu -->
+            <g class="candle">
+                <line x1="490" y1="330" x2="490" y2="270" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="480" y="270" width="20" height="60" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="480" y1="420" x2="480" y2="400" stroke="#22c55e" stroke-width="2"/>
-            <rect x="470" y="400" width="20" height="20" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 8 - Bearish -->
+            <g class="candle">
+                <line x1="560" y1="290" x2="560" y2="340" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="550" y="300" width="20" height="40" fill="#ef4444" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="540" y1="430" x2="540" y2="360" stroke="#22c55e" stroke-width="2"/>
-            <rect x="530" y="360" width="20" height="70" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 9 - Bullish spinning top -->
+            <g class="candle">
+                <line x1="630" y1="310" x2="630" y2="295" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="620" y="298" width="20" height="12" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="600" y1="370" x2="600" y2="410" stroke="#ef4444" stroke-width="2"/>
-            <rect x="590" y="380" width="20" height="30" fill="#ef4444" opacity="0.8" rx="1"/>
+            <!-- Candle 10 - Bearish large -->
+            <g class="candle">
+                <line x1="700" y1="310" x2="700" y2="390" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="690" y="320" width="20" height="70" fill="#ef4444" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="660" y1="470" x2="660" y2="310" stroke="#22c55e" stroke-width="2"/>
-            <rect x="650" y="310" width="20" height="160" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 11 - Bullish engulfing -->
+            <g class="candle">
+                <line x1="770" y1="370" x2="770" y2="285" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="760" y="285" width="20" height="85" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="720" y1="340" x2="720" y2="390" stroke="#ef4444" stroke-width="2"/>
-            <rect x="710" y="350" width="20" height="40" fill="#ef4444" opacity="0.8" rx="1"/>
+            <!-- Candle 12 - Bearish doji -->
+            <g class="candle">
+                <line x1="840" y1="300" x2="840" y2="320" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="830" y="305" width="20" height="15" fill="#ef4444" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="780" y1="380" x2="780" y2="330" stroke="#22c55e" stroke-width="2"/>
-            <rect x="770" y="330" width="20" height="50" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 13 - Bullish -->
+            <g class="candle">
+                <line x1="910" y1="335" x2="910" y2="295" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="900" y="295" width="20" height="40" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="840" y1="350" x2="840" y2="420" stroke="#ef4444" stroke-width="2"/>
-            <rect x="830" y="360" width="20" height="60" fill="#ef4444" opacity="0.8" rx="1"/>
+            <!-- Candle 14 - Bearish -->
+            <g class="candle">
+                <line x1="980" y1="310" x2="980" y2="355" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="970" y="320" width="20" height="35" fill="#ef4444" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="900" y1="390" x2="900" y2="340" stroke="#22c55e" stroke-width="2"/>
-            <rect x="890" y="340" width="20" height="50" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 15 - Bullish -->
+            <g class="candle">
+                <line x1="1050" y1="340" x2="1050" y2="300" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="1040" y="300" width="20" height="40" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="960" y1="360" x2="960" y2="430" stroke="#ef4444" stroke-width="2"/>
-            <rect x="950" y="370" width="20" height="60" fill="#ef4444" opacity="0.8" rx="1"/>
+            <!-- Candle 16 - Bearish -->
+            <g class="candle">
+                <line x1="1120" y1="315" x2="1120" y2="365" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="1110" y="325" width="20" height="40" fill="#ef4444" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="1020" y1="400" x2="1020" y2="320" stroke="#22c55e" stroke-width="2"/>
-            <rect x="1010" y="320" width="20" height="80" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 17 - Bullish large breakout -->
+            <g class="candle">
+                <line x1="1190" y1="350" x2="1190" y2="240" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="1180" y="240" width="20" height="110" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="1080" y1="340" x2="1080" y2="380" stroke="#ef4444" stroke-width="2"/>
-            <rect x="1070" y="350" width="20" height="30" fill="#ef4444" opacity="0.8" rx="1"/>
+            <!-- Candle 18 - Bearish retrace -->
+            <g class="candle">
+                <line x1="1260" y1="260" x2="1260" y2="310" stroke="#ef4444" stroke-width="1.5"/>
+                <rect x="1250" y="270" width="20" height="40" fill="#ef4444" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="1140" y1="370" x2="1140" y2="300" stroke="#22c55e" stroke-width="2"/>
-            <rect x="1130" y="300" width="20" height="70" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Candle 19 - Bullish close -->
+            <g class="candle">
+                <line x1="1330" y1="320" x2="1330" y2="280" stroke="#22c55e" stroke-width="1.5"/>
+                <rect x="1320" y="280" width="20" height="40" fill="#22c55e" opacity="0.9" rx="1"/>
+            </g>
             
-            <line x1="1200" y1="320" x2="1200" y2="400" stroke="#ef4444" stroke-width="2"/>
-            <rect x="1190" y="330" width="20" height="70" fill="#ef4444" opacity="0.8" rx="1"/>
+            <!-- Moving Average 20-period (SMA) -->
+            <polyline points="70,325 140,340 210,325 280,303 350,312 420,345 490,300 560,315 630,304 700,350 770,320 840,312 910,315 980,335 1050,320 1120,340 1190,290 1260,285 1330,300" 
+                       stroke="#8b5cf6" stroke-width="1.5" fill="none" opacity="0.4"/>
             
-            <line x1="1260" y1="380" x2="1260" y2="320" stroke="#22c55e" stroke-width="2"/>
-            <rect x="1250" y="320" width="20" height="60" fill="#22c55e" opacity="0.8" rx="1"/>
+            <!-- Moving Average 50-period (EMA) -->
+            <polyline points="70,340 140,338 210,335 280,330 350,328 420,332 490,325 560,328 630,325 700,340 770,330 840,325 910,328 980,338 1050,330 1120,338 1190,310 1260,305 1330,310" 
+                       stroke="#f59e0b" stroke-width="1.5" fill="none" opacity="0.3"/>
             
-            <!-- Trend Line -->
-            <polyline points="60,400 120,405 180,420 240,380 300,395 360,375 420,410 480,405 540,385 600,390 660,350 720,365 780,350 840,380 900,360 960,390 1020,350 1080,360 1140,330 1200,350 1260,340" 
-                       stroke="#8b5cf6" stroke-width="2" fill="none" opacity="0.6"/>
+            <!-- Area under price (green glow) -->
+            <path d="M0,450 L70,325 L140,340 L210,325 L280,303 L350,312 L420,345 L490,300 L560,315 L630,304 L700,350 L770,320 L840,312 L910,315 L980,335 L1050,320 L1120,340 L1190,290 L1260,285 L1330,300 L1400,300 L1400,450 Z" 
+                  fill="url(#priceGradient)" opacity="0.08"/>
             
             <!-- Volume Bars -->
-            <rect x="50" y="550" width="20" height="30" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="110" y="540" width="20" height="40" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="170" y="560" width="20" height="20" fill="#ef4444" opacity="0.3" rx="1"/>
-            <rect x="230" y="520" width="20" height="60" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="290" y="555" width="20" height="25" fill="#ef4444" opacity="0.3" rx="1"/>
-            <rect x="350" y="535" width="20" height="45" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="410" y="545" width="20" height="35" fill="#ef4444" opacity="0.3" rx="1"/>
-            <rect x="470" y="560" width="20" height="20" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="530" y="530" width="20" height="50" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="590" y="555" width="20" height="25" fill="#ef4444" opacity="0.3" rx="1"/>
-            <rect x="650" y="510" width="20" height="70" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="710" y="540" width="20" height="40" fill="#ef4444" opacity="0.3" rx="1"/>
-            <rect x="770" y="535" width="20" height="45" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="830" y="550" width="20" height="30" fill="#ef4444" opacity="0.3" rx="1"/>
-            <rect x="890" y="540" width="20" height="40" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="950" y="545" width="20" height="35" fill="#ef4444" opacity="0.3" rx="1"/>
-            <rect x="1010" y="520" width="20" height="60" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="1070" y="555" width="20" height="25" fill="#ef4444" opacity="0.3" rx="1"/>
-            <rect x="1130" y="515" width="20" height="65" fill="#22c55e" opacity="0.3" rx="1"/>
-            <rect x="1190" y="535" width="20" height="45" fill="#ef4444" opacity="0.3" rx="1"/>
-            <rect x="1250" y="530" width="20" height="50" fill="#22c55e" opacity="0.3" rx="1"/>
+            <rect x="60" y="460" width="20" height="25" fill="#22c55e" opacity="0.25" rx="1"/>
+            <rect x="130" y="455" width="20" height="30" fill="#ef4444" opacity="0.25" rx="1"/>
+            <rect x="200" y="445" width="20" height="40" fill="#22c55e" opacity="0.25" rx="1"/>
+            <rect x="270" y="465" width="20" height="20" fill="#ef4444" opacity="0.25" rx="1"/>
+            <rect x="340" y="460" width="20" height="25" fill="#22c55e" opacity="0.25" rx="1"/>
+            <rect x="410" y="450" width="20" height="35" fill="#ef4444" opacity="0.25" rx="1"/>
+            <rect x="480" y="440" width="20" height="45" fill="#22c55e" opacity="0.25" rx="1"/>
+            <rect x="550" y="455" width="20" height="30" fill="#ef4444" opacity="0.25" rx="1"/>
+            <rect x="620" y="465" width="20" height="20" fill="#22c55e" opacity="0.25" rx="1"/>
+            <rect x="690" y="448" width="20" height="37" fill="#ef4444" opacity="0.25" rx="1"/>
+            <rect x="760" y="435" width="20" height="50" fill="#22c55e" opacity="0.25" rx="1"/>
+            <rect x="830" y="460" width="20" height="25" fill="#ef4444" opacity="0.25" rx="1"/>
+            <rect x="900" y="455" width="20" height="30" fill="#22c55e" opacity="0.25" rx="1"/>
+            <rect x="970" y="458" width="20" height="27" fill="#ef4444" opacity="0.25" rx="1"/>
+            <rect x="1040" y="452" width="20" height="33" fill="#22c55e" opacity="0.25" rx="1"/>
+            <rect x="1110" y="453" width="20" height="32" fill="#ef4444" opacity="0.25" rx="1"/>
+            <rect x="1180" y="430" width="20" height="55" fill="#22c55e" opacity="0.25" rx="1"/>
+            <rect x="1250" y="445" width="20" height="40" fill="#ef4444" opacity="0.25" rx="1"/>
+            <rect x="1320" y="450" width="20" height="35" fill="#22c55e" opacity="0.25" rx="1"/>
+            
+            <defs>
+                <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#22c55e" stop-opacity="0.8"/>
+                    <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+                </linearGradient>
+            </defs>
         </svg>
     </div>
     
-    <div class="absolute inset-0 opacity-10">
-        <svg class="absolute bottom-0 w-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-            <path fill="#667eea" fill-opacity="0.3" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
-        </svg>
+    <!-- Price Label -->
+    <div class="absolute top-20 right-10 glass-card rounded-lg px-3 py-1 opacity-50 hidden lg:block">
+        <span class="text-xs text-gray-400">USD/JPY</span>
+        <span class="text-sm font-semibold text-green-500 ml-2">147.82</span>
+        <span class="text-xs text-green-500 ml-1">+0.32%</span>
     </div>
-
+    
     <div class="container mx-auto px-6 relative z-10">
         <div class="max-w-4xl mx-auto text-center">
             <div class="inline-flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-700 mb-6">
