@@ -7,7 +7,6 @@
     <meta name="description" content="TRADEVAULT is a professional trading intelligence platform that transforms how traders analyze performance, track consistency, and gain a data-driven edge.">
     <meta name="keywords" content="trading journal, trade analytics, forex dashboard, performance tracker, risk reward calculator, trading insights, free trading journal app">
     
-    <!-- Tailwind + Font Awesome + AOS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -15,26 +14,15 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0a0c; font-family: 'Inter', system-ui, -apple-system, sans-serif; overflow-x: hidden; }
+        body { background: #0a0a0c; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
         
-        /* Custom animations */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
         }
-        @keyframes glow {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-        @keyframes pulse-border {
-            0%, 100% { border-color: rgba(139, 92, 246, 0.3); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); }
-            50% { border-color: rgba(139, 92, 246, 0.8); box-shadow: 0 0 20px 5px rgba(139, 92, 246, 0.3); }
-        }
         
         .floating-card { animation: float 6s ease-in-out infinite; }
         .floating-card-delayed { animation: float 6s ease-in-out infinite 1s; }
-        .glow-border { animation: pulse-border 3s ease-in-out infinite; }
-        .gradient-bg-hero { background: radial-gradient(ellipse at 50% 30%, rgba(139, 92, 246, 0.15), transparent 70%); }
         .glass-card { background: rgba(26, 26, 31, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
         
         .gradient-text {
@@ -60,27 +48,12 @@
             color: transparent;
         }
         
-        /* Scroll reveal */
-        .fade-up { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
-        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .pricing-card { transition: all 0.3s ease; }
+        .pricing-card:hover { transform: translateY(-8px); box-shadow: 0 25px 40px -12px rgba(139, 92, 246, 0.25); }
         
-        .pricing-card {
-            transition: all 0.3s ease;
-        }
-        .pricing-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 25px 40px -12px rgba(139, 92, 246, 0.25);
-        }
+        .testimonial-card { transition: all 0.3s ease; }
+        .testimonial-card:hover { transform: translateY(-4px); border-color: #667eea; }
         
-        .testimonial-card {
-            transition: all 0.3s ease;
-        }
-        .testimonial-card:hover {
-            transform: translateY(-4px);
-            border-color: #667eea;
-        }
-        
-        /* Smooth scroll */
         html { scroll-behavior: smooth; }
     </style>
 </head>
@@ -142,7 +115,6 @@
             
             <p class="text-sm text-gray-500">Free for 1 month • No credit card required • Cancel anytime</p>
             
-            <!-- Floating Analytics Cards -->
             <div class="relative mt-16 h-48 hidden md:block">
                 <div class="absolute left-0 top-0 glass-card rounded-xl p-4 w-64 floating-card">
                     <div class="flex justify-between items-center mb-2">
@@ -265,7 +237,7 @@
     </div>
 </section>
 
-<!-- Pricing Section -->
+<!-- Pricing Section - Updated Prices -->
 <section id="pricing" class="container mx-auto px-6 py-20">
     <div data-aos="fade-up" class="text-center mb-12">
         <span class="text-purple-400 text-sm font-semibold uppercase tracking-wide">Pricing</span>
@@ -295,7 +267,7 @@
             <h3 class="text-xl font-bold mb-2">Pro</h3>
             <p class="text-gray-400 text-sm mb-4">For serious traders</p>
             <div class="mb-4">
-                <span class="text-4xl font-bold">$12</span>
+                <span class="text-4xl font-bold">$3.99</span>
                 <span class="text-gray-500">/month</span>
             </div>
             <ul class="space-y-2 text-sm text-gray-400 mb-6">
@@ -311,7 +283,7 @@
             <h3 class="text-xl font-bold mb-2">Elite</h3>
             <p class="text-gray-400 text-sm mb-4">Institutional grade</p>
             <div class="mb-4">
-                <span class="text-4xl font-bold">$29</span>
+                <span class="text-4xl font-bold">$9.99</span>
                 <span class="text-gray-500">/month</span>
             </div>
             <ul class="space-y-2 text-sm text-gray-400 mb-6">
@@ -370,7 +342,7 @@
                 <i class="fas fa-star text-yellow-500"></i>
                 <i class="fas fa-star text-yellow-500"></i>
                 <i class="fas fa-star text-yellow-500"></i>
-                <p class="text-gray-300 mt-3 italic">"The behavioral bias chart showed me I was 70% bearsih when profitable trades were mostly longs. Game changer."</p>
+                <p class="text-gray-300 mt-3 italic">"The behavioral bias chart showed me I was 70% bearish when profitable trades were mostly longs. Game changer."</p>
                 <div class="flex items-center gap-3 mt-4">
                     <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
                         <span class="text-white font-bold text-xs">MT</span>
@@ -491,7 +463,6 @@
 <script>
     AOS.init({ duration: 800, once: true });
     
-    // Smooth scroll for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
