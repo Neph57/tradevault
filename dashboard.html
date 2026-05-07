@@ -569,13 +569,17 @@ async function deleteScreenshot(tradeId, screenshotUrl) {
     try {
         const fileName = screenshotUrl.split('/').pop();
         await supabaseClient.storage.from('trade-screenshots').remove([fileName]);
-        await fetch(`${API_URL}/trades/${tradeId}/screenshot`, {
+        const updateRes = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ screenshot: null })
         });
-        alert('✅ Screenshot deleted!');
-        await loadTrades();
+        if (updateRes.ok) {
+            alert('✅ Screenshot deleted!');
+            await loadTrades();
+        } else {
+            alert('❌ Failed to remove from database');
+        }
     } catch (error) {
         alert('❌ Delete failed');
     }
