@@ -598,8 +598,7 @@ function displayTrades(tradesToShow) {
             <td class="p-2 text-sm">${t.entry}</td><td class="p-2 text-sm">${t.exit}</td><td class="p-2 text-sm">${t.quantity}</td>
             <td class="p-2 text-sm ${pnl>=0?'profit-positive':'profit-negative'}">$${pnl.toFixed(2)}</td><td class="p-2 text-sm">${rr}</td>
             <td class="p-2 text-sm max-w-xs truncate">${t.notes || '-'}</td>
-            <td class="p-2">${t.screenshot ? `<img src="${t.screenshot}" class="screenshot-thumb" onclick="showImage('${t.screenshot}')" onerror="this.style.display='none'">` : `<button onclick="uploadScreenshotForTrade(${t.id})" class="bg-purple-600/50 hover:bg-purple-600 px-2 py-0.5 rounded text-xs">📷 Add</button>`}</td>
-            <td class="p-2 action-cell relative">
+            <td class="p-2"> ${t.screenshot ? `<div class="flex items-center space-x-1"><img src="${t.screenshot}" class="screenshot-thumb" onclick="showImage('${t.screenshot}')" onerror="this.style.display='none'"><button onclick="deleteScreenshot(${t.id}, '${t.screenshot}')" class="bg-red-600/50 hover:bg-red-600 px-1 py-1 rounded text-xs" title="Delete screenshot">🗑️</button></div>` : `<button onclick="uploadScreenshotForTrade(${t.id})" class="bg-purple-600/50 hover:bg-purple-600 px-2 py-0.5 rounded text-xs">📷 Add</button>`}</d>            <td class="p-2 action-cell relative">
                 <button onclick="toggleActionMenu(${t.id})" class="bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded text-xs">⋮</button>
                 <div id="menu-${t.id}" class="dropdown-menu">
                     <button onclick="editTrade(${t.id}); closeAllMenus();" class="dropdown-item">✏️ Edit</button>
@@ -609,7 +608,23 @@ function displayTrades(tradesToShow) {
         `;
     });
 }
-
+async function deleteScreenshot(tradeId, screenshotUrl) {
+    if (!confirm('Delete this screenshot?')) return;
+    try {
+        const fileName = screenshotUrl.split('/').pop();
+        await supabaseClient.storage.from('trade-screenshots').remove([fileName]);
+        await fetch(`${API_URL}/trades/${tradeId}/screenshot`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ screenshot: null })
+        });
+        alert('✅ Screenshot deleted!');
+        await loadTrades();
+    } catch (error) {
+        console.error('Delete error:', error);
+        alert('❌ Delete failed');
+    }
+}
 async function editTrade(id) {
     const t = trades.find(t => t.id === id); if (!t) return;
     const newSymbol = prompt('Symbol:', t.symbol); if (!newSymbol) return;
