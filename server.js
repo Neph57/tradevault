@@ -120,18 +120,19 @@ app.post('/api/trades', async (req, res) => {
 });
 
 // ============ UPDATE TRADE ============
-app.put('/api/trades/:id', async (req, res) => {
-    const { symbol, date, type, session, entry, exit, quantity, stop_loss, take_profit, strategy, holding_period, notes, screenshot, trade_tag } = req.body;
+app.put('/api/trades/:id/screenshot', async (req, res) => {
+    const { id } = req.params;
+    const { screenshot } = req.body;
     
+    // Allow null to clear screenshot
     const { error } = await supabase
         .from('trades')
-        .update({ symbol, date, type, session, entry, exit, quantity, stop_loss, take_profit, strategy, holding_period, notes, screenshot, trade_tag })
-        .eq('id', req.params.id);
+        .update({ screenshot: screenshot === null ? null : screenshot })
+        .eq('id', id);
     
     if (error) return res.status(500).json({ error: error.message });
-    res.json({ updated: true });
+    res.json({ message: 'Screenshot updated' });
 });
-
 // ============ DELETE TRADE ============
 app.delete('/api/trades/:id', async (req, res) => {
     const { error } = await supabase
@@ -172,30 +173,20 @@ app.get('/dashboard.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'dashboard.html'));
 });
 // Endpoint to save a screenshot URL for a specific trade
-app.put('/api/trades/:id/screenshot', async (req, res) => {
-    const { id } = req.params;
-    const { screenshot } = req.body;
-
-    if (!screenshot) {
-        return res.status(400).json({ error: 'Screenshot URL is required' });
-    }
-
-    try {
-        const { error } = await supabase
-            .from('trades')
-            .update({ screenshot: screenshot })
-            .eq('id', id);
-
-        if (error) {
-            console.error('Supabase update error:', error);
-            return res.status(500).json({ error: error.message });
-        }
-
-        res.json({ message: 'Screenshot URL saved successfully' });
-    } catch (err) {
-        console.error('Unexpected error:', err);
-        res.status(500).json({ error: 'Internal server error' });
-    }
+app.put('/api/trades/:id', async (req, res) => {
+    const { symbol, date, type, session, entry, exit, quantity, stop_loss, take_profit, strategy, holding_period, notes, screenshot, trade_tag } = req.body;
+    
+    const { error } = await supabase
+        .from('trades')
+        .update({ 
+            symbol, date, type, session, entry, exit, quantity, 
+            stop_loss, take_profit, strategy, holding_period, notes, 
+            screenshot, trade_tag 
+        })
+        .eq('id', req.params.id);
+    
+    if (error) return res.status(500).json({ error: error.message });
+    res.json({ updated: true });
 });
 // ============ ADMIN DASHBOARD (Password Protected) ============
 app.get('/admin', async (req, res) => {
