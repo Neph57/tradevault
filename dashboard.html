@@ -563,7 +563,6 @@ async function uploadScreenshotForTrade(tradeId) {
     };
     fileInput.click();
 }
-
 async function deleteScreenshot(tradeId, screenshotUrl) {
     if (!confirm('Delete this screenshot?')) return;
     try {
@@ -578,10 +577,9 @@ async function deleteScreenshot(tradeId, screenshotUrl) {
 
         if (updateRes.ok) {
             alert('✅ Screenshot deleted!');
-            // Completely reload trades from database
+            // Force a complete refresh of all trades
             const res = await fetch(`${API_URL}/trades/${currentUser.id}`);
             trades = await res.json();
-            // Refresh everything
             updateDashboard();
             applyFilters();
             populateYearFilter();
