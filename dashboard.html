@@ -365,8 +365,8 @@ async function loadTrades() {
     if (!currentUser) return;
     const res = await fetch(`${API_URL}/trades/${currentUser.id}`);
     trades = await res.json();
-    updateDashboard();
-    applyFilters();
+    updateDashboard();  // This refreshes all stats and charts
+    applyFilters();     // This refreshes the trade table
     populateYearFilter();
 }
 
@@ -569,18 +569,23 @@ async function deleteScreenshot(tradeId, screenshotUrl) {
     try {
         const fileName = screenshotUrl.split('/').pop();
         await supabaseClient.storage.from('trade-screenshots').remove([fileName]);
+        
         const updateRes = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ screenshot: null })
         });
+
         if (updateRes.ok) {
             alert('✅ Screenshot deleted!');
+            // Force refresh both trades and the display
             await loadTrades();
+            applyFilters();
         } else {
-            alert('❌ Failed to remove from database');
+            alert('❌ Failed to update database');
         }
     } catch (error) {
+        console.error('Delete error:', error);
         alert('❌ Delete failed');
     }
 }
