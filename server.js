@@ -188,6 +188,95 @@ app.put('/api/trades/:id', async (req, res) => {
     if (error) return res.status(500).json({ error: error.message });
     res.json({ updated: true });
 });
+
+// Forgot Password - Send reset link
+app.post('/api/forgot-password', async (req, res) => {
+    const { email } = req.body;
+    
+    const { data: user, error } = await supabase
+        .from('users')
+        .select('id, username, email')
+        .eq('email', email)
+        .single();
+    
+    if (error || !user) {
+        return res.json({ message: 'If an account exists, a reset link has been sent' });
+    }
+    
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const resetExpires = new Date();
+    resetExpires.setHours(resetExpires.getHours() + 1);
+    
+    await supabase
+        .from('users')
+        .update({ reset_token: resetToken, reset_expires: resetExpires.toISOString() })
+        .eq('id', user.id);
+    
+    const resetLink = `https://tradevault-1.onrender.com/reset-password.html?token=${resetToken}`;
+    
+    // Log to console (test mode)
+    console.log('========================================');
+    console.log(`🔐 PASSWORD RESET LINK FOR ${user.username}:`);
+    console.log(resetLink);
+    console.log('========================================');
+    
+    res.json({ message: 'If an account exists, a reset link has been sent (check server console in test mode)' });
+});
+
+// Reset Password
+app.post('/api/reset-password', async (req, res) => {
+    const { token, newPassword } = req.body;
+    
+    const { data: user, error } = await supabase
+        .from('users')
+        .select('id')
+        .eq('reset_token', token)
+        .gt('reset_expires', new Date().toISOString())
+        .single();
+    
+    if (error || !user) {
+        return res.status(400).json({ error: 'Invalid or expired token' });
+    }
+    
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    
+    await supabase
+        .from('users')
+        .update({ password: hashedPassword, reset_token: null, reset_expires: null })
+        .eq('id', user.id);
+    
+    res.json({ message: 'Password reset successfully' });
+});
+
+
+// Delete Account
+app.delete('/api/delete-account', async (req, res) => {
+    const { userId, password } = req.body;
+    
+    // Verify password
+    const { data: user, error } = await supabase
+        .from('users')
+        .select('password')
+        .eq('id', userId)
+        .single();
+    
+    if (error || !user) {
+        return res.status(401).json({ error: 'User not found' });
+    }
+    
+    const validPassword = await bcrypt.compare(password, user.password);
+    if (!validPassword) {
+        return res.status(401).json({ error: 'Invalid password' });
+    }
+    
+    // Delete all trades first
+    await supabase.from('trades').delete().eq('user_id', userId);
+    
+    // Delete user
+    await supabase.from('users').delete().eq('id', userId);
+    
+    res.json({ message: 'Account deleted' });
+});
 // ============ ADMIN DASHBOARD (Password Protected) ============
 app.get('/admin', async (req, res) => {
     // Get password from URL

@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TradeVault | Trading Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
@@ -71,6 +72,8 @@
         .dropdown-item:hover { background: #374151; }
         .dropdown-item.delete { color: #ef4444; }
     </style>
+
+    
 </head>
 <body class="text-gray-200">
 
@@ -103,10 +106,24 @@
                 <input type="password" id="password" placeholder="Password" class="w-full bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <button onclick="login()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 rounded-lg p-2 font-semibold transition text-sm">Login</button>
                 <button onclick="register()" class="w-full bg-gray-800 hover:bg-gray-700 rounded-lg p-2 font-semibold transition border border-gray-700 text-sm">Create Account</button>
+            <div class="text-center">
+        <a href="#" onclick="showForgotPassword()" class="text-xs text-purple-400 hover:text-purple-300 transition">Forgot Password?</a>
+    </div>
             </div>
         </div>
     </div>
-
+<!-- Forgot Password Modal -->
+<div id="forgotModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+    <div class="bg-gray-900 rounded-xl p-6 max-w-md w-full mx-4 border border-gray-700">
+        <h3 class="text-xl font-bold mb-4">Reset Password</h3>
+        <p class="text-gray-400 text-sm mb-4">Enter your email address and we'll send you a reset link.</p>
+        <input type="email" id="resetEmail" placeholder="Email address" class="w-full bg-gray-800 border-gray-700 rounded-lg p-2 text-sm mb-4">
+        <div class="flex gap-3">
+            <button onclick="sendResetLink()" class="flex-1 bg-purple-600 hover:bg-purple-700 rounded-lg p-2 text-sm font-semibold transition">Send Reset Link</button>
+            <button onclick="closeForgotModal()" class="flex-1 bg-gray-800 hover:bg-gray-700 rounded-lg p-2 text-sm font-semibold transition border border-gray-700">Cancel</button>
+        </div>
+    </div>
+</div>
     <div id="dashboardSection" style="display: none;" class="fade-in">
         
         <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl p-3 mb-5 text-center">
@@ -265,6 +282,9 @@
                 <select id="filterType" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm"><option value="all">All Types</option><option value="Long">Long Only</option><option value="Short">Short Only</option></select>
                 <input type="text" id="filterStrategy" placeholder="Filter by strategy..." class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <button onclick="exportToCSV()" class="bg-gray-800 hover:bg-gray-700 rounded-lg p-2 text-sm font-medium border border-gray-700"><i class="fas fa-download mr-1"></i>Export CSV</button>
+            <button onclick="exportToPDF()" class="bg-red-600 hover:bg-red-700 rounded-lg p-2 text-sm font-medium transition border border-gray-700">
+    <i class="fas fa-file-pdf mr-1"></i>Export PDF
+</button>
             </div>
             <div class="grid grid-cols-2 gap-2">
                 <select id="yearFilter" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm"><option value="all">All Years</option></select>
@@ -272,6 +292,8 @@
             </div>
         </div>
 
+
+        
         <!-- TRADES TABLE -->
         <div class="bg-gray-900 rounded-xl overflow-hidden border border-gray-800">
             <div class="p-3 border-b border-gray-800"><h2 class="text-sm font-semibold"><i class="fas fa-list mr-1 text-green-500"></i>Trade History</h2></div>
@@ -293,6 +315,101 @@
 </div>
 
 <script>
+
+<!-- Delete Account Section -->
+<div class="mt-8 p-4 bg-red-900/20 rounded-xl border border-red-800">
+    <div class="flex justify-between items-center">
+        <div>
+            <h3 class="text-lg font-semibold text-red-400">Delete Account</h3>
+            <p class="text-sm text-gray-400">Permanently delete your account and all your trades. This action cannot be undone.</p>
+        </div>
+        <button onclick="confirmDeleteAccount()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-sm font-semibold transition">Delete Account</button>
+    </div>
+</div>
+
+function exportToPDF() {
+    const dashboard = document.getElementById('dashboardSection');
+    const originalDisplay = dashboard.style.display;
+    
+    // Create a clone for PDF
+    const clone = dashboard.cloneNode(true);
+    clone.style.display = 'block';
+    clone.style.padding = '20px';
+    clone.style.background = '#0a0a0c';
+    
+    // Remove action buttons from clone
+    clone.querySelectorAll('.action-cell, .dropdown-menu, [onclick*="delete"], [onclick*="edit"]').forEach(el => el.remove());
+    
+    document.body.appendChild(clone);
+    
+    const opt = {
+        margin: [0.5, 0.5],
+        filename: `tradevault_report_${new Date().toISOString().split('T')[0]}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, backgroundColor: '#0a0a0c' },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' }
+    };
+    
+    html2pdf().set(opt).from(clone).save().then(() => {
+        document.body.removeChild(clone);
+    });
+}
+
+
+async function confirmDeleteAccount() {
+    if (!confirm('⚠️ WARNING: This will permanently delete ALL your trades and account data. This cannot be undone. Are you sure?')) return;
+    
+    const password = prompt('Enter your password to confirm account deletion:');
+    if (!password) return;
+    
+    try {
+        const res = await fetch(`${API_URL}/delete-account`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: currentUser.id, password })
+        });
+        
+        const data = await res.json();
+        
+        if (res.ok) {
+            alert('Account deleted successfully');
+            localStorage.removeItem('tradevault_user');
+            window.location.href = '/';
+        } else {
+            alert(data.error || 'Delete failed');
+        }
+    } catch (error) {
+        alert('Error deleting account');
+    }
+}
+
+
+    function showForgotPassword() {
+    document.getElementById('forgotModal').classList.remove('hidden');
+}
+
+function closeForgotModal() {
+    document.getElementById('forgotModal').classList.add('hidden');
+    document.getElementById('resetEmail').value = '';
+}
+
+async function sendResetLink() {
+    const email = document.getElementById('resetEmail').value;
+    if (!email) {
+        alert('Please enter your email');
+        return;
+    }
+    
+    const res = await fetch(`${API_URL}/forgot-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+    });
+    
+    const data = await res.json();
+    alert(data.message);
+    closeForgotModal();
+}
 let currentUser = null, trades = [], halfPieChart = null, currentCalendarDate = new Date();
 const API_URL = '/api';
 
