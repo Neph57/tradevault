@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TRADEVAULT | Trading Intelligence Platform</title>
-    <meta name="description" content="TRADEVAULT is a professional trading intelligence platform that transforms how traders analyze performance, track consistency, and gain a data-driven edge.">
-    <meta name="keywords" content="trading journal, trade analytics, forex dashboard, performance tracker, risk reward calculator, trading insights, free trading journal app">
+    <title>Quantara | Your Personal Trading Intelligence Platform</title>
+    <meta name="description" content="Quantara is an AI-powered trading intelligence platform that combines behavioral analytics, session intelligence, and institutional-grade insights to transform how traders perform.">
+    <meta name="keywords" content="trading intelligence, AI trading coach, behavioral analytics, session analysis, trading journal, forex analytics">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -14,45 +14,40 @@
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #0a0a0c; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+        body { background: #0a0a0c; font-family: 'Inter', system-ui, -apple-system, sans-serif; overflow-x: hidden; }
         
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes glow {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+        @keyframes borderPulse {
+            0%, 100% { border-color: rgba(139, 92, 246, 0.3); box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.2); }
+            50% { border-color: rgba(139, 92, 246, 0.8); box-shadow: 0 0 20px 5px rgba(139, 92, 246, 0.4); }
         }
         
-        .floating-card { animation: float 6s ease-in-out infinite; }
-        .floating-card-delayed { animation: float 6s ease-in-out infinite 1s; }
-        .glass-card { background: rgba(26, 26, 31, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
-        
-        .gradient-text {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
-        }
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        
+        .floating { animation: float 6s ease-in-out infinite; }
+        .glow-text { animation: glow 3s ease-in-out infinite; }
+        .premium-card { transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
+        .premium-card:hover { transform: translateY(-8px) scale(1.02); }
         .pricing-card { transition: all 0.3s ease; }
-        .pricing-card:hover { transform: translateY(-8px); box-shadow: 0 25px 40px -12px rgba(139, 92, 246, 0.25); }
+        .pricing-card:hover { transform: translateY(-10px); box-shadow: 0 25px 40px -12px rgba(139, 92, 246, 0.3); }
+        .glass-card { background: rgba(26, 26, 31, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .gradient-border { position: relative; background: linear-gradient(135deg, #1a1a2e, #0f0f1a); border-radius: 16px; }
+        .gradient-border::before { content: ''; position: absolute; inset: -1px; background: linear-gradient(135deg, #667eea, #764ba2, #f093fb); border-radius: 16px; z-index: -1; }
+        .hero-gradient { background: radial-gradient(ellipse at 50% 30%, rgba(139, 92, 246, 0.15), transparent 70%); }
+        .stat-number { font-size: 2.5rem; font-weight: 700; background: linear-gradient(135deg, #fff, #a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
         
-        .testimonial-card { transition: all 0.3s ease; }
-        .testimonial-card:hover { transform: translateY(-4px); border-color: #667eea; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.5); }
+        
+        .ai-insight-card { border-left: 3px solid #667eea; transition: all 0.3s ease; }
+        .ai-insight-card:hover { transform: translateX(5px); border-left-color: #f093fb; }
+        
+        .feature-icon { background: linear-gradient(135deg, rgba(102,126,234,0.2), rgba(118,75,162,0.2)); border-radius: 12px; }
         
         html { scroll-behavior: smooth; }
     </style>
@@ -64,44 +59,47 @@
     <div class="container mx-auto px-6 py-4">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <div class="w-9 h-9 bg-gradient-to-br from-purple-600 to-pink-600 rounded-xl flex items-center justify-center shadow-lg">
-                    <span class="text-white font-bold text-sm">TV</span>
+                <div class="w-9 h-9 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                    <span class="text-white font-bold text-sm">Q</span>
                 </div>
-                <h1 class="text-xl font-bold gradient-text">TRADEVAULT</h1>
+                <div>
+                    <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">QUANTARA</h1>
+                    <p class="text-[9px] text-gray-500 -mt-0.5">Your Personal Trading Intelligence</p>
+                </div>
             </div>
             <div class="hidden md:flex space-x-8">
                 <a href="#features" class="text-gray-300 hover:text-white transition text-sm">Features</a>
+                <a href="#ai-coach" class="text-gray-300 hover:text-white transition text-sm">AI Coach</a>
                 <a href="#analytics" class="text-gray-300 hover:text-white transition text-sm">Analytics</a>
                 <a href="#pricing" class="text-gray-300 hover:text-white transition text-sm">Pricing</a>
-                <a href="#testimonials" class="text-gray-300 hover:text-white transition text-sm">Testimonials</a>
             </div>
             <div class="flex space-x-3">
                 <a href="/dashboard.html" class="text-gray-300 hover:text-white transition text-sm font-medium px-4 py-2">Login</a>
-                <a href="/dashboard.html" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 px-5 py-2 rounded-lg text-sm font-semibold transition shadow-lg">Start Free →</a>
+                <a href="/dashboard.html" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 px-5 py-2 rounded-lg text-sm font-semibold transition shadow-lg">Start Free →</a>
             </div>
         </div>
     </div>
 </nav>
 
 <!-- Hero Section -->
-<section class="relative overflow-hidden pt-20 pb-32 gradient-bg-hero">
-    <div class="absolute top-20 left-10 w-72 h-72 bg-purple-600 rounded-full blur-[120px] opacity-20 animate-pulse"></div>
-    <div class="absolute bottom-20 right-10 w-96 h-96 bg-pink-600 rounded-full blur-[140px] opacity-20 animate-pulse"></div>
+<section class="relative overflow-hidden pt-20 pb-32 hero-gradient">
+    <div class="absolute top-20 left-10 w-64 h-64 bg-indigo-600 rounded-full blur-[120px] opacity-20 animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-80 h-80 bg-purple-600 rounded-full blur-[140px] opacity-20 animate-pulse"></div>
     
     <div class="container mx-auto px-6 relative z-10">
         <div class="max-w-4xl mx-auto text-center">
             <div class="inline-flex items-center gap-2 bg-gray-800/50 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-700 mb-6">
                 <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                <span class="text-xs text-gray-300">Trusted by 1,000+ active traders</span>
+                <span class="text-xs text-gray-300">AI-Powered Trading Intelligence</span>
             </div>
             
             <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">
                 Turn Your Trades <br>
-                <span class="gradient-text">Into Intelligence</span>
+                <span class="bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">Into Intelligence</span>
             </h1>
             
             <p class="text-xl text-gray-400 max-w-2xl mx-auto mb-8">
-                TradeVault is a professional trading intelligence platform that helps forex, crypto, and stock traders track performance, analyze behavior, and gain a data-driven edge.
+                Quantara is an AI-powered trading intelligence platform that combines behavioral analytics, session intelligence, and institutional-grade insights to transform how traders perform.
             </p>
             
             <div class="flex flex-col sm:flex-row gap-4 justify-center mb-8">
@@ -109,305 +107,276 @@
                     Start Free Trial <i class="fas fa-arrow-right ml-2"></i>
                 </a>
                 <a href="#features" class="bg-gray-800/80 backdrop-blur-sm hover:bg-gray-700 px-8 py-3 rounded-xl font-semibold transition border border-gray-700">
-                    <i class="fas fa-play mr-2"></i>See How It Works
+                    <i class="fas fa-play mr-2"></i>See AI in Action
                 </a>
             </div>
             
             <p class="text-sm text-gray-500">Free for 1 month • No credit card required • Cancel anytime</p>
-            
-            <div class="relative mt-16 h-48 hidden md:block">
-                <div class="absolute left-0 top-0 glass-card rounded-xl p-4 w-64 floating-card">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs text-gray-400">Win Rate</span>
-                        <i class="fas fa-chart-line text-green-500 text-sm"></i>
-                    </div>
-                    <div class="text-2xl font-bold text-white">68.4%</div>
-                    <div class="w-full bg-gray-700 rounded-full h-1.5 mt-2">
-                        <div class="bg-green-500 h-1.5 rounded-full" style="width: 68%"></div>
-                    </div>
-                </div>
-                <div class="absolute right-10 top-10 glass-card rounded-xl p-4 w-64 floating-card-delayed">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs text-gray-400">Profit Factor</span>
-                        <i class="fas fa-chart-simple text-purple-500 text-sm"></i>
-                    </div>
-                    <div class="text-2xl font-bold text-white">2.34</div>
-                    <div class="text-xs text-green-500 mt-1">↑ 23% vs last month</div>
-                </div>
-            </div>
         </div>
     </div>
 </section>
 
-<!-- Dashboard Preview Section -->
+<!-- Dashboard Preview -->
 <section class="container mx-auto px-6 py-20">
     <div data-aos="fade-up" class="text-center mb-12">
-        <span class="text-purple-400 text-sm font-semibold uppercase tracking-wide">The Dashboard</span>
-        <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">See Your Trading Edge. In Real Time.</h2>
-        <p class="text-gray-400 max-w-2xl mx-auto">Every metric you need to improve — from win rate to session performance — all in one place.</p>
+        <span class="text-indigo-400 text-sm font-semibold uppercase tracking-wide">The Dashboard</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Institutional-Grade Analytics</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">Every metric you need — from win rate to session performance — all in one place.</p>
     </div>
     
     <div data-aos="fade-up" class="relative">
-        <div class="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-2xl opacity-20"></div>
+        <div class="absolute -inset-1 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl blur-2xl opacity-20"></div>
         <div class="relative bg-gray-900/50 backdrop-blur-sm rounded-2xl border border-gray-700 p-2 shadow-2xl">
-            <img src="https://placehold.co/1200x700/1a1a2f/8b5cf6?text=TRADEVAULT+Dashboard+Preview" alt="TradeVault Dashboard" class="rounded-xl w-full">
+            <div class="rounded-xl overflow-hidden">
+                <div class="bg-gray-800/50 p-4 border-b border-gray-700">
+                    <div class="flex gap-2">
+                        <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                        <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="grid grid-cols-4 gap-4 mb-6">
+                        <div class="bg-gray-800/50 rounded-lg p-3 text-center"><div class="text-2xl font-bold text-white">24</div><div class="text-xs text-gray-500">Total Trades</div></div>
+                        <div class="bg-gray-800/50 rounded-lg p-3 text-center"><div class="text-2xl font-bold text-green-400">68.4%</div><div class="text-xs text-gray-500">Win Rate</div></div>
+                        <div class="bg-gray-800/50 rounded-lg p-3 text-center"><div class="text-2xl font-bold text-white">+$2,847</div><div class="text-xs text-gray-500">Total P&L</div></div>
+                        <div class="bg-gray-800/50 rounded-lg p-3 text-center"><div class="text-2xl font-bold text-white">2.34</div><div class="text-xs text-gray-500">Profit Factor</div></div>
+                    </div>
+                    <div class="h-32 bg-gray-800/30 rounded-lg flex items-center justify-center"><span class="text-gray-500 text-sm">📊 Equity Curve Visualization</span></div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- Why TradeVault Section -->
+<!-- Features Grid -->
 <section id="features" class="container mx-auto px-6 py-20">
     <div data-aos="fade-up" class="text-center mb-12">
-        <span class="text-purple-400 text-sm font-semibold uppercase tracking-wide">Why TradeVault</span>
-        <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Stop Guessing. Start Knowing.</h2>
-        <p class="text-gray-400 max-w-2xl mx-auto">Most traders fail because they don't track what works. TradeVault changes that.</p>
+        <span class="text-indigo-400 text-sm font-semibold uppercase tracking-wide">Platform Capabilities</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Everything You Need to Trade Smarter</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">From AI-powered insights to institutional analytics — Quantara is your complete trading intelligence platform.</p>
     </div>
     
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div data-aos="fade-right" class="space-y-8">
-            <div class="bg-gray-900/50 rounded-xl p-6 border-l-4 border-red-500">
-                <h3 class="text-lg font-semibold mb-2">❌ Problems Traders Face</h3>
-                <ul class="space-y-2 text-gray-400">
-                    <li><i class="fas fa-times-circle text-red-500 mr-2"></i> Emotional trading & revenge entries</li>
-                    <li><i class="fas fa-times-circle text-red-500 mr-2"></i> No clear record of what works</li>
-                    <li><i class="fas fa-times-circle text-red-500 mr-2"></i> Inconsistent risk management</li>
-                    <li><i class="fas fa-times-circle text-red-500 mr-2"></i> Poor journaling habits</li>
-                </ul>
-            </div>
-            <div class="bg-gray-900/50 rounded-xl p-6 border-l-4 border-green-500">
-                <h3 class="text-lg font-semibold mb-2">✅ How TradeVault Helps</h3>
-                <ul class="space-y-2 text-gray-400">
-                    <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Behavioral analytics & bias tracking</li>
-                    <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Strategy performance breakdown</li>
-                    <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Risk/reward calculator & streaks</li>
-                    <li><i class="fas fa-check-circle text-green-500 mr-2"></i> Automatic insights & session analysis</li>
-                </ul>
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div data-aos="fade-up" class="bg-gray-900/50 rounded-xl p-6 border border-gray-800 hover:border-indigo-500/50 transition-all">
+            <div class="w-12 h-12 bg-indigo-600/20 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-brain text-indigo-400 text-xl"></i></div>
+            <h3 class="text-lg font-semibold mb-2">AI Trading Coach</h3>
+            <p class="text-gray-400 text-sm">Personalized insights that identify your patterns, strengths, and weaknesses.</p>
         </div>
-        <div data-aos="fade-left" class="glass-card rounded-xl p-6">
-            <i class="fas fa-chart-line text-4xl text-purple-500 mb-4"></i>
-            <p class="text-gray-300 italic">"TradeVault helped me discover my biggest weakness was overtrading during London session. My win rate increased 22% in 2 months."</p>
-            <div class="flex items-center gap-3 mt-4">
-                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                    <span class="text-white font-bold text-xs">MK</span>
-                </div>
-                <div>
-                    <p class="text-sm font-semibold">Michael K.</p>
-                    <p class="text-xs text-gray-500">Forex Trader, 8 years experience</p>
-                </div>
-            </div>
+        <div data-aos="fade-up" data-aos-delay="100" class="bg-gray-900/50 rounded-xl p-6 border border-gray-800 hover:border-indigo-500/50 transition-all">
+            <div class="w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-chart-line text-purple-400 text-xl"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Behavioral Analytics</h3>
+            <p class="text-gray-400 text-sm">Track emotional patterns, bias shifts, and psychological performance.</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="200" class="bg-gray-900/50 rounded-xl p-6 border border-gray-800 hover:border-indigo-500/50 transition-all">
+            <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-globe text-blue-400 text-xl"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Session Intelligence</h3>
+            <p class="text-gray-400 text-sm">Know exactly when your edge is strongest — Asia, London, or NY.</p>
         </div>
     </div>
 </section>
 
-<!-- Advanced Analytics Section -->
-<section id="analytics" class="bg-gray-900/30 py-20 border-y border-gray-800">
+<!-- AI Coach Section -->
+<section id="ai-coach" class="bg-gray-900/30 py-20 border-y border-gray-800">
     <div class="container mx-auto px-6">
         <div data-aos="fade-up" class="text-center mb-12">
-            <span class="text-purple-400 text-sm font-semibold uppercase tracking-wide">Advanced Analytics</span>
-            <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Institution-Level Insights</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto">Every trade becomes actionable data. Every session reveals a pattern. Every week shows improvement.</p>
+            <span class="text-indigo-400 text-sm font-semibold uppercase tracking-wide">AI Trading Coach</span>
+            <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Insights That Actually Help</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Quantara analyzes your trades and delivers actionable intelligence to improve your performance.</p>
         </div>
         
-        <div class="grid md:grid-cols-3 gap-6">
-            <div data-aos="fade-up" class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-purple-500/50 transition">
-                <div class="w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center mb-4">
-                    <i class="fas fa-chart-line text-purple-400 text-xl"></i>
-                </div>
-                <h3 class="text-lg font-semibold mb-2">Equity Curve & Drawdown</h3>
-                <p class="text-gray-400 text-sm">Track your account growth over time. Identify losing streaks before they become habits.</p>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div data-aos="fade-right" class="ai-insight-card bg-gray-900/50 rounded-xl p-5 border border-gray-800">
+                <i class="fas fa-chart-line text-indigo-400 text-xl mb-3"></i>
+                <p class="text-gray-200 font-medium">“Your London session trades outperform NY by <span class="text-green-400 font-bold">18%</span>.”</p>
+                <p class="text-gray-500 text-sm mt-2">→ Focus more on London session setups.</p>
             </div>
-            
-            <div data-aos="fade-up" data-aos-delay="100" class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-purple-500/50 transition">
-                <div class="w-12 h-12 bg-blue-600/20 rounded-lg flex items-center justify-center mb-4">
-                    <i class="fas fa-chart-pie text-blue-400 text-xl"></i>
-                </div>
-                <h3 class="text-lg font-semibold mb-2">Win/Loss Distribution</h3>
-                <p class="text-gray-400 text-sm">See your exact win rate, loss rate, and profit factor at a glance.</p>
+            <div data-aos="fade-left" class="ai-insight-card bg-gray-900/50 rounded-xl p-5 border border-gray-800">
+                <i class="fas fa-fire text-red-400 text-xl mb-3"></i>
+                <p class="text-gray-200 font-medium">“Revenge trades have the lowest expectancy at <span class="text-red-400 font-bold">-$127/trade</span>.”</p>
+                <p class="text-gray-500 text-sm mt-2">→ Take a 15-minute break after a loss.</p>
             </div>
-            
-            <div data-aos="fade-up" data-aos-delay="200" class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-purple-500/50 transition">
-                <div class="w-12 h-12 bg-green-600/20 rounded-lg flex items-center justify-center mb-4">
-                    <i class="fas fa-globe text-green-400 text-xl"></i>
-                </div>
-                <h3 class="text-lg font-semibold mb-2">Session Performance</h3>
-                <p class="text-gray-400 text-sm">Asia, London, New York — know exactly when your edge is strongest.</p>
+            <div data-aos="fade-right" class="ai-insight-card bg-gray-900/50 rounded-xl p-5 border border-gray-800">
+                <i class="fas fa-trophy text-yellow-400 text-xl mb-3"></i>
+                <p class="text-gray-200 font-medium">“Your best-performing pair is <span class="text-green-400 font-bold">XAUUSD</span> with a 72% win rate.”</p>
+                <p class="text-gray-500 text-sm mt-2">→ Increase position size on Gold setups.</p>
+            </div>
+            <div data-aos="fade-left" class="ai-insight-card bg-gray-900/50 rounded-xl p-5 border border-gray-800">
+                <i class="fas fa-clock text-blue-400 text-xl mb-3"></i>
+                <p class="text-gray-200 font-medium">“Your win rate drops to <span class="text-red-400 font-bold">38%</span> during New York close.”</p>
+                <p class="text-gray-500 text-sm mt-2">→ Avoid trading during this session.</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Pricing Section - Updated Prices -->
-<section id="pricing" class="container mx-auto px-6 py-20">
+<!-- Analytics Section -->
+<section id="analytics" class="container mx-auto px-6 py-20">
     <div data-aos="fade-up" class="text-center mb-12">
-        <span class="text-purple-400 text-sm font-semibold uppercase tracking-wide">Pricing</span>
-        <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Simple, Transparent Plans</h2>
-        <p class="text-gray-400 max-w-2xl mx-auto">Start free. Upgrade when you need more.</p>
+        <span class="text-indigo-400 text-sm font-semibold uppercase tracking-wide">Advanced Analytics</span>
+        <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Institution-Level Insights</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">Every trade becomes actionable data. Every session reveals a pattern. Every week shows improvement.</p>
     </div>
     
-    <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-        <div data-aos="fade-up" class="bg-gray-900 rounded-xl p-6 border border-gray-800 pricing-card">
-            <h3 class="text-xl font-bold mb-2">Starter</h3>
-            <p class="text-gray-400 text-sm mb-4">Perfect for new traders</p>
-            <div class="mb-4">
-                <span class="text-4xl font-bold">$0</span>
-                <span class="text-gray-500">/month</span>
-            </div>
-            <ul class="space-y-2 text-sm text-gray-400 mb-6">
-                <li><i class="fas fa-check text-green-500 mr-2"></i> Up to 50 trades</li>
-                <li><i class="fas fa-check text-green-500 mr-2"></i> Basic analytics</li>
-                <li><i class="fas fa-check text-green-500 mr-2"></i> CSV export</li>
-                <li class="text-gray-600"><i class="fas fa-times mr-2"></i> Advanced charts</li>
-            </ul>
-            <a href="/dashboard.html" class="block text-center bg-gray-800 hover:bg-gray-700 py-2 rounded-lg transition">Get Started</a>
+    <div class="grid md:grid-cols-3 gap-6">
+        <div data-aos="fade-up" class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-indigo-500/50 transition">
+            <div class="w-12 h-12 bg-indigo-600/20 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-chart-line text-indigo-400 text-xl"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Equity Curve & Drawdown</h3>
+            <p class="text-gray-400 text-sm">Track your account growth over time. Identify losing streaks before they become habits.</p>
         </div>
-        
-        <div data-aos="fade-up" data-aos-delay="100" class="bg-gradient-to-b from-gray-800 to-gray-900 rounded-xl p-6 border-2 border-purple-500 pricing-card relative">
-            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-600 text-white text-xs px-3 py-1 rounded-full">Most Popular</div>
-            <h3 class="text-xl font-bold mb-2">Pro</h3>
-            <p class="text-gray-400 text-sm mb-4">For serious traders</p>
-            <div class="mb-4">
-                <span class="text-4xl font-bold">$3.99</span>
-                <span class="text-gray-500">/month</span>
-            </div>
-            <ul class="space-y-2 text-sm text-gray-400 mb-6">
-                <li><i class="fas fa-check text-green-500 mr-2"></i> Unlimited trades</li>
-                <li><i class="fas fa-check text-green-500 mr-2"></i> Full analytics suite</li>
-                <li><i class="fas fa-check text-green-500 mr-2"></i> Advanced charts & calendar</li>
-                <li><i class="fas fa-check text-green-500 mr-2"></i> Priority support</li>
-            </ul>
-            <a href="/dashboard.html" class="block text-center bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 py-2 rounded-lg transition">Start Free Trial</a>
+        <div data-aos="fade-up" data-aos-delay="100" class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-indigo-500/50 transition">
+            <div class="w-12 h-12 bg-purple-600/20 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-chart-pie text-purple-400 text-xl"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Win/Loss Distribution</h3>
+            <p class="text-gray-400 text-sm">See your exact win rate, loss rate, and profit factor at a glance.</p>
         </div>
-        
-        <div data-aos="fade-up" data-aos-delay="200" class="bg-gray-900 rounded-xl p-6 border border-gray-800 pricing-card">
-            <h3 class="text-xl font-bold mb-2">Elite</h3>
-            <p class="text-gray-400 text-sm mb-4">Institutional grade</p>
-            <div class="mb-4">
-                <span class="text-4xl font-bold">$9.99</span>
-                <span class="text-gray-500">/month</span>
-            </div>
-            <ul class="space-y-2 text-sm text-gray-400 mb-6">
-                <li><i class="fas fa-check text-green-500 mr-2"></i> Everything in Pro</li>
-                <li><i class="fas fa-check text-green-500 mr-2"></i> API access</li>
-                <li><i class="fas fa-check text-green-500 mr-2"></i> Dedicated account manager</li>
-                <li><i class="fas fa-check text-green-500 mr-2"></i> Custom reports</li>
-            </ul>
-            <a href="/dashboard.html" class="block text-center bg-gray-800 hover:bg-gray-700 py-2 rounded-lg transition">Start Free Trial</a>
+        <div data-aos="fade-up" data-aos-delay="200" class="bg-gray-900 rounded-xl p-6 border border-gray-800 hover:border-indigo-500/50 transition">
+            <div class="w-12 h-12 bg-green-600/20 rounded-lg flex items-center justify-center mb-4"><i class="fas fa-calendar text-green-400 text-xl"></i></div>
+            <h3 class="text-lg font-semibold mb-2">Trading Calendar Heatmap</h3>
+            <p class="text-gray-400 text-sm">Visualize your performance day by day. Spot patterns across weeks and months.</p>
         </div>
     </div>
 </section>
 
-<!-- Testimonials Section -->
-<section id="testimonials" class="bg-gray-900/30 py-20 border-y border-gray-800">
+<!-- Pricing Section - Premium Redesign -->
+<section id="pricing" class="py-20 bg-gradient-to-b from-gray-900/30 to-transparent">
     <div class="container mx-auto px-6">
         <div data-aos="fade-up" class="text-center mb-12">
-            <span class="text-purple-400 text-sm font-semibold uppercase tracking-wide">Testimonials</span>
-            <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Trusted by Traders Worldwide</h2>
+            <span class="text-indigo-400 text-sm font-semibold uppercase tracking-wide">Pricing</span>
+            <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Simple, Transparent Plans</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Start free. Upgrade when you need more intelligence.</p>
         </div>
         
-        <div class="grid md:grid-cols-3 gap-6">
-            <div data-aos="fade-up" class="bg-gray-900 rounded-xl p-6 border border-gray-800 testimonial-card">
-                <i class="fas fa-star text-yellow-500 mb-3"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <p class="text-gray-300 mt-3 italic">"TradeVault helped me discover my biggest weakness was overtrading during London session. My win rate increased 22% in 2 months."</p>
-                <div class="flex items-center gap-3 mt-4">
-                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-xs">JD</span>
-                    </div>
-                    <div><p class="text-sm font-semibold">James D.</p><p class="text-xs text-gray-500">Forex Trader</p></div>
-                </div>
+        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <!-- Starter Plan - Free -->
+            <div data-aos="fade-up" class="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 pricing-card relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-gray-700 to-gray-800 rounded-bl-2xl opacity-50"></div>
+                <h3 class="text-xl font-bold mb-2">Starter</h3>
+                <p class="text-gray-400 text-sm mb-4">For beginner traders</p>
+                <div class="mb-4"><span class="text-4xl font-bold">$0</span><span class="text-gray-500">/month</span></div>
+                <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Up to 50 trades/month</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Basic dashboard analytics</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> CSV export</li>
+                    <li class="text-gray-600"><i class="fas fa-times mr-2"></i> AI insights</li>
+                    <li class="text-gray-600"><i class="fas fa-times mr-2"></i> Session analytics</li>
+                    <li class="text-gray-600"><i class="fas fa-times mr-2"></i> Screenshot uploads</li>
+                </ul>
+                <a href="/dashboard.html" class="block text-center bg-gray-800 hover:bg-gray-700 py-2 rounded-lg transition">Start Free</a>
             </div>
             
-            <div data-aos="fade-up" data-aos-delay="100" class="bg-gray-900 rounded-xl p-6 border border-gray-800 testimonial-card">
-                <i class="fas fa-star text-yellow-500 mb-3"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <p class="text-gray-300 mt-3 italic">"Finally a trading journal that shows me exactly where I'm losing money. The session analytics alone paid for itself."</p>
-                <div class="flex items-center gap-3 mt-4">
-                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-xs">SR</span>
-                    </div>
-                    <div><p class="text-sm font-semibold">Sarah R.</p><p class="text-xs text-gray-500">Crypto Trader</p></div>
-                </div>
+            <!-- Pro Plan - Most Popular -->
+            <div data-aos="fade-up" data-aos-delay="100" class="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl p-6 border-2 border-indigo-500 pricing-card relative overflow-hidden">
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs px-4 py-1 rounded-full font-semibold">Most Popular</div>
+                <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-bl-2xl"></div>
+                <h3 class="text-xl font-bold mb-2">Pro</h3>
+                <p class="text-gray-400 text-sm mb-4">For serious retail traders</p>
+                <div class="mb-4"><span class="text-4xl font-bold">$3.99</span><span class="text-gray-500">/month</span></div>
+                <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Unlimited trades</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Advanced analytics dashboard</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Equity curve & drawdown</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Session analytics (Asia/London/NY)</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> AI-powered insights</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Psychology tracking & emotion tags</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Screenshot journal uploads</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Daily performance score</li>
+                    <li><i class="fas fa-check text-green-500 mr-2"></i> Priority support</li>
+                </ul>
+                <a href="/dashboard.html" class="block text-center bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 py-2 rounded-lg transition shadow-lg">Start Free Trial →</a>
             </div>
             
-            <div data-aos="fade-up" data-aos-delay="200" class="bg-gray-900 rounded-xl p-6 border border-gray-800 testimonial-card">
-                <i class="fas fa-star text-yellow-500 mb-3"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <i class="fas fa-star text-yellow-500"></i>
-                <p class="text-gray-300 mt-3 italic">"The behavioral bias chart showed me I was 70% bearish when profitable trades were mostly longs. Game changer."</p>
-                <div class="flex items-center gap-3 mt-4">
-                    <div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center">
-                        <span class="text-white font-bold text-xs">MT</span>
-                    </div>
-                    <div><p class="text-sm font-semibold">Marcus T.</p><p class="text-xs text-gray-500">Stock Trader</p></div>
-                </div>
+            <!-- Elite Plan - Institutional -->
+            <div data-aos="fade-up" data-aos-delay="200" class="bg-gray-900/50 rounded-2xl p-6 border border-amber-500/50 pricing-card relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-amber-500/10 to-yellow-500/10 rounded-bl-2xl"></div>
+                <div class="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/30 rounded-full px-3 py-0.5 text-xs text-amber-400 mb-2">Institutional Grade</div>
+                <h3 class="text-xl font-bold mb-2">Elite</h3>
+                <p class="text-gray-400 text-sm mb-4">For professional traders & funds</p>
+                <div class="mb-4"><span class="text-4xl font-bold">$9.99</span><span class="text-gray-500">/month</span></div>
+                <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                    <li><i class="fas fa-check text-amber-400 mr-2"></i> Everything in Pro</li>
+                    <li><i class="fas fa-check text-amber-400 mr-2"></i> MT4/MT5 import & sync</li>
+                    <li><i class="fas fa-check text-amber-400 mr-2"></i> Multi-account management</li>
+                    <li><i class="fas fa-check text-amber-400 mr-2"></i> Institutional analytics</li>
+                    <li><i class="fas fa-check text-amber-400 mr-2"></i> AI trading coach</li>
+                    <li><i class="fas fa-check text-amber-400 mr-2"></i> API access</li>
+                    <li><i class="fas fa-check text-amber-400 mr-2"></i> Advanced PDF exports</li>
+                    <li><i class="fas fa-check text-amber-400 mr-2"></i> Tax-ready reports</li>
+                    <li><i class="fas fa-check text-amber-400 mr-2"></i> Dedicated support</li>
+                </ul>
+                <a href="/dashboard.html" class="block text-center bg-gradient-to-r from-amber-600 to-amber-700 hover:opacity-90 py-2 rounded-lg transition">Start Free Trial</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Mobile & Cross Platform Section -->
-<section class="container mx-auto px-6 py-20">
-    <div class="grid md:grid-cols-2 gap-12 items-center">
-        <div data-aos="fade-right">
-            <span class="text-purple-400 text-sm font-semibold uppercase tracking-wide">Cross Platform</span>
-            <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Track Your Trades Anywhere</h2>
-            <p class="text-gray-400 mb-6">Desktop, tablet, or mobile — your trading journal follows you. Add trades on the go, analyze from anywhere.</p>
-            <div class="flex gap-4">
-                <div class="bg-gray-800 rounded-lg p-3 text-center w-24"><i class="fab fa-apple text-2xl mb-1"></i><p class="text-xs">iOS</p></div>
-                <div class="bg-gray-800 rounded-lg p-3 text-center w-24"><i class="fab fa-android text-2xl mb-1"></i><p class="text-xs">Android</p></div>
-                <div class="bg-gray-800 rounded-lg p-3 text-center w-24"><i class="fas fa-laptop text-2xl mb-1"></i><p class="text-xs">Web</p></div>
-            </div>
-        </div>
-        <div data-aos="fade-left" class="relative">
-            <div class="glass-card rounded-2xl p-4 border border-gray-700">
-                <i class="fas fa-mobile-alt text-3xl text-purple-400 mb-3"></i>
-                <p class="text-gray-300">Mobile trading journal coming soon. Add trades, track performance, review your statistics — all from your phone.</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Trust & Security Section -->
+<!-- Psychology & Behavior Section -->
 <section class="bg-gray-900/30 py-20 border-y border-gray-800">
     <div class="container mx-auto px-6">
         <div data-aos="fade-up" class="text-center mb-12">
-            <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Enterprise-Grade Security</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto">Your data is encrypted, backed up, and never shared.</p>
+            <span class="text-indigo-400 text-sm font-semibold uppercase tracking-wide">Trading Psychology</span>
+            <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Master Your Mind. Master Your Trades.</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Quantara tracks your emotional patterns and helps you build discipline.</p>
         </div>
         
-        <div class="grid md:grid-cols-4 gap-6 text-center">
-            <div><i class="fas fa-lock text-3xl text-purple-400 mb-2"></i><p class="font-semibold">Encrypted Data</p><p class="text-xs text-gray-500">AES-256 encryption</p></div>
-            <div><i class="fas fa-cloud-upload-alt text-3xl text-purple-400 mb-2"></i><p class="font-semibold">Cloud Sync</p><p class="text-xs text-gray-500">Real-time backup</p></div>
-            <div><i class="fas fa-file-export text-3xl text-purple-400 mb-2"></i><p class="font-semibold">Export Anytime</p><p class="text-xs text-gray-500">CSV, PDF reports</p></div>
-            <div><i class="fas fa-shield-alt text-3xl text-purple-400 mb-2"></i><p class="font-semibold">Privacy Focused</p><p class="text-xs text-gray-500">Your data stays yours</p></div>
+        <div class="grid md:grid-cols-4 gap-4 text-center">
+            <div><i class="fas fa-face-smile text-3xl text-green-400 mb-2"></i><p class="font-semibold">FOMO Detection</p><p class="text-xs text-gray-500">Early warning system</p></div>
+            <div><i class="fas fa-face-angry text-3xl text-red-400 mb-2"></i><p class="font-semibold">Revenge Trading</p><p class="text-xs text-gray-500">Pattern recognition</p></div>
+            <div><i class="fas fa-face-frown text-3xl text-yellow-400 mb-2"></i><p class="font-semibold">Fear Analysis</p><p class="text-xs text-gray-500">Confidence metrics</p></div>
+            <div><i class="fas fa-face-smile-wink text-3xl text-blue-400 mb-2"></i><p class="font-semibold">Discipline Score</p><p class="text-xs text-gray-500">Daily performance rating</p></div>
         </div>
     </div>
 </section>
 
-<!-- SEO Content Section -->
+<!-- Trust & Security -->
 <section class="container mx-auto px-6 py-20">
-    <div class="grid md:grid-cols-2 gap-12">
-        <div data-aos="fade-right">
-            <h3 class="text-xl font-bold mb-4">Why Every Trader Needs a Journal</h3>
-            <p class="text-gray-400 mb-4">Studies show traders who keep detailed journals outperform those who don't by over 40%. TradeVault makes journaling automatic and insightful.</p>
-            <h3 class="text-xl font-bold mb-4 mt-6">Understanding Risk-to-Reward</h3>
-            <p class="text-gray-400">The best traders maintain an average R:R above 1.5. TradeVault calculates your real R:R automatically — no spreadsheets needed.</p>
+    <div data-aos="fade-up" class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Enterprise-Grade Security</h2>
+        <p class="text-gray-400 max-w-2xl mx-auto">Your data is encrypted, backed up, and never shared.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-4 gap-6 text-center">
+        <div><i class="fas fa-lock text-3xl text-indigo-400 mb-2"></i><p class="font-semibold">Encrypted Data</p><p class="text-xs text-gray-500">AES-256 encryption</p></div>
+        <div><i class="fas fa-cloud-upload-alt text-3xl text-indigo-400 mb-2"></i><p class="font-semibold">Cloud Sync</p><p class="text-xs text-gray-500">Real-time backup</p></div>
+        <div><i class="fas fa-file-export text-3xl text-indigo-400 mb-2"></i><p class="font-semibold">Export Anytime</p><p class="text-xs text-gray-500">CSV, PDF, Tax reports</p></div>
+        <div><i class="fas fa-shield-alt text-3xl text-indigo-400 mb-2"></i><p class="font-semibold">Privacy Focused</p><p class="text-xs text-gray-500">Your data stays yours</p></div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="bg-gray-900/30 py-20 border-y border-gray-800">
+    <div class="container mx-auto px-6">
+        <div data-aos="fade-up" class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-4">Trusted by Traders Worldwide</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto">Join thousands of traders who've stopped guessing and started improving.</p>
         </div>
-        <div data-aos="fade-left">
-            <h3 class="text-xl font-bold mb-4">Trading Psychology & Consistency</h3>
-            <p class="text-gray-400 mb-4">Emotional trading is the #1 reason traders fail. TradeVault's behavioral bias tracker helps you identify emotional patterns before they hurt your account.</p>
-            <h3 class="text-xl font-bold mb-4">Session Analysis for Edge</h3>
-            <p class="text-gray-400">Your edge changes throughout the day. Know exactly when to trade — and when to walk away.</p>
+        
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-gray-900 rounded-xl p-6 border border-gray-800">
+                <i class="fas fa-star text-yellow-500 mb-3"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i>
+                <p class="text-gray-300 mt-3 italic">"Quantara's AI coach helped me discover my London session edge. My win rate increased 22% in 2 months."</p>
+                <div class="flex items-center gap-3 mt-4"><div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center"><span class="text-white font-bold text-xs">JD</span></div><div><p class="text-sm font-semibold">James D.</p><p class="text-xs text-gray-500">Forex Trader</p></div></div>
+            </div>
+            <div class="bg-gray-900 rounded-xl p-6 border border-gray-800">
+                <i class="fas fa-star text-yellow-500 mb-3"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i>
+                <p class="text-gray-300 mt-3 italic">"Finally a trading platform that shows me exactly where I'm losing money. The session analytics alone paid for itself."</p>
+                <div class="flex items-center gap-3 mt-4"><div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center"><span class="text-white font-bold text-xs">SR</span></div><div><p class="text-sm font-semibold">Sarah R.</p><p class="text-xs text-gray-500">Crypto Trader</p></div></div>
+            </div>
+            <div class="bg-gray-900 rounded-xl p-6 border border-gray-800">
+                <i class="fas fa-star text-yellow-500 mb-3"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i><i class="fas fa-star text-yellow-500"></i>
+                <p class="text-gray-300 mt-3 italic">"The behavioral bias chart showed my biggest weakness. Game changer for my trading psychology."</p>
+                <div class="flex items-center gap-3 mt-4"><div class="w-10 h-10 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-full flex items-center justify-center"><span class="text-white font-bold text-xs">MT</span></div><div><p class="text-sm font-semibold">Marcus T.</p><p class="text-xs text-gray-500">Stock Trader</p></div></div>
+            </div>
         </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="container mx-auto px-6 py-20 text-center">
+    <div class="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 rounded-2xl p-12">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Level Up Your Trading?</h2>
+        <p class="text-gray-400 mb-8 max-w-xl mx-auto">Join thousands of traders who've stopped guessing and started improving with Quantara.</p>
+        <a href="/dashboard.html" class="btn-primary px-8 py-3 rounded-xl font-semibold text-white inline-block shadow-lg hover:shadow-xl transition-all">Start Your Free Trial →</a>
+        <p class="text-sm text-gray-500 mt-4">Free for 1 month • No credit card required • Cancel anytime</p>
     </div>
 </section>
 
@@ -417,63 +386,26 @@
         <div class="grid md:grid-cols-4 gap-8 mb-8">
             <div>
                 <div class="flex items-center space-x-2 mb-4">
-                    <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg flex items-center justify-center">
-                        <span class="text-white font-bold text-xs">TV</span>
-                    </div>
-                    <h1 class="text-lg font-bold gradient-text">TRADEVAULT</h1>
+                    <div class="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center"><span class="text-white font-bold text-xs">Q</span></div>
+                    <h1 class="text-lg font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">QUANTARA</h1>
                 </div>
-                <p class="text-gray-500 text-sm">Turn Your Trades Into Intelligence</p>
+                <p class="text-gray-500 text-sm">Your Personal Trading Intelligence</p>
             </div>
-            <div>
-                <h4 class="font-semibold mb-3">Product</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="#features" class="hover:text-white transition">Features</a></li>
-                    <li><a href="#pricing" class="hover:text-white transition">Pricing</a></li>
-                    <li><a href="#analytics" class="hover:text-white transition">Analytics</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-3">Company</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="#" class="hover:text-white transition">About</a></li>
-                    <li><a href="#" class="hover:text-white transition">Blog</a></li>
-                    <li><a href="#" class="hover:text-white transition">Contact</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4 class="font-semibold mb-3">Legal</h4>
-                <ul class="space-y-2 text-sm text-gray-500">
-                    <li><a href="#" class="hover:text-white transition">Privacy</a></li>
-                    <li><a href="#" class="hover:text-white transition">Terms</a></li>
-                    <li><a href="#" class="hover:text-white transition">Security</a></li>
-                </ul>
-            </div>
+            <div><h4 class="font-semibold mb-3">Product</h4><ul class="space-y-2 text-sm text-gray-500"><li><a href="#features" class="hover:text-white transition">Features</a></li><li><a href="#ai-coach" class="hover:text-white transition">AI Coach</a></li><li><a href="#pricing" class="hover:text-white transition">Pricing</a></li></ul></div>
+            <div><h4 class="font-semibold mb-3">Company</h4><ul class="space-y-2 text-sm text-gray-500"><li><a href="#" class="hover:text-white transition">About</a></li><li><a href="#" class="hover:text-white transition">Blog</a></li><li><a href="#" class="hover:text-white transition">Contact</a></li></ul></div>
+            <div><h4 class="font-semibold mb-3">Legal</h4><ul class="space-y-2 text-sm text-gray-500"><li><a href="#" class="hover:text-white transition">Privacy</a></li><li><a href="#" class="hover:text-white transition">Terms</a></li><li><a href="#" class="hover:text-white transition">Security</a></li></ul></div>
         </div>
         <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
-            <p>&copy; 2026 TradeVault. All rights reserved. TradeVault – Turn Your Trades Into Intelligence</p>
-            <div class="flex justify-center space-x-4 mt-4">
-                <a href="#" class="hover:text-white transition"><i class="fab fa-twitter"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fab fa-discord"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fab fa-github"></i></a>
-            </div>
+            <p>&copy; 2026 Quantara. All rights reserved. Quantara – Your Personal Trading Intelligence</p>
+            <div class="flex justify-center space-x-4 mt-4"><a href="#" class="hover:text-white transition"><i class="fab fa-twitter"></i></a><a href="#" class="hover:text-white transition"><i class="fab fa-discord"></i></a><a href="#" class="hover:text-white transition"><i class="fab fa-github"></i></a></div>
         </div>
     </div>
 </footer>
 
 <script>
     AOS.init({ duration: 800, once: true });
-    
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
-            if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-    });
-    
-    document.querySelectorAll('a[href="/dashboard.html"]').forEach(link => {
-        link.href = '/dashboard.html';
-    });
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => { anchor.addEventListener('click', function(e) { e.preventDefault(); const target = document.querySelector(this.getAttribute('href')); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }); });
+    document.querySelectorAll('a[href="/dashboard.html"]').forEach(link => { link.href = '/dashboard.html'; });
 </script>
 </body>
 </html>
