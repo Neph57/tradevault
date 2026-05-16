@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Quantara</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { background: #0a0a0c; font-family: 'Inter', sans-serif; }
+        .gradient-text { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .pricing-card { transition: all 0.3s ease; }
+        .pricing-card:hover { transform: translateY(-10px); box-shadow: 0 25px 40px -12px rgba(139, 92, 246, 0.3); }
+    </style>
+</head>
+<body class="text-gray-200">
+
+<nav class="bg-gray-900/80 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-800">
+    <div class="container mx-auto px-6 py-4">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="w-9 h-9 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center"><span class="text-white font-bold text-sm">Q</span></div>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">QUANTARA</h1>
+            </div>
+            <div class="flex space-x-4">
+                <a href="/dashboard.html" class="text-gray-300 hover:text-white transition">Dashboard</a>
+                <a href="/index.html" class="text-gray-300 hover:text-white transition">Home</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="container mx-auto px-6 py-20">
+    <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Choose Your<span class="gradient-text"> Intelligence Plan</span></h1>
+        <p class="text-gray-400 max-w-2xl mx-auto">Start free. Upgrade when you need more power.</p>
+    </div>
+    
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div class="bg-gray-900/50 rounded-2xl p-6 border border-gray-800 pricing-card">
+            <h3 class="text-xl font-bold mb-2">Starter</h3>
+            <p class="text-gray-400 text-sm mb-4">For beginner traders</p>
+            <div class="mb-4"><span class="text-4xl font-bold">$0</span><span class="text-gray-500">/month</span></div>
+            <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Up to 50 trades/month</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Basic dashboard analytics</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> CSV export</li>
+                <li class="text-gray-600"><i class="fas fa-times mr-2"></i> AI insights</li>
+                <li class="text-gray-600"><i class="fas fa-times mr-2"></i> Session analytics</li>
+                <li class="text-gray-600"><i class="fas fa-times mr-2"></i> Screenshot uploads</li>
+            </ul>
+            <div class="text-center text-gray-500 text-sm py-2">Current Plan</div>
+        </div>
+        
+        <div class="bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl p-6 border-2 border-indigo-500 pricing-card relative">
+            <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-xs px-4 py-1 rounded-full font-semibold">Most Popular</div>
+            <h3 class="text-xl font-bold mb-2">Pro</h3>
+            <p class="text-gray-400 text-sm mb-4">For serious retail traders</p>
+            <div class="mb-4"><span class="text-4xl font-bold">$3.99</span><span class="text-gray-500">/month</span></div>
+            <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Unlimited trades</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Advanced analytics dashboard</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> AI-powered insights</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Session analytics (Asia/London/NY)</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Screenshot uploads</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Psychology tracking & tags</li>
+                <li><i class="fas fa-check text-green-500 mr-2"></i> Priority support</li>
+            </ul>
+            <a href="/dashboard.html" class="block text-center bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 py-2 rounded-lg transition shadow-lg">Upgrade to Pro →</a>
+        </div>
+        
+        <div class="bg-gray-900/50 rounded-2xl p-6 border border-amber-500/50 pricing-card">
+            <div class="inline-flex items-center gap-1 bg-amber-500/10 border border-amber-500/30 rounded-full px-3 py-0.5 text-xs text-amber-400 mb-2">Institutional Grade</div>
+            <h3 class="text-xl font-bold mb-2">Elite</h3>
+            <p class="text-gray-400 text-sm mb-4">For professional traders & funds</p>
+            <div class="mb-4"><span class="text-4xl font-bold">$9.99</span><span class="text-gray-500">/month</span></div>
+            <ul class="space-y-2 text-sm text-gray-400 mb-6">
+                <li><i class="fas fa-check text-amber-400 mr-2"></i> Everything in Pro</li>
+                <li><i class="fas fa-check text-amber-400 mr-2"></i> MT4/MT5 import & sync</li>
+                <li><i class="fas fa-check text-amber-400 mr-2"></i> Multi-account management</li>
+                <li><i class="fas fa-check text-amber-400 mr-2"></i> API access</li>
+                <li><i class="fas fa-check text-amber-400 mr-2"></i> Tax-ready reports</li>
+                <li><i class="fas fa-check text-amber-400 mr-2"></i> Dedicated support</li>
+            </ul>
+            <a href="/dashboard.html" class="block text-center bg-gradient-to-r from-amber-600 to-amber-700 hover:opacity-90 py-2 rounded-lg transition">Upgrade to Elite →</a>
+        </div>
+    </div>
+</section>
+
+<footer class="border-t border-gray-800 py-8 text-center text-gray-500 text-sm">
+    <p>&copy; 2026 Quantara. All rights reserved.</p>
+</footer>
+</body>
+</html>

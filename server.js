@@ -69,6 +69,11 @@ app.post('/api/register', async (req, res) => {
     res.json({ id: data[0].id, username: data[0].username });
 });
 
+const { data, error } = await supabase
+    .from('users')
+    .insert([{ username, password: hashedPassword, plan: 'free' }])
+    .select();
+
 // ============ LOGIN ============
 app.post('/api/login', async (req, res) => {
     const { username, password } = req.body;
@@ -86,6 +91,8 @@ app.post('/api/login', async (req, res) => {
     
     res.json({ id: data.id, username: data.username });
 });
+
+res.json({ id: user.id, username: user.username, plan: user.plan || 'free' });
 
 // ============ GET TRADES ============
 app.get('/api/trades/:userId', async (req, res) => {

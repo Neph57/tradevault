@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TradeVault | Trading Dashboard</title>
+    <title>Quantara | Your Personal Trading Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -67,8 +67,9 @@
         .dropdown-item.delete { color: #ef4444; }
         .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 100; align-items: center; justify-content: center; }
         .modal.show { display: flex; }
-        .quick-filter-btn { transition: all 0.2s ease; }
-        .quick-filter-btn:hover { transform: translateY(-1px); }
+        .upgrade-badge { background: linear-gradient(135deg, #f59e0b, #ef4444); }
+        .pro-feature { border-left: 3px solid #8b5cf6; }
+        .locked-feature { opacity: 0.5; filter: blur(1px); pointer-events: none; }
     </style>
 </head>
 <body class="text-gray-200">
@@ -77,12 +78,16 @@
     <div class="container mx-auto px-4 py-3">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-2">
-                <div class="w-8 h-8 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
-                    <span class="text-white font-bold text-sm">TV</span>
+                <div class="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
+                    <span class="text-white font-bold text-sm">Q</span>
                 </div>
-                <h1 class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">TRADEVAULT</h1>
+                <h1 class="text-xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">QUANTARA</h1>
             </div>
-            <div id="authButtons" class="flex space-x-2"></div>
+            <div id="authButtons" class="flex space-x-2">
+                <div id="planBadge" class="hidden md:block text-xs px-3 py-1 rounded-full bg-gray-800 border border-gray-700">
+                    <i class="fas fa-gem text-indigo-400 text-xs mr-1"></i> <span id="userPlan">Free</span>
+                </div>
+            </div>
         </div>
     </div>
 </nav>
@@ -93,18 +98,19 @@
     <div id="authSection" class="fade-in">
         <div class="max-w-md mx-auto bg-gray-900 rounded-2xl p-6 border border-gray-800">
             <div class="text-center mb-6">
-                <div class="w-14 h-14 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
+                <div class="w-14 h-14 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-3">
                     <i class="fas fa-chart-line text-2xl text-white"></i>
                 </div>
-                <h2 class="text-xl font-bold">Welcome Back</h2>
+                <h2 class="text-xl font-bold">Welcome to Quantara</h2>
+                <p class="text-gray-400 text-sm mt-1">Your Personal Trading Intelligence</p>
             </div>
             <div class="space-y-3">
                 <input type="text" id="username" placeholder="Username" class="w-full bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
                 <input type="password" id="password" placeholder="Password" class="w-full bg-gray-800 border-gray-700 rounded-lg p-2 text-sm">
-                <button onclick="login()" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 rounded-lg p-2 font-semibold transition text-sm">Login</button>
+                <button onclick="login()" class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 rounded-lg p-2 font-semibold transition text-sm">Login</button>
                 <button onclick="register()" class="w-full bg-gray-800 hover:bg-gray-700 rounded-lg p-2 font-semibold transition border border-gray-700 text-sm">Create Account</button>
                 <div class="text-center">
-                    <a href="#" onclick="showForgotModal()" class="text-xs text-purple-400 hover:text-purple-300 transition">Forgot Password?</a>
+                    <a href="#" onclick="showForgotModal()" class="text-xs text-indigo-400 hover:text-indigo-300 transition">Forgot Password?</a>
                 </div>
             </div>
         </div>
@@ -113,8 +119,19 @@
     <!-- Dashboard Section -->
     <div id="dashboardSection" style="display: none;" class="fade-in">
         
-        <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl p-3 mb-5 text-center">
-            <p class="text-sm md:text-base font-semibold">This isnt just a journal, its your personal trading analyst</p>
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-xl p-3 mb-5 text-center">
+            <p class="text-sm md:text-base font-semibold">Your Personal Trading Intelligence Platform</p>
+        </div>
+        
+        <!-- Upgrade Banner - Show for Free users -->
+        <div id="upgradeBanner" class="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 rounded-xl p-4 mb-6 border border-indigo-500/30 hidden">
+            <div class="flex justify-between items-center flex-wrap gap-4">
+                <div>
+                    <h3 class="text-lg font-semibold text-indigo-300">🚀 Unlock Pro Features</h3>
+                    <p class="text-sm text-gray-400">Get AI insights, session analytics, unlimited trades, and more.</p>
+                </div>
+                <a href="/pricing.html" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 px-5 py-2 rounded-lg text-sm font-semibold transition">Upgrade to Pro →</a>
+            </div>
         </div>
         
         <!-- Stats Cards Row 1 -->
@@ -142,7 +159,8 @@
         </div>
         
         <div class="text-center mb-4">
-            <h2 class="text-2xl font-bold">TRADEVAULT | Trader Summary</h2>
+            <h2 class="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">QUANTARA | Intelligence Dashboard</h2>
+            <p class="text-xs text-gray-500 mt-1">Turn Your Trades Into Intelligence</p>
         </div>
         
         <!-- ROW 1: 3 CARDS -->
@@ -202,25 +220,6 @@
             </div>
         </div>
 
-        <!-- QUICK FILTERS BUTTONS - NEW -->
-        <div class="flex flex-wrap gap-2 mb-4">
-            <button onclick="quickFilter('7days')" class="quick-filter-btn bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-xs transition border border-gray-700">
-                <i class="fas fa-calendar-week mr-1"></i>Last 7 Days
-            </button>
-            <button onclick="quickFilter('30days')" class="quick-filter-btn bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-xs transition border border-gray-700">
-                <i class="fas fa-calendar-month mr-1"></i>Last 30 Days
-            </button>
-            <button onclick="quickFilter('wins')" class="quick-filter-btn bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-xs transition border border-gray-700">
-                <i class="fas fa-trophy mr-1 text-green-500"></i>Winning Trades
-            </button>
-            <button onclick="quickFilter('losses')" class="quick-filter-btn bg-gray-800 hover:bg-gray-700 px-3 py-1.5 rounded-lg text-xs transition border border-gray-700">
-                <i class="fas fa-chart-line mr-1 text-red-500"></i>Losing Trades
-            </button>
-            <button onclick="resetQuickFilters()" class="quick-filter-btn bg-purple-600 hover:bg-purple-700 px-3 py-1.5 rounded-lg text-xs transition">
-                <i class="fas fa-undo-alt mr-1"></i>Reset Filters
-            </button>
-        </div>
-
         <!-- ADD TRADE FORM -->
         <div class="bg-gray-900 rounded-xl p-4 mb-5 border border-gray-800">
             <h2 class="text-base font-bold mb-3"><i class="fas fa-plus-circle mr-1 text-green-500"></i>Add New Trade</h2>
@@ -245,7 +244,7 @@
                     <option value="rushed">⏰ Rushed Entry</option>
                 </select>
                 <textarea id="notes" placeholder="Notes" rows="1" class="bg-gray-800 border-gray-700 rounded-lg p-2 text-sm md:col-span-3"></textarea>
-                <button id="saveBtn" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 rounded-lg p-2 text-sm font-medium"><i class="fas fa-save mr-1"></i>Save Trade</button>
+                <button id="saveBtn" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 rounded-lg p-2 text-sm font-medium"><i class="fas fa-save mr-1"></i>Save Trade</button>
             </div>
             <div class="mt-2 text-xs text-gray-600 text-center">💡 Ctrl+Enter to save</div>
         </div>
@@ -302,7 +301,7 @@
         <p class="text-gray-400 text-sm mb-4">Enter your username to reset your password.</p>
         <input type="text" id="resetUsername" placeholder="Username" class="w-full bg-gray-800 border-gray-700 rounded-lg p-2 text-sm mb-4">
         <div class="flex gap-3">
-            <button onclick="sendResetLink()" class="flex-1 bg-purple-600 hover:bg-purple-700 rounded-lg p-2 text-sm font-semibold transition">Send Reset Link</button>
+            <button onclick="sendResetLink()" class="flex-1 bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 rounded-lg p-2 text-sm font-semibold transition">Send Reset Link</button>
             <button onclick="closeForgotModal()" class="flex-1 bg-gray-800 hover:bg-gray-700 rounded-lg p-2 text-sm font-semibold transition border border-gray-700">Cancel</button>
         </div>
     </div>
@@ -315,7 +314,7 @@
 
 <script>
 let currentUser = null, trades = [], halfPieChart = null, currentCalendarDate = new Date();
-let quickFilterApplied = null;
+let currentUserPlan = 'free';
 const API_URL = '/api';
 
 const supabaseClient = supabase.createClient(
@@ -362,38 +361,10 @@ function populateYearFilter() {
     yearSelect.innerHTML = '<option value="all">All Years</option>' + years.map(y => `<option value="${y}">${y}</option>`).join('');
 }
 
-// QUICK FILTER FUNCTIONS
-function quickFilter(type) {
-    quickFilterApplied = type;
-    const now = new Date();
-    let filtered = [...trades];
-    
-    if (type === '7days') {
-        const cutoff = new Date();
-        cutoff.setDate(cutoff.getDate() - 7);
-        filtered = trades.filter(t => new Date(t.date) >= cutoff);
-    } else if (type === '30days') {
-        const cutoff = new Date();
-        cutoff.setDate(cutoff.getDate() - 30);
-        filtered = trades.filter(t => new Date(t.date) >= cutoff);
-    } else if (type === 'wins') {
-        filtered = trades.filter(t => calculatePnL(t) > 0);
-    } else if (type === 'losses') {
-        filtered = trades.filter(t => calculatePnL(t) < 0);
-    }
-    
-    displayTrades(filtered);
-}
-
-function resetQuickFilters() {
-    quickFilterApplied = null;
-    applyFilters();
-}
-
 async function register() {
     const u = document.getElementById('username').value, p = document.getElementById('password').value;
     if (!u || !p) { alert('Enter username and password'); return; }
-    const res = await fetch(`${API_URL}/register`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
+    const res = await fetch(`${API_URL}/register`, {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p,plan:'free'})});
     const data = await res.json();
     if (res.ok) alert('✅ Account created! Please login.');
     else alert(data.error);
@@ -406,20 +377,35 @@ async function login() {
     const data = await res.json();
     if (res.ok) {
         currentUser = data;
-        localStorage.setItem('tradevault_user', JSON.stringify(data));
+        currentUserPlan = data.plan || 'free';
+        localStorage.setItem('quantara_user', JSON.stringify(data));
         document.getElementById('authSection').style.display = 'none';
         document.getElementById('dashboardSection').style.display = 'block';
+        document.getElementById('userPlan').innerHTML = currentUserPlan === 'free' ? 'Free Plan' : currentUserPlan === 'pro' ? 'Pro Plan ✨' : 'Elite Plan 👑';
+        document.getElementById('userPlan').parentElement.classList.remove('hidden');
         document.getElementById('authButtons').innerHTML = `<div class="flex items-center space-x-2"><span class="text-sm">${data.username}</span><button onclick="logout()" class="bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded text-xs border border-gray-700">Logout</button></div>`;
+        
+        // Show upgrade banner only for free users
+        if (currentUserPlan === 'free') {
+            document.getElementById('upgradeBanner').classList.remove('hidden');
+        }
+        
         await loadTrades();
     } else alert('Invalid credentials');
 }
 
-function logout() { currentUser = null; localStorage.removeItem('tradevault_user'); document.getElementById('authSection').style.display = 'block'; document.getElementById('dashboardSection').style.display = 'none'; document.getElementById('authButtons').innerHTML = ''; }
+function logout() { currentUser = null; localStorage.removeItem('quantara_user'); document.getElementById('authSection').style.display = 'block'; document.getElementById('dashboardSection').style.display = 'none'; document.getElementById('authButtons').innerHTML = ''; }
 
 async function loadTrades() {
     if (!currentUser) return;
     const res = await fetch(`${API_URL}/trades/${currentUser.id}`);
     trades = await res.json();
+    
+    // Check trade limit for free users
+    if (currentUserPlan === 'free' && trades.length >= 50) {
+        alert('⚠️ You have reached the 50 trade limit for the Free plan. Upgrade to Pro for unlimited trades!');
+    }
+    
     updateDashboard();
     applyFilters();
     populateYearFilter();
@@ -571,106 +557,53 @@ function nextMonth() { currentCalendarDate.setMonth(currentCalendarDate.getMonth
 function showImage(url) { const modal = document.getElementById('imageModal'); const modalImg = document.getElementById('modalImage'); modal.style.display = 'block'; modalImg.src = url; }
 function closeModal() { document.getElementById('imageModal').style.display = 'none'; }
 
-// Forgot Password Functions
-function showForgotModal() {
-    document.getElementById('forgotModal').classList.add('show');
-}
-
-function closeForgotModal() {
-    document.getElementById('forgotModal').classList.remove('show');
-    document.getElementById('resetUsername').value = '';
-}
+function showForgotModal() { document.getElementById('forgotModal').classList.add('show'); }
+function closeForgotModal() { document.getElementById('forgotModal').classList.remove('show'); document.getElementById('resetUsername').value = ''; }
 
 async function sendResetLink() {
     const username = document.getElementById('resetUsername').value;
-    if (!username) {
-        alert('Please enter your username');
-        return;
-    }
-    
-    const res = await fetch(`${API_URL}/forgot-password`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username })
-    });
-    
+    if (!username) { alert('Please enter your username'); return; }
+    const res = await fetch(`${API_URL}/forgot-password`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ username }) });
     const data = await res.json();
     alert(data.message);
     closeForgotModal();
 }
 
-// Delete Account Function
 async function confirmDeleteAccount() {
     if (!confirm('⚠️ WARNING: This will permanently delete ALL your trades and account data. This cannot be undone. Are you sure?')) return;
-    
     const password = prompt('Enter your password to confirm account deletion:');
     if (!password) return;
-    
     try {
-        const res = await fetch(`${API_URL}/delete-account`, {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ userId: currentUser.id, password })
-        });
-        
+        const res = await fetch(`${API_URL}/delete-account`, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ userId: currentUser.id, password }) });
         const data = await res.json();
-        
-        if (res.ok) {
-            alert('Account deleted successfully');
-            localStorage.removeItem('tradevault_user');
-            window.location.href = '/';
-        } else {
-            alert(data.error || 'Delete failed');
-        }
-    } catch (error) {
-        alert('Error deleting account');
-    }
+        if (res.ok) { alert('Account deleted successfully'); localStorage.removeItem('quantara_user'); window.location.href = '/'; } 
+        else { alert(data.error || 'Delete failed'); }
+    } catch (error) { alert('Error deleting account'); }
 }
 
 async function uploadScreenshotForTrade(tradeId) {
+    if (currentUserPlan === 'free') {
+        alert('📷 Screenshot uploads are a Pro feature. Upgrade to Pro to add images to your trades!');
+        return;
+    }
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.accept = 'image/*';
     fileInput.onchange = async function(e) {
         const file = e.target.files[0];
         if (!file) return;
-
         const fileName = `${Date.now()}-trade-${tradeId}.${file.name.split('.').pop()}`;
         const bucketName = 'trade-screenshots';
         const supabaseUrl = 'https://flyyrsweqafhnzyhibkb.supabase.co';
         const uploadUrl = `${supabaseUrl}/storage/v1/object/${bucketName}/${fileName}`;
-
         try {
-            const response = await fetch(uploadUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': file.type,
-                    'apikey': 'sb_publishable_iocTG9tG03W1VsBA2_H3Hg_YlQes95o',
-                    'Authorization': `Bearer sb_publishable_iocTG9tG03W1VsBA2_H3Hg_YlQes95o`
-                },
-                body: file
-            });
-
+            const response = await fetch(uploadUrl, { method: 'POST', headers: { 'Content-Type': file.type, 'apikey': 'sb_publishable_iocTG9tG03W1VsBA2_H3Hg_YlQes95o', 'Authorization': `Bearer sb_publishable_iocTG9tG03W1VsBA2_H3Hg_YlQes95o` }, body: file });
             if (!response.ok) throw new Error(`Upload failed: ${response.status}`);
-
             const publicUrl = `${supabaseUrl}/storage/v1/object/public/${bucketName}/${fileName}`;
-
-            const updateRes = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ screenshot: publicUrl })
-            });
-
-            if (updateRes.ok) {
-                alert('✅ Screenshot saved!');
-                await loadTrades();
-            } else {
-                alert('❌ Failed to save to database');
-            }
-        } catch (error) {
-            console.error('Upload error:', error);
-            alert('❌ Upload failed');
-        }
+            const updateRes = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ screenshot: publicUrl }) });
+            if (updateRes.ok) { alert('✅ Screenshot saved!'); await loadTrades(); } 
+            else { alert('❌ Failed to save to database'); }
+        } catch (error) { alert('❌ Upload failed'); }
     };
     fileInput.click();
 }
@@ -680,20 +613,10 @@ async function deleteScreenshot(tradeId, screenshotUrl) {
     try {
         const fileName = screenshotUrl.split('/').pop();
         await supabaseClient.storage.from('trade-screenshots').remove([fileName]);
-        const updateRes = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ screenshot: null })
-        });
-        if (updateRes.ok) {
-            alert('✅ Screenshot deleted!');
-            await loadTrades();
-        } else {
-            alert('❌ Failed to update database');
-        }
-    } catch (error) {
-        alert('❌ Delete failed');
-    }
+        const updateRes = await fetch(`${API_URL}/trades/${tradeId}/screenshot`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ screenshot: null }) });
+        if (updateRes.ok) { alert('✅ Screenshot deleted!'); await loadTrades(); } 
+        else { alert('❌ Failed to update database'); }
+    } catch (error) { alert('❌ Delete failed'); }
 }
 
 function toggleActionMenu(id) {
@@ -712,7 +635,7 @@ function displayTrades(tradesToShow) {
         const pnl = calculatePnL(t), rr = calculateRR(t);
         const row = tbody.insertRow(); row.className = 'border-b border-gray-800';
         row.innerHTML = `
-            <td class="p-2 text-sm">${t.symbol}</td>
+            <td class="p-2 text-sm">${t.symbol</td>
             <td class="p-2 text-sm">${t.date}</td>
             <td class="p-2 text-sm ${t.type==='Long'?'text-green-500':'text-red-500'}">${t.type}</td>
             <td class="p-2 text-sm">${t.session || '-'}</td>
@@ -783,6 +706,13 @@ function applyFilters() {
 
 async function addTrade() {
     if(!currentUser) return;
+    
+    // Check trade limit for free users
+    if (currentUserPlan === 'free' && trades.length >= 50) {
+        alert('⚠️ You have reached the 50 trade limit for the Free plan. Please upgrade to Pro to continue adding trades.');
+        return;
+    }
+    
     const trade = {
         userId: currentUser.id, symbol: document.getElementById('symbol').value.trim().toUpperCase(), date: document.getElementById('date').value,
         type: document.getElementById('type').value, session: document.getElementById('session').value || null,
@@ -822,12 +752,18 @@ document.getElementById('monthFilter').addEventListener('change', () => applyFil
 document.addEventListener('keydown', (e) => { if(e.ctrlKey && e.key === 'Enter') addTrade(); });
 
 document.addEventListener('DOMContentLoaded', function() {
-    const savedUser = localStorage.getItem('tradevault_user');
+    const savedUser = localStorage.getItem('quantara_user');
     if (savedUser) {
         currentUser = JSON.parse(savedUser);
+        currentUserPlan = currentUser.plan || 'free';
         document.getElementById('authSection').style.display = 'none';
         document.getElementById('dashboardSection').style.display = 'block';
+        document.getElementById('userPlan').innerHTML = currentUserPlan === 'free' ? 'Free Plan' : currentUserPlan === 'pro' ? 'Pro Plan ✨' : 'Elite Plan 👑';
+        document.getElementById('userPlan').parentElement.classList.remove('hidden');
         document.getElementById('authButtons').innerHTML = `<div class="flex items-center space-x-2"><span class="text-sm">${currentUser.username}</span><button onclick="logout()" class="bg-gray-800 hover:bg-gray-700 px-2 py-1 rounded text-xs border border-gray-700">Logout</button></div>`;
+        if (currentUserPlan === 'free') {
+            document.getElementById('upgradeBanner').classList.remove('hidden');
+        }
         loadTrades();
     }
 });
